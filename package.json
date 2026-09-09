@@ -1,0 +1,22 @@
+{
+  "name": "isc-lectures",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open lectures/index.md",
+    "build": "slidev build",
+    "export": "slidev export",
+    "format": "slidev format"
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.19.1",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "slidev-theme-eloc": "^1.1.0",
+    "slidev-theme-touying": "^0.1.10",
+    "vue": "^3.5.33"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.50.0"
+  }
+}
