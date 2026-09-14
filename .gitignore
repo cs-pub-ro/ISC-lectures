@@ -8,3 +8,7 @@ dist/
 .slidev/
 docker-compose.yml
 Dockerfile
+.agents.md
+nginx-spa.conf
+lectures/*/slides/
+slides/

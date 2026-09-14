@@ -1,11 +1,24 @@
 <script setup>
-import logoSrc from './public/isc-logo.png'
-import ccSrc from './public/CC-isc.png'
+import { useNav } from '@slidev/client'
+import iscLogo from './public/isc-logo.png'
+import ccLogo from './public/CC-isc.png'
+import downloadIcon from './public/download.svg'
+
+const { isPrintMode, isPrint } = useNav()
+const pdfUrl = import.meta.env.BASE_URL + 'slides.pdf'
 </script>
 
 <template>
-  <footer class="absolute bottom-4 w-full flex justify-center items-center gap-8 z-50 pointer-events-none">
-    <img :src="logoSrc" alt="ISC Logo" class="h-10 opacity-90" />
-    <img :src="ccSrc" alt="CC License" class="h-10 opacity-90" />
+  <footer style="position: absolute; bottom: 16px; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; gap: 32px; z-index: 50; pointer-events: none;">
+    
+    <!-- Download PDF Button (Bottom Left) -->
+    <a v-if="!isPrintMode && !isPrint" :href="pdfUrl" download style="position: absolute; left: 24px; top: 50%; transform: translateY(-50%); pointer-events: auto; text-decoration: none; display: flex;">
+      <img :src="downloadIcon" alt="Download PDF" style="width: 20px; height: 20px; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" />
+    </a>
+
+    <!-- Centered Logos -->
+    <img :src="iscLogo" alt="ISC Logo" style="height: 44px; object-fit: contain; opacity: 0.9; pointer-events: auto;" />
+    <img :src="ccLogo" alt="CC License" style="height: 32px; object-fit: contain; opacity: 0.9; pointer-events: auto;" />
+    
   </footer>
 </template>

@@ -1,4 +1,5 @@
 ---
+routerMode: hash
 download: 'slides.pdf'
 theme: default
 colorSchema: light
