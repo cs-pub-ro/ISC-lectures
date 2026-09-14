@@ -269,7 +269,7 @@ Home-lab classic: your own root of trust.
 - **OCSP stapling:**
   - Caching mechanism for the server to send the certificate status **directly** with the certificate
 
-```asn1
+```text
 CertID ::= SEQUENCE {
   hashAlgorithm    AlgorithmIdentifier,
   issuerNameHash   OCTET STRING,
