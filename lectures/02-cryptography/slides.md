@@ -1,4 +1,5 @@
 ---
+download: 'slides.pdf'
 theme: default
 colorSchema: light
 title: Lecture 2 — Introduction to Cryptographic Systems

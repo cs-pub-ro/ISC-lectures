@@ -1,4 +1,5 @@
 ---
+download: 'slides.pdf'
 theme: default
 colorSchema: light
 title: Lecture 5 — Application Security

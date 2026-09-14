@@ -1,4 +1,5 @@
 ---
+download: 'slides.pdf'
 theme: default
 colorSchema: light
 title: Lecture 10 — Remote Network Security, Tunnels

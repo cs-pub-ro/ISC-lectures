@@ -1,4 +1,5 @@
 ---
+download: 'slides.pdf'
 theme: ../../isc-theme
 colorSchema: light
 selectable: false
