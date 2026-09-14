@@ -1,0 +1,61 @@
+name: Deploy Slidev to GitHub Pages
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build all lectures
+        run: |
+          mkdir -p public_html
+          echo "<h1>ISC Lectures</h1><ul>" > public_html/index.html
+          
+          for lecture_dir in lectures/*; do
+            if [ -f "$lecture_dir/slides.md" ]; then
+              lecture_name=$(basename $lecture_dir)
+              echo "Building $lecture_name..."
+              # Ensure correct base path for GitHub Pages
+              npx slidev build "$lecture_dir/slides.md" --base "/ISC-lectures/$lecture_name/" --out "../../public_html/$lecture_name"
+              echo "<li><a href='$lecture_name/'>$lecture_name</a></li>" >> public_html/index.html
+            fi
+          done
+          
+          echo "</ul>" >> public_html/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public_html
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -16,22 +16,22 @@ install: ## Install dependencies
 	npm install
 
 dev: ## Start dev server on PORT
-	npx slidev --port $(PORT) $(OPEN) $(LECTURE)
+	npx @slidev/cli --port $(PORT) $(OPEN) $(LECTURE)
 
 build: ## Build static SPA into dist/
-	npx slidev build $(LECTURE)
+	npx @slidev/cli build $(LECTURE) --out slides
 
 export: ## Export to PDF (OUT_PDF)
-	npx slidev export --format pdf --output $(OUT_PDF) $(LECTURE)
+	npx @slidev/cli export --format pdf --output $(OUT_PDF) $(LECTURE)
 
 export-pptx: ## Export to PPTX
-	npx slidev export --format pptx --output $(OUT_PDF:.pdf=.pptx) $(LECTURE)
+	npx @slidev/cli export --format pptx --output $(OUT_PDF:.pdf=.pptx) $(LECTURE)
 
 export-png: ## Export each slide to PNG
-	npx slidev export --format png $(LECTURE)
+	npx @slidev/cli export --format png $(LECTURE)
 
 format: ## Format slides markdown
-	npx slidev format $(LECTURE)
+	npx @slidev/cli format $(LECTURE)
 
 clean: ## Remove build artifacts
 	rm -rf dist node_modules/.vite $(OUT_PDF) $(OUT_PDF:.pdf=.pptx) slides.png

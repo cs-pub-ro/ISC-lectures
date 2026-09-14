@@ -1,6 +1,7 @@
 ---
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
 title: Lecture 1 — Introduction to Computer Security
 info: |
   ## ISC — Lecture 1 · Introduction
