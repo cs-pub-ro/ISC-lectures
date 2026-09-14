@@ -40,10 +40,10 @@ jobs:
               lecture_name=$(basename $lecture_dir)
               echo "Building HTML for $lecture_name..."
               # Ensure correct base path for GitHub Pages
-              npx slidev build "$lecture_dir/slides.md" --base "/ISC-lectures/$lecture_name/" --out "../../public_html/$lecture_name"
+              npx slidev build "$lecture_dir/slides.md" --base "/ISC-lectures/$lecture_name/" --out "$GITHUB_WORKSPACE/public_html/$lecture_name"
               
               echo "Building PDF for $lecture_name..."
-              npx slidev export "$lecture_dir/slides.md" --format pdf --output "../../public_html/$lecture_name/slides.pdf"
+              npx slidev export "$lecture_dir/slides.md" --format pdf --output "$GITHUB_WORKSPACE/public_html/$lecture_name/slides.pdf"
               
               echo "<li><a href='$lecture_name/'>$lecture_name</a> (<a href='$lecture_name/slides.pdf'>PDF</a>)</li>" >> public_html/index.html
             fi
