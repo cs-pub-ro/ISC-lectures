@@ -13,3 +13,4 @@ nginx-spa.conf
 lectures/*/slides/
 slides/
 start.sh
+publish.sh
