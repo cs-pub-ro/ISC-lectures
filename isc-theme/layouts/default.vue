@@ -4,11 +4,14 @@ import { useTouyingConfig } from '../composables/useTouyingConfig'
 import DewdropDefault from '../themes/dewdrop/layouts/default.vue'
 import UniversityDefault from '../themes/university/layouts/default.vue'
 import SimpleDefault from '../themes/simple/layouts/default.vue'
+import IscDefault from '../themes/isc/layouts/default.vue'
 
 defineOptions({ inheritAttrs: false })
 const config = useTouyingConfig()
 const component = computed(() =>
-  config.value.preset === 'university' ? UniversityDefault : config.value.preset === 'simple' ? SimpleDefault : DewdropDefault,
+  config.value.preset === 'university' ? UniversityDefault : 
+  config.value.preset === 'simple' ? SimpleDefault : 
+  config.value.preset === 'isc' ? IscDefault : DewdropDefault,
 )
 </script>
 

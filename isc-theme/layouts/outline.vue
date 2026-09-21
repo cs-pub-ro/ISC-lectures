@@ -2,11 +2,13 @@
 import { computed } from 'vue'
 import { useTouyingConfig } from '../composables/useTouyingConfig'
 import DewdropOutline from '../themes/dewdrop/layouts/outline.vue'
+import IscOutline from '../themes/isc/layouts/outline.vue'
 
 defineOptions({ inheritAttrs: false })
 const config = useTouyingConfig()
-// University has no dedicated outline layout; fall back to Dewdrop's.
-const component = computed(() => DewdropOutline)
+const component = computed(() =>
+  config.value.preset === 'isc' ? IscOutline : DewdropOutline,
+)
 </script>
 
 <template>

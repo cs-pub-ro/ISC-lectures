@@ -4,12 +4,15 @@ import { useTouyingConfig } from './composables/useTouyingConfig'
 import DewdropLayer from './themes/dewdrop/global-layer.vue'
 import SimpleLayer from './themes/simple/global-layer.vue'
 import UniversityLayer from './themes/university/global-layer.vue'
+import IscLayer from './themes/isc/global-layer.vue'
+
 defineOptions({ inheritAttrs: false })
 const config = useTouyingConfig()
 const component = computed(() => {
   if (config.value.preset === 'dewdrop') return DewdropLayer
   if (config.value.preset === 'simple') return SimpleLayer
   if (config.value.preset === 'university') return UniversityLayer
+  if (config.value.preset === 'isc') return IscLayer
   throw new Error(`Unknown preset: ${config.value.preset}`)
 })
 </script>

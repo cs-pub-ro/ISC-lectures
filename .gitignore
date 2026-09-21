@@ -14,3 +14,5 @@ lectures/*/slides/
 slides/
 start.sh
 publish.sh
+local_env/
+test.sh

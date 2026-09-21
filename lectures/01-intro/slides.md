@@ -1,31 +1,41 @@
 ---
+layout: cover
 routerMode: hash
 download: 'slides.pdf'
 theme: ../../isc-theme
 colorSchema: light
 selectable: false
+touying:
+  preset: isc
 title: Lecture 1 — Introduction to Computer Security
 info: |
   ## ISC — Lecture 1 · Introduction
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
 ---
+::title::
+[Introduction to Computer Security<br>Lecture Slides](https://ocw.cs.pub.ro/courses/isc)
 
-# Introduction to Computer Security
+::default::
+© 2025 by [Mihai Chiroiu](https://www.linkedin.com/in/mihaichiroiu/) & [Florin Stancu](https://www.linkedin.com/in/niflostancu/)  
+is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
 
-<font size=4>Cybersecurity properties, threats, and defenders</font>
+---
+layout: cover
+title: Introduction to cybersecurity
+---
 
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+<font size=4>Properties, threats, and defenders</font>
 
 <!--
 Welcome students, introduce the course and its source.
 -->
 
 ---
-layout: quote
+layout: section
 class: text-center
+---
+# Course Logistics
 ---
 
 # Honor Code
@@ -62,6 +72,7 @@ class: text-center
 
 - Course page: [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 - Roadmap: [roadmap.sh/cyber-security](https://roadmap.sh/cyber-security)
+- Roadmap: [https://pauljerimy.com/security-certification-roadmap/](https://pauljerimy.com/security-certification-roadmap/)
 
 ---
 
