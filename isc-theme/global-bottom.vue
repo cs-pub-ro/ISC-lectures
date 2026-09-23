@@ -1,7 +1,7 @@
 <script setup>
 import { useNav } from '@slidev/client'
 import iscLogo from './public/isc-logo.png'
-import ccLogo from './public/CC-isc.png'
+import ccLogo from './public/CC-by-nc-sa.png'
 import downloadIcon from './public/download.svg'
 
 const { isPrintMode, isPrint } = useNav()
@@ -17,8 +17,10 @@ const pdfUrl = import.meta.env.BASE_URL + 'slides.pdf'
     </a>
 
     <!-- Centered Logos -->
-    <img :src="iscLogo" alt="ISC Logo" style="height: 44px; object-fit: contain; opacity: 0.9; pointer-events: auto;" />
-    <img :src="ccLogo" alt="CC License" style="height: 32px; object-fit: contain; opacity: 0.9; pointer-events: auto;" />
+    <a href="https://ocw.cs.pub.ro/courses/isc"><img :src="iscLogo" alt="ISC Logo" 
+      style="height: 44px; object-fit: contain; opacity: 0.9; pointer-events: auto;" /></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img :src="ccLogo" alt="CC BY-NC-SA License" 
+      style="height: 32px; object-fit: contain; opacity: 0.9; pointer-events: auto;" /></a>
     
   </footer>
 </template>
