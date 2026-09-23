@@ -82,7 +82,9 @@ layout: two-cols
 <style>
 .slidev-layout.two-columns {
 	grid-template-columns: 65% 35%; 
-    .col-right img { display: inline; max-width: 85% };
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
 }
 </style>
 
@@ -110,7 +112,9 @@ layout: two-cols
 <style>
 .slidev-layout.two-columns {
 	grid-template-columns: 65% 35%;
-    .col-right img { display: inline; max-width: 85% };
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
 }
 </style>
 
