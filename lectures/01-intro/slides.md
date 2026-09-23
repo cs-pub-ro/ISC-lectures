@@ -12,24 +12,15 @@ info: |
   ## ISC — Lecture 1 · Introduction
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
 ---
-::title::
-[Introduction to Computer Security<br>Lecture Slides](https://ocw.cs.pub.ro/courses/isc)
-
-::default::
-© 2025 by [Mihai Chiroiu](https://www.linkedin.com/in/mihaichiroiu/) & [Florin Stancu](https://www.linkedin.com/in/niflostancu/)  
-is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
-
 ---
 layout: cover
-title: Introduction to cybersecurity
+title: "Lecture 1: Introduction"
+subtitle: "Properties, threats and defenders"
 ---
 
-<font size=4>Properties, threats, and defenders</font>
-
-<!--
-Welcome students, introduce the course and its source.
--->
+::default::
 
 ---
 layout: section
