@@ -1,26 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 2 — Introduction to Cryptographic Systems
 info: |
   ## ISC — Lecture 2 · Cryptography
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 2: Cryptography"
+subtitle: "Cryptographic ciphers, protocols, applications and attacks"
 ---
 
-# Introduction to Cryptographic Systems
-
-<font size=4>Ciphers, protocols, modes, and attacks</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
-
-<!--
-Welcome students; note this is Lecture 2 of the ISC course.
--->
+::default::
 
 ---
 
@@ -43,34 +42,52 @@ Welcome students; note this is Lecture 2 of the ISC course.
 # Vocabulary
 
 - **Ciphertext** — result of encryption performed on **plaintext** using an algorithm, the **cipher**
-- **Decryption** — the reverse process
 
 ```
 c = encrypt(m, k)
-m = decrypt(c, k)
 ```
 
-<!--
-Emphasize that k = key. Everything else in the lecture builds on these four terms.
--->
+- **Decryption** — the reverse process, obtain the original message
+
+```
+m = decrypt(c, k)
+```
 
 ---
 layout: section
 ---
 
-# A short history of cryptography
+# History
 
 ---
+layout: two-cols
+---
 
-# Early encryption schemes [11]
+# Early encryption schemes
 
 - **~1500 BCE** — clay tablets in Mesopotamia
 - Hides a recipe of pottery glaze
 - Used **substitution** as an encryption algorithm
 - ...and the encryption was broken
 
-[Tablet (Rimush, Louvre AO 5476)](https://commons.wikimedia.org/wiki/File:Tablet_Rimush_Louvre_AO5476.jpg)
+::right::
 
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Tablet (Rimush, Louvre AO 5476)](./media/hist_rimush_tablet.jpg)
+
+<a style="font-style: italic; font-size: 9pt;"
+	href="https://commons.wikimedia.org/wiki/File:Tablet_Rimush_Louvre_AO5476.jpg">Tablet (Rimush, Louvre AO 5476)</a>
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%; 
+    .col-right img { display: inline; max-width: 85% };
+}
+</style>
+
+---
+layout: two-cols
 ---
 
 # Substitution
@@ -79,6 +96,24 @@ layout: section
 - Jeremiah 25:26: *"And after all of them, the king of Sheshak will drink it too."*
   - In original Hebrew, the word **Sheshak** commutes into **"Babylon"**
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Tablet](./media/hist_atbash_cipher.gif)
+
+<a style="font-style: italic; font-size: 9pt;"
+	href="https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e">https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e
+</a>
+</div>
+
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+    .col-right img { display: inline; max-width: 85% };
+}
+</style>
+
 ---
 
 # Transposition
@@ -86,7 +121,14 @@ layout: section
 - Characters **change their position** in the text, but keep their original meaning
 - E.g. encircles wood, called **scytales**, with paper (similar to the Rail Fence Cipher [13])
 
+<div class="flex justify-center items-center h-ful">
+<div style="margin-top: 2em; width: 70%">
+
+![hist_scytale_cipher.png](./media/hist_scytale_cipher.png)
 [toebes.com — Flynns, 1924](https://toebes.com/Flynns/Flynns-19241213.htm)
+
+</div>
+</div>
 
 ---
 
@@ -100,6 +142,16 @@ layout: section
 - **1st & 2nd WW** → cipher machines:
   - **Enigma** for encryption
   - **Bombe** for decryption and cracking
+
+```mermaid
+gantt
+    dateFormat YYYY
+    title A fast forward on crypto history
+    section Ciphers
+    Caesar (shift)              : 100, 44
+    Vigenère (polyalphabetic)   : 1553, 1920
+    Enigma                      : 1918, 1975
+```
 
 ---
 layout: section
@@ -159,8 +211,6 @@ $$
 - Encryption algorithms / functions **MUST be invertible**
 
 ---
-layout: section
----
 
 # Encryption schemes
 
@@ -190,6 +240,15 @@ layout: section
 **Proprietary algorithms** — details known only to the designers and users.
 
 - ...security through obscurity.
+
+---
+
+
+---
+layout: section
+---
+
+# Symmetric ciphers
 
 ---
 
@@ -236,10 +295,8 @@ layout: section
 - **2003**: AES approved for use with Secret and Top Secret classified information of the U.S. government
 
 ---
-layout: section
----
 
-# Block ciphers modes of operation
+# Block ciphers modes
 
 <v-clicks>
 
@@ -470,7 +527,7 @@ layout: section
 layout: section
 ---
 
-# Beyond classical cryptography
+# Beyond classical crypto
 
 ---
 
