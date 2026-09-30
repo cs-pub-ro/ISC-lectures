@@ -34,6 +34,8 @@ class: text-center
 'My job is to talk to you, and your job is to listen. If you finish first, please let me know.'
 
 — Harry Hershfield
+
+![Sleeping Student](./images/Sleeping.jpg)
 ---
 
 # Selected topics
@@ -82,15 +84,6 @@ layout: section
 ---
 
 # Introduction to cyber security
-
----
-
-# Outline
-
-- CIA + Non-repudiation
-- Threat modeling
-    - STRIDE
-    - Dolev–Yao
 
 ---
 
@@ -203,7 +196,7 @@ Examples:
 # Security properties — privacy
 
 - **Data protection / personal data privacy** — fair collection and use of personal data (in Europe, a set of legal requirements)
-- **Anonymity / untraceability** — ability to use a resource without disclosing identity/location
+- **Anonymity / untraceability** — ability to use a resource without disclosing **source** identity/location
 - **Pseudonymity** — anonymity with accountability for actions
 
 ---
@@ -355,7 +348,7 @@ layout: section
 - **Cryptography**
 - **Access control**
 
-::right::
+---
 
 # Zero Trust
 
@@ -368,11 +361,11 @@ layout: section
 - Complex systems are more difficult to secure.
 - The more applications deployed, the more possible vulnerabilities.
 
-::right::
+---
 
 # Weakest link
 
-> An infrastructure is as strong as its weakest link.
+- An infrastructure is as strong as its weakest link.
 
 ---
 
@@ -452,13 +445,9 @@ Your protected health data is stored in a personal electronic folder. Design a p
 - NIST Rainbow Series (DoD 85): [csrc.nist.gov](https://csrc.nist.gov/)
 
 ---
-layout: end
-class: text-center
----
 
-# Thank you
+# Further reading
 
-**Further reading:**
-*Computer Security and the Internet: Tools and Jewels* — Paul C. van Oorschot (Springer, 2021)
-
+- *Computer Security and the Internet: Tools and Jewels* — Paul C. van Oorschot (Springer, 2021)
 [people.scs.carleton.ca/~paulv/toolsjewels.html](https://people.scs.carleton.ca/~paulv/toolsjewels.html)
+
