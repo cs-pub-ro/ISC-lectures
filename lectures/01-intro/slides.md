@@ -69,6 +69,13 @@ class: text-center
 
 ---
 
+# Lab Logistics
+- EG101 (Microsoft)
+- Have a VM with Linux / Kali for easier access
+- We use OpenStack 
+
+---
+
 # Grading
 
 - **1 p** — Homework 1
@@ -78,6 +85,12 @@ class: text-center
 - **4 p** — Final written exam (TBD)
 
 **Total = 10 pts** · Min. **5 pts** to pass the course.
+
+---
+
+# AI/LLM agents prompt
+
+- "Act as a patient security tutor, not a solver. Help me understand the concepts and approach, point me to the right tools (bash / python-based), and give me hints and guiding questions — but don't write out the full solution or complete code. Nudge me just enough to keep me trying, and only reveal more if I tell you I'm still stuck."
 
 ---
 layout: section
@@ -121,6 +134,16 @@ layout: quote
   - (2) Fapta din alin. (1), comisă în scopul obținerii de date informatice — 6 luni – 5 ani.
   - (3) Sistem informatic la care accesul este restricționat/interzis pentru anumite categorii de utilizatori — 2 – 7 ani.
 - Introducerea / modificarea / ștergerea de date, restricționarea accesului, împiedicarea funcționării unui sistem informatic — 2 – 7 ani.
+
+---
+
+# Rules of Engagement
+
+> **With great power comes great responsibility.**
+
+- In this course, you will learn techniques used by real attackers.
+- **The Golden Rule:** NEVER attack a system you do not own or do not have explicit, written permission to test.
+- **Do NOT** scan or attack UPB infrastructure (`curs.pub.ro`, `ocw.cs.pub.ro`, Eduroam) or your peers.
 
 ---
 layout: section
@@ -184,6 +207,7 @@ Examples:
 - **Confidentiality** — prevent reading of sensitive information by unauthorized parties
 - **Integrity** — protection/detection of data from intentional or accidental modification
 - **Availability** — assurance that systems and data are accessible by authorized users when needed
+- CIA Triad
 
 ---
 
@@ -212,8 +236,17 @@ Examples:
 # Security properties — control
 
 - **Rollback** — return to a well-defined valid earlier state (backup, revision control, undo)
-- **Audit** — monitoring and recording of user-initiated events to detect and deter violations
 - **Copy protection / information flow control** — control the use and flow of information (Digital Rights Management)
+
+---
+
+# The AAA Framework
+
+Alongside the CIA Triad, Access Control relies on **AAA**:
+
+- **Authentication:** *Who are you?* (Proving identity via Passwords, Biometrics, MFA).
+- **Authorization:** *What are you allowed to do?* (Permissions, Access Control Lists).
+- **Accounting (Audit):** *What did you do?* (Logs, Traces, Forensics).
 
 ---
 
@@ -343,10 +376,31 @@ layout: section
 
 ---
 
+# Risk Management 101
+
+Security is fundamentally about Risk Management. You cannot secure everything 100%.
+
+> **Risk = Threat × Vulnerability × Impact**
+
+- **Threat:** Someone or something that can cause harm (e.g., Ransomware gang, malicious insider).
+- **Vulnerability:** A weakness in the system (e.g., unpatched software, exposed port).
+- **Impact (Asset Value):** The cost if the asset is compromised (e.g., data loss, downtime).
+
+*If any of these is zero (e.g., a vulnerable server that is completely disconnected from the network), the Risk is zero.*
+
+---
+
 # Security building blocks
 
 - **Cryptography**
 - **Access control**
+
+---
+
+# Kerckhoffs's Principle
+
+- **"No security through obscurity."**
+- Claude Shannon's Maxim: *"The enemy knows the system."*
 
 ---
 
@@ -366,6 +420,18 @@ layout: section
 # Weakest link
 
 - An infrastructure is as strong as its weakest link.
+
+
+---
+
+# Defense in Depth
+
+- **Concept:** Never rely on a single point of security. Controls *will* fail.
+- **Example:** 
+  1. Network Firewall
+  2. Web Application Firewall (WAF)
+  3. Strong Authentication (MFA)
+  4. Database Encryption (Data at rest)
 
 ---
 
@@ -432,7 +498,7 @@ Your protected health data is stored in a personal electronic folder. Design a p
 - From whom?
 - How long should data be saved?
 - What about **CIA**?
-- Enter **HIPAA** rules and regulations.
+- Enter **GDPR/NIS2** rules and regulations.
 
 ---
 
@@ -440,8 +506,9 @@ Your protected health data is stored in a personal electronic folder. Design a p
 
 - Phishing history: [phishing.org](http://www.phishing.org/history-of-phishing/)
 - OWASP appsec: [owasp.org](https://www.owasp.org/)
-- Mat Honan story: [wired.com](http://www.wired.com/2012/08/apple-amazon-mat-honan-hacking/)
-- Spamhaus DDoS: [arstechnica.com](http://arstechnica.com/security/2013/03/spamhaus-ddos-grows-to-internet-threatening-size/)
+- Ro hospitals [https://www.cyberbreaches.org/en/incidents/romanian-hospitals-2024](https://www.cyberbreaches.org/en/incidents/romanian-hospitals-2024) 
+- CrowdStrike [https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next](https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next) 
+- Log4Shell [https://www.sophos.com/en-us/blog/log4shell-hell-anatomy-of-an-exploit-outbreak] (https://www.sophos.com/en-us/blog/log4shell-hell-anatomy-of-an-exploit-outbreak)
 - NIST Rainbow Series (DoD 85): [csrc.nist.gov](https://csrc.nist.gov/)
 
 ---
