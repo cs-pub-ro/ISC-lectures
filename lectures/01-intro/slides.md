@@ -121,9 +121,21 @@ layout: quote
 - Don't protect **$1B** with encryption that can be broken for **$1M**.
 - Don't spend **$10M** to protect **$1M**.
 
-> "A CRYPTO NERD'S IMAGINATION: let's build a million-dollar cluster to crack it!
-> WHAT WOULD ACTUALLY HAPPEN: drug him and hit him with this $5 wrench
-> until he tells us the password."
+<br/>
+<div class="flex flex-col items-center slideimg" style="text-align: center;">
+
+![XKCD #538](./images/xkcd_security_538.png)
+
+<a style="font-style: italic; font-size: 9pt;"
+	href="https://xkcd.com/538/">https://xkcd.com/538/</a>
+</div>
+
+<style>
+.slideimg {
+	p { width: 40%; margin: 0.3em auto; text-align: center; }
+	img { display: inline; }
+}
+</style>
 
 ---
 
@@ -189,6 +201,8 @@ Examples:
 
 # TCSEC vs. CC
 
+<div style="width: 10em; margin: 0 auto;">
+
 | TCSEC | CC    |
 | ----- | ----- |
 | D     | —     |
@@ -199,6 +213,8 @@ Examples:
 | B2    | EAL5  |
 | B3    | EAL6  |
 | A1    | EAL7  |
+
+</div>
 
 ---
 
@@ -263,6 +279,8 @@ layout: section
 # Assets, threats, attackers
 
 ---
+layout: two-cols
+---
 
 # Assets
 
@@ -272,10 +290,16 @@ layout: section
 
 ::right::
 
-# Exploitability
+<br/><br/><br/><br/><br/><br/>
+
+<v-click>
+
+### Exploitability
 
 - Example: **Adobe Acrobat zero-day** (CVE-2021-28550)
   - "exploited in the wild in limited attacks targeting Adobe Reader users on Windows"
+
+</v-click>
 
 ---
 
@@ -354,19 +378,22 @@ From pranksters to professionals:
 - **Dolev–Yao**
   - formal networking analysis
   - crypto is unbreakable
+
 - **STRIDE**
+  - Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege
   - [en.wikipedia.org/wiki/STRIDE_model](https://en.wikipedia.org/wiki/STRIDE_model)
 
 ---
 
 # TTPs, IoC, IoA
 
+- Adversary Tactics and Techniques, Knowledge base
+  - [attack.mitre.org](https://attack.mitre.org/matrices/enterprise/)
+
 - **TTPs** — Tactics, Techniques, and Procedures (generalized statement of adversary behavior)
   - Campaign strategy (tactics) · attack vectors (techniques) · specific tools (procedures)
 - **IoC** — Indicators of Compromise (specific evidence of intrusion)
 - **IoA** — Indicators of Attack
-
-[attack.mitre.org](https://attack.mitre.org/matrices/enterprise/)
 
 ---
 layout: section
@@ -517,4 +544,3 @@ Your protected health data is stored in a personal electronic folder. Design a p
 
 - *Computer Security and the Internet: Tools and Jewels* — Paul C. van Oorschot (Springer, 2021)
 [people.scs.carleton.ca/~paulv/toolsjewels.html](https://people.scs.carleton.ca/~paulv/toolsjewels.html)
-
