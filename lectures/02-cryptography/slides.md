@@ -363,9 +363,39 @@ layout: section
   - A **'secret key'** (data exchanged 'in secret' by the two parties)
   - An encryption algorithm
   - A decryption algorithm
+
 - The strength of a cipher is given by:
   - **Key size** (small keys can be exhaustively searched in a decent amount of time)
   - **Algorithm strength** (for example against statistical cryptanalysis)
+
+- Two modes for symmetric encryption: **stream** and **block** 😕
+
+---
+class: text-center
+---
+
+# The cipher hierarchy
+
+<br>
+
+```mermaid
+flowchart TD
+  S([Symmetric]) --> St([Stream])
+  A([Asymmetric])
+  S --> B([Block])
+  B --> ECB[ECB]
+  B --> CBC[CBC]
+  B --> CTR[CTR]
+
+  style S fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+  style A fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+  style St fill:#fef9c3,stroke:#ca8a04
+  style B fill:#fef9c3,stroke:#ca8a04
+```
+
+<!--
+Same key vs key pair → stream (bit by bit) vs block (fixed-size chunks) → block needs a mode of operation.
+-->
 
 ---
 
@@ -381,6 +411,8 @@ layout: section
   - **Salsa20 / ChaCha** (used by WireGuard)
 
 ---
+layout: two-cols
+---
 
 # Block ciphers: DES (and 3DES)
 
@@ -391,6 +423,26 @@ layout: section
 
 *Built on the **Feistel network**.*
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Feistel Network](./images/feistel_cipher.png)
+
+[Feistel Network](https://en.wikipedia.org/wiki/Feistel_cipher)
+
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
+}
+</style>
+
+---
+layout: two-cols
 ---
 
 # Block ciphers: AES
@@ -399,16 +451,82 @@ layout: section
 - October **2000**: NIST selected **Rijndael** (pronounced "Rhine doll") by Belgian cryptographers **Joan Daemen** & **Vincent Rijmen**
 - **2003**: AES approved for use with Secret and Top Secret classified information of the U.S. government
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![AES Round Function](./images/aes_round_function.png)
+
+[AES Round Function](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
+}
+</style>
+
 ---
 
-# Block ciphers modes
-
-<v-clicks>
+# Block cipher modes
 
 - Total data length ≫ block size! (e.g., **1 MByte** vs **128 bit**)
 - How do we use one block cipher on a long message?
 
-</v-clicks>
+<v-click>
+
+<div class="flex flex-col items-center gap-1 font-mono" style="margin-top: 1.5em;">
+  <div class="bm-data">data (1 MByte)</div>
+  <div style="color: #64748b;">↓ split into fixed-size blocks</div>
+  <div class="flex justify-center items-center gap-2">
+    <div class="bm-block">128bit</div>
+    <div class="bm-block">128bit</div>
+    <div class="bm-block">128bit</div>
+    <div class="bm-block">128bit</div>
+    <span class="bm-ellipsis">⋯</span>
+  </div>
+  <div style="color: #64748b;">each block ↓ ↓ ↓ one by one  </div>
+  <div class="flex items-center gap-3">
+    <div class="bm-key">enc. key<br>(256bit)</div>
+    <div style="color: #64748b;">+</div>
+    <div class="bm-cipher">encrypt()</div>
+    <div style="color: #64748b;">=></div>
+    <div class="bm-ciphertext">ciphertext</div>
+  </div>
+</div>
+
+<style>
+.bm-data {
+  width: 65%; height: 2em; display: flex; align-items: center; justify-content: center;
+  background: #dcfce7; border: 2px solid #16a34a; border-radius: 0.3em; color: #14532d;
+}
+.bm-block {
+  width: 4.8em; height: 2em; display: flex; align-items: center; justify-content: center;
+  background: #fef9c3; border: 2px solid #ca8a04; border-radius: 0.3em;
+}
+.bm-key {
+  text-align: center;
+  width: 9em; height: 3em; display: flex; align-items: center; justify-content: center;
+  background: repeating-linear-gradient(45deg, #fef2f2, #fef2f2 0.5em, #fecaca 0.5em, #fecaca 1em);
+  border: 2px solid #7f1d1d; border-radius: 0.3em; font-size: 0.9em;
+  color: #7f1d1d;
+}
+.bm-cipher {
+  width: 7em; height: 2.6em; display: flex; align-items: center; justify-content: center;
+  background: #fce7f3; border: 2px solid #db2777; border-radius: 0.3em; font-weight: bold;
+}
+.bm-ciphertext {
+  width: 8em; height: 2.6em; display: flex; align-items: center; justify-content: center;
+  background: repeating-linear-gradient(45deg, #f1f5f9, #f1f5f9 0.5em, #e2e8f0 0.5em, #e2e8f0 1em);
+  border: 2px dashed #475569; border-radius: 0.3em; color: #475569;
+}
+.bm-ellipsis { font-size: 1.5em; color: #64748b; }
+</style>
+
+</v-click>
 
 ---
 
@@ -500,6 +618,8 @@ layout: section
   - [Ralph Merkle] (April 1975) *"Secure Communications Over Insecure Channel"*
 
 ---
+layout: two-cols
+---
 
 # Diffie–Hellman (1976)
 
@@ -508,20 +628,49 @@ layout: section
 - Establish a secret between 2 (possibly unacquainted) parties!
 - **Security:** discrete logarithm problem (NP-complete)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Diffie-Helman Paint Analogy](./images/diffie_helman.svg)
+[Diffie-Helman Paint
+Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
+
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
+}
+</style>
+
 ---
 
-# Diffie–Hellman — worked example
+# Diffie–Hellman -- example
 
-Common parameters: p = 5 (prime), g = 2 (primitive root)
+Common parameters (publicly shared):
+  * $p = 5$ (prime); $g = 2$ (primitive root)
+
+<br>
+
+<v-clicks>
 
 | Step | Value |
 | --- | --- |
-| Alice's private key a = 4; public key → Bob: A = gᵃ mod p = 2⁴ mod 5 | **1** |
-| Bob's private key b = 6; public key → Alice: B = gᵇ mod p = 2⁶ mod 5 | **4** |
-| Alice computes: s = Bᵃ mod p = 4⁴ mod 5 | **1** |
-| Bob computes: s = Aᵇ mod p = 1⁶ mod 5 | **1** |
+| Alice's private key: $a = 4$; sends public key → Bob: $A = g^a \mod{p} = 2^4 \mod{5}$ | **1** |
+| Bob's private key: $b = 6$; sends public key → Alice: $B = g^b \mod{p} = 2^6 \mod{5}$ | **4** |
+| Alice computes: $s = B^a \mod{p} = 4^4 \mod{5}$ | **1** |
+| Bob computes: $s = A^b \mod{p} = 1^6 \mod{5}$ | **1** |
 
-**Same secret key — over a public channel.**
+</v-clicks>
+
+<v-click>
+
+**Both now share the same secret key -- over a public channel.**
+
+</v-click>
 
 <!--
 Walk through the example line by line; point out that p and g are public.
@@ -677,7 +826,6 @@ layout: section
 - [13] [Transposition ciphers](http://cochranmath.pbworks.com/w/page/118045167/Transposition%20Ciphers)
 
 ---
-layout: end
 class: text-center
 ---
 
@@ -687,3 +835,4 @@ class: text-center
 *Communication Theory of Secrecy Systems* — Claude E. Shannon (1949)
 
 [cs.virginia.edu/~evans/greatworks/shannon1949.pdf](https://www.cs.virginia.edu/~evans/greatworks/shannon1949.pdf)
+
