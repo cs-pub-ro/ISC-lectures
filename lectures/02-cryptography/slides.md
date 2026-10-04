@@ -27,9 +27,9 @@ subtitle: "Cryptographic ciphers, protocols, applications and attacks"
 
 **Is not about:**
 
-- **Steganography** — concealing a file/message/image/video within another
-- **Obfuscation** — hiding program implementation without altering execution (Indistinguishability Obfuscation [9])
-- **Cryptocoins** !!!
+- **Steganography** - concealing a file/message/image/video within another
+- **Obfuscation** - hiding program implementation without altering execution (Indistinguishability Obfuscation [9])
+- **Cryptocurrency** (//hype gone//)
 
 **Is about:**
 
@@ -41,13 +41,13 @@ subtitle: "Cryptographic ciphers, protocols, applications and attacks"
 
 # Vocabulary
 
-- **Ciphertext** — result of encryption performed on **plaintext** using an algorithm, the **cipher**
+- **Ciphertext** - result of encryption performed on **plaintext** using an algorithm, the **cipher**:
 
 ```
 c = encrypt(m, k)
 ```
 
-- **Decryption** — the reverse process, obtain the original message
+- **Decryption** - the reverse process, to obtain the original message:
 
 ```
 m = decrypt(c, k)
@@ -65,7 +65,7 @@ layout: two-cols
 
 # Early encryption schemes
 
-- **~1500 BCE** — clay tablets in Mesopotamia
+- **~1500 BCE** - clay tablets in Mesopotamia
 - Hides a recipe of pottery glaze
 - Used **substitution** as an encryption algorithm
 - ...and the encryption was broken
@@ -135,6 +135,8 @@ layout: two-cols
 </div>
 
 ---
+layout: two-cols
+---
 
 # Fast forward on crypto history
 
@@ -142,20 +144,27 @@ layout: two-cols
   - Shift cipher, e.g., k=4 → A→E, T→X …
   - Most of Caesar's enemies would have been illiterate ⇒ secure
 - **Vigenère cipher** (1553 CE)
-  - Poly-alphabetic substitution and transposition
-- **1st & 2nd WW** → cipher machines:
+  - Poly-alphabetic substitution
+- **1st & 2nd WW** → electro-mechanical cipher machines:
   - **Enigma** for encryption
   - **Bombe** for decryption and cracking
 
-```mermaid
-gantt
-    dateFormat YYYY
-    title A fast forward on crypto history
-    section Ciphers
-    Caesar (shift)              : 100, 44
-    Vigenère (polyalphabetic)   : 1553, 1920
-    Enigma                      : 1918, 1975
-```
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Enigma Machine](./images/enigma_museo_scienza_Milano.jpg)
+[Military Model Enigma I, 1930](https://en.wikipedia.org/wiki/Enigma_machine)
+
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
+}
+</style>
 
 ---
 layout: section
@@ -168,7 +177,9 @@ layout: section
 # What does an ideal cipher look like?
 
 - No correlation between **plaintext**, **key**, and **ciphertext**
+
 - Cannot recover **key** from known plaintext + ciphertext
+
 - **Confusion & Diffusion** !
 
 > Do unbreakable algorithms exist?
@@ -205,32 +216,126 @@ $$
 
 ---
 
+# One-time Pad — worked example
+
+<v-click>
+
+**Message** `M = 'a'` = 01100001, **Key** `K` = 10100111 (random, same length)
+
+</v-click>
+
+<div class="flex justify-center items-start gap-1 font-mono text-2xl" style="margin-top: 1.5em;">
+
+<span style="text-align: right; line-height: 1.9; padding-right: 0.5em;">
+  M<br>⊕ K<br>───<br>= C
+</span>
+
+<v-click><div class="otp-col"><div>0</div><div>⊕</div><div>1</div><div>─</div><div>1</div></div></v-click>
+<v-click><div class="otp-col"><div>1</div><div>⊕</div><div>0</div><div>─</div><div>1</div></div></v-click>
+<v-click><div class="otp-col"><div>1</div><div>⊕</div><div>1</div><div>─</div><div>0</div></div></v-click>
+<v-click><div class="otp-col"><div>0</div><div>⊕</div><div>0</div><div>─</div><div>0</div></div></v-click>
+<v-click><div class="otp-col"><div>0</div><div>⊕</div><div>0</div><div>─</div><div>0</div></div></v-click>
+<v-click><div class="otp-col"><div>0</div><div>⊕</div><div>1</div><div>─</div><div>1</div></div></v-click>
+<v-click><div class="otp-col"><div>0</div><div>⊕</div><div>1</div><div>─</div><div>1</div></div></v-click>
+<v-click><div class="otp-col"><div>1</div><div>⊕</div><div>1</div><div>─</div><div>0</div></div></v-click>
+
+</div>
+
+<v-click>
+
+**Ciphertext** `C` = 11000110 — decrypt: `C ⊕ K` = 01100001 = `a` ✔
+
+</v-click>
+
+<style>
+.otp-col {
+  display: flex; flex-direction: column; align-items: center;
+  line-height: 1.9; text-align: center; width: 1.6em;
+}
+</style>
+
+<!--
+One click per bit column: M row first, then key bit, then result bit.
+Point out C ⊕ K = M — the key *is* the decryption.
+-->
+
+---
+layout: two-cols
+---
+
 # Shannon's S-P network
 
 - **Claude Shannon** — father of Information Theory (1949) [10]
+
 - **Substitution** provides *'confusion'*
   - By building a complex binding between input and output
+<!-- that each binary digit (bit) of the ciphertext should depend on several
+parts of the key -->
+
 - **Permutation** (transposition) provides *'diffusion'*
-  - By moving bits, one single bit influences all output bits
+  - By moving bits, one single bit of plaintext should influence about half of output bits
+<!-- if we change a single bit of the plaintext, then about half of the bits in
+the ciphertext should change-->
+
 - Encryption algorithms / functions **MUST be invertible**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+
+![Enigma Machine](./images/substitution_permutation_network.svg)
+
+[S-P Network](https://en.wikipedia.org/wiki/Substitution%E2%80%93permutation_network)
+
+</div>
+<style>
+.slidev-layout.two-columns {
+	grid-template-columns: 65% 35%;
+	.col-right img {
+		display: inline; max-width: 85%;
+	}
+}
+</style>
+
+
+---
+layout: two-cols
+---
+
+# From military to business
+
+<br>
+
+![Bombardier](./images/app_bombardier.png)
+
+::right::
+
+<br>
+<br>
+
+![ATM](./images/app_atm.png)
+
+<style>
+.slidev-layout.two-columns {
+	img {
+		display: inline; max-width: 90%;
+	}
+}
+</style>
 
 ---
 
 # Encryption schemes
 
----
+- Two main families based on the **keys** used for encryption/decryption
 
-# Two families
+- **Symmetric:**
+  - Same key used for both encryption and decryption
+  - Two variants: **Block** and **Stream**
 
-**● Symmetric:**
-
-- Same key used for both encryption and decryption
-- Two variants: **Block** and **Stream**
-
-**● Asymmetric:**
-
-- Different keys: **public** ≠ **private**
-- New feature: **digital signatures**!
+- **Asymmetric:**
+  - Different keys: **public** ≠ **private**
+  - New feature unlocked: **digital signatures**!
 
 ---
 
