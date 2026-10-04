@@ -1,0 +1,96 @@
+/* mode-base.css — shared style vocabulary for the cipher-mode diagrams
+   (EcbDiagram, CfbDiagram, OfbDiagram, CtrDiagram).
+   Import from an SFC with:  <style scoped src="./mode-base.css"></style>
+
+   What lives here (mode-agnostic):
+   - .mode-root  : CSS size container; all coordinates in the components
+                   are cqw/cqh percentages of the chosen width/height
+   - .stage      : one column of the flex row (33.33cqw wide)
+   - labels      : .plain .out .iv .key  (colors/weights)
+   - .arrow-d/.arrow-r : 2px line + fixed-px arrowhead (line weight,
+                   never scales with the container)
+   - .box        : the "block cipher" rectangle
+   - .xor        : the U+2295 glyph (the glyph carries the circle,
+                   no CSS border — keeps a single line)
+   - .fb         : absolute feedback-wire segments (geometry per mode);
+                   add the .fb-head class to a segment to give it a
+                   rightward arrowhead
+
+   What does NOT live here:
+   - per-mode geometry (stage/row heights, font sizes, wire
+     coordinates) — each mode has its own native design space, so
+     those cq* numbers are defined in the component's own <style>.
+*/
+
+.mode-root {
+  container-type: size;
+  position: relative;
+  display: flex;
+  margin: 0.8em auto;
+}
+.stage {
+  width: 33.33cqw;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* labels (green = plaintext, cyan = IV, purple = key, red = ciphertext) */
+.plain { color: #0a8a0a; font-weight: 600; }
+.out   { color: #b71c1c; font-weight: 600; }
+.iv    { color: #29b6f6; font-weight: 600; }
+.key   { color: #7b1fa2; font-weight: 600; margin-right: 8px; }
+
+/* vertical arrow: line + downward head (line weight stays fixed px) */
+.arrow-d { width: 2px; background: #000; position: relative; }
+.arrow-d::after {
+  content: ""; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+  border-left: 7px solid transparent; border-right: 7px solid transparent;
+  border-top: 9px solid #000;
+}
+/* horizontal arrow: line + rightward head */
+.arrow-r { height: 2px; background: #000; position: relative; align-self: center; }
+.arrow-r::after {
+  content: ""; position: absolute; right: -1px; top: 50%; transform: translateY(-50%);
+  border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+  border-left: 9px solid #000;
+}
+
+/* block cipher box */
+.box {
+  border: 2px solid #000;
+  display: flex; align-items: center; justify-content: center;
+  color: #0d47d4; font-weight: 700;
+}
+
+/* top-in: label (IV / <Nonce, Counter>) + downward arrow above the box */
+.top-in { display: flex; flex-direction: column; align-items: center; }
+
+/* box-row: centered box; .key-in anchored at the left edge, center height */
+.box-row { display: flex; align-items: center; justify-content: center; position: relative; }
+.key-in {
+  position: absolute; right: calc(50% + 9.5cqw);   /* 9.5cqw = half of 19cqw box */
+  top: 50%; transform: translateY(-50%);
+  display: flex; align-items: center;
+}
+
+/* xor-row: XOR centered; .plain-in feeds it from the left */
+.xor-row { display: flex; align-items: center; justify-content: center; position: relative; }
+.plain-in {
+  position: absolute; right: calc(50% + 19px);   /* 11px XOR half + 8px gap */
+  top: 50%; transform: translateY(-50%);
+  display: flex; align-items: center;
+}
+
+/* XOR: the U+2295 glyph already contains the circle — no CSS border */
+.xor { line-height: 1; }
+
+/* feedback wire segments (positions/sizes are mode-specific); the last
+   segment gets .fb-head-d, a downward arrowhead into the top of the box */
+.fb { position: absolute; background: #000; }
+.fb-head-d {
+  position: absolute;
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 9px solid #000;
+  transform: translateX(-6px);   /* center the 14px head on the 2px line */
+}

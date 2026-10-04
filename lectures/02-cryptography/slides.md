@@ -246,12 +246,8 @@ $$
 - ...security through obscurity.
 
 ---
-
-
----
 layout: section
 ---
-
 # Symmetric ciphers
 
 ---
@@ -317,6 +313,8 @@ layout: section
 - No chaining, no error propagation
 - **Does not hide data patterns** — unsuitable for long messages!
 
+<EcbDiagram width="660px" height="143px" />
+
 ---
 
 # Mode 2: Cipher-Block Chaining (CBC)
@@ -325,6 +323,8 @@ layout: section
 - Identical messages → different ciphertext
 - Allows random access to ciphertext (decryption is still parallelizable)
 - **Error propagation!**
+
+<CbcDiagram width="800px" height="180px" />
 
 ---
 
@@ -335,6 +335,8 @@ layout: section
 - Identical messages: as in CBC
 - Chaining: similar to CBC
 - Error propagation ...
+
+<CfbDiagram width="660px" height="179px" />
 
 ---
 
@@ -347,6 +349,8 @@ layout: section
 - Error propagation: a single bit error on cⱼ may only affect the corresponding bit of xⱼ
 - **IVs should not be reused!**
 
+<OfbDiagram width="660px" height="159px" />
+
 ---
 
 # Mode 5: Counter (CTR) / GCM
@@ -357,6 +361,8 @@ layout: section
 - Identical messages: changing the **nonce** results in different ciphertext
 - No chaining dependencies, no error propagation
 - **Nonce should be random**, and changed if a previously used key is reused
+
+<CtrDiagram width="660px" height="159px" />
 
 ---
 
