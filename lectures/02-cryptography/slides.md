@@ -74,7 +74,7 @@ layout: two-cols
 
 <div class="flex flex-col items-center" style="text-align: center;">
 
-![Tablet (Rimush, Louvre AO 5476)](./media/hist_rimush_tablet.jpg)
+![Tablet (Rimush, Louvre AO 5476)](./images/hist_rimush_tablet.jpg)
 
 <a style="font-style: italic; font-size: 9pt;"
 	href="https://commons.wikimedia.org/wiki/File:Tablet_Rimush_Louvre_AO5476.jpg">Tablet (Rimush, Louvre AO 5476)</a>
@@ -102,7 +102,7 @@ layout: two-cols
 
 <div class="flex flex-col items-center" style="text-align: center;">
 
-![Tablet](./media/hist_atbash_cipher.gif)
+![Tablet](./images/hist_atbash_cipher.gif)
 
 <a style="font-style: italic; font-size: 9pt;"
 	href="https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e">https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e
@@ -128,7 +128,7 @@ layout: two-cols
 <div class="flex justify-center items-center h-ful">
 <div style="margin-top: 2em; width: 70%">
 
-![hist_scytale_cipher.png](./media/hist_scytale_cipher.png)
+![hist_scytale_cipher.png](./images/hist_scytale_cipher.png)
 [toebes.com — Flynns, 1924](https://toebes.com/Flynns/Flynns-19241213.htm)
 
 </div>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="310mm"
+   height="70mm"
+   viewBox="0 0 310.00001 70"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="ecb_final.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true"
+     inkscape:zoom="0.89263468"
+     inkscape:cx="585.34584"
+     inkscape:cy="241.98029"
+     inkscape:window-width="2048"
+     inkscape:window-height="1244"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="0,70.000001"
+       orientation="0,1103.7926"
+       id="guide1"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="292.04514,70.000001"
+       orientation="246.81807,0"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="292.04514,4.6960526"
+       orientation="0,-1103.7926"
+       id="guide3"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,4.6960526"
+       orientation="-246.81807,0"
+       id="guide4"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="marker10_Fnone_S-000000"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Stylized triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         d="m 6,0 c -3,1 -7,3 -9,5 0,0 0,-4 2,-5 -2,-1 -2,-5 -2,-5 2,2 6,4 9,5 z"
+         id="path1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ArrowTriangleStylized_Fnone_S-000000"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Stylized triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         d="m 6,0 c -3,1 -7,3 -9,5 0,0 0,-4 2,-5 -2,-1 -2,-5 -2,-5 2,2 6,4 9,5 z"
+         id="path2" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(49.741667,-37.041666)">
+    <g
+       id="g101"
+       transform="translate(-412.49489,13.845002)">
+      <text
+         xml:space="preserve"
+         style="font-size:11.2889px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;stroke-width:0.264583"
+         x="443.11859"
+         y="34.121609"
+         id="text50"><tspan
+           sodipodi:role="line"
+           id="tspan50"
+           x="443.11859"
+           y="34.121609">Electronic codebook (ECB)</tspan><tspan
+           sodipodi:role="line"
+           x="443.11859"
+           y="45.410507"
+           id="tspan53" /></text>
+      <g
+         id="g62">
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+           x="408.79044"
+           y="48.735088"
+           id="text34"><tspan
+             sodipodi:role="line"
+             id="tspan34"
+             x="408.79044"
+             y="48.735088">plaintext</tspan></text>
+        <rect
+           style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+           id="rect34"
+           width="59.388733"
+           height="19.397945"
+           x="397.28848"
+           y="56.548145" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+           d="m 385.49267,66.127747 h 9.50841"
+           id="path36" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+           x="402.98331"
+           y="68.388245"
+           id="text36"><tspan
+             sodipodi:role="line"
+             id="tspan36"
+             x="402.98331"
+             y="68.388245">block cipher</tspan></text>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+           d="M 426.98285,75.946095 V 80.698"
+           id="path37" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+           d="m 426.16576,50.043829 v 4.574404"
+           id="path39" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+           x="407.08554"
+           y="89.234268"
+           id="text47"><tspan
+             sodipodi:role="line"
+             id="tspan47"
+             x="407.08554"
+             y="89.234268">ciphertext</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+           x="371.02579"
+           y="68.268867"
+           id="text54"><tspan
+             sodipodi:role="line"
+             id="tspan54"
+             style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+             x="371.02579"
+             y="68.268867">key</tspan></text>
+      </g>
+      <g
+         id="g63"
+         transform="translate(1.5258789e-5)">
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+           x="512.18689"
+           y="48.735088"
+           id="text55"><tspan
+             sodipodi:role="line"
+             id="tspan55"
+             x="512.18689"
+             y="48.735088">plaintext</tspan></text>
+        <rect
+           style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+           id="rect55"
+           width="59.388733"
+           height="19.397945"
+           x="500.68494"
+           y="56.548145" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+           d="m 488.88914,66.127747 h 9.50841"
+           id="path55" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+           x="506.37976"
+           y="68.388245"
+           id="text56"><tspan
+             sodipodi:role="line"
+             id="tspan56"
+             x="506.37976"
+             y="68.388245">block cipher</tspan></text>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+           d="M 530.37932,75.946095 V 80.698"
+           id="path56" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+           d="m 529.56223,50.043829 v 4.574404"
+           id="path57" />
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+           x="510.48199"
+           y="89.234268"
+           id="text57"><tspan
+             sodipodi:role="line"
+             id="tspan57"
+             x="510.48199"
+             y="89.234268">ciphertext</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+           x="474.42224"
+           y="68.268867"
+           id="text58"><tspan
+             sodipodi:role="line"
+             id="tspan58"
+             style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+             x="474.42224"
+             y="68.268867">key</tspan></text>
+      </g>
+      <g
+         id="g65">
+        <g
+           id="g64">
+          <text
+             xml:space="preserve"
+             style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+             x="615.58337"
+             y="48.735088"
+             id="text59"><tspan
+               sodipodi:role="line"
+               id="tspan59"
+               x="615.58337"
+               y="48.735088">plaintext</tspan></text>
+          <rect
+             style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+             id="rect59"
+             width="59.388733"
+             height="19.397945"
+             x="604.08142"
+             y="56.548145" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+             d="M 592.28559,66.127747 H 601.794"
+             id="path59" />
+          <text
+             xml:space="preserve"
+             style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+             x="609.77625"
+             y="68.388245"
+             id="text60"><tspan
+               sodipodi:role="line"
+               id="tspan60"
+               x="609.77625"
+               y="68.388245">block cipher</tspan></text>
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+             d="M 633.77577,75.946095 V 80.698"
+             id="path60" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+             d="m 632.95868,50.043829 v 4.574404"
+             id="path61" />
+          <text
+             xml:space="preserve"
+             style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+             x="613.87842"
+             y="89.234268"
+             id="text61"><tspan
+               sodipodi:role="line"
+               id="tspan61"
+               x="613.87842"
+               y="89.234268">ciphertext</tspan></text>
+        </g>
+        <text
+           xml:space="preserve"
+           style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+           x="577.81873"
+           y="68.268867"
+           id="text62"><tspan
+             sodipodi:role="line"
+             id="tspan62"
+             style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+             x="577.81873"
+             y="68.268867">key</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

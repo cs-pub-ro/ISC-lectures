@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300mm"
+   height="93mm"
+   viewBox="0 0 300.00001 93"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="cipher_ctr.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true"
+     inkscape:zoom="0.89263468"
+     inkscape:cx="543.89552"
+     inkscape:cy="246.46141"
+     inkscape:window-width="2048"
+     inkscape:window-height="1244"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="marker10_Fnone_S-000000"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Stylized triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         d="m 6,0 c -3,1 -7,3 -9,5 0,0 0,-4 2,-5 -2,-1 -2,-5 -2,-5 2,2 6,4 9,5 z"
+         id="path1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ArrowTriangleStylized_Fnone_S-000000"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Stylized triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         d="m 6,0 c -3,1 -7,3 -9,5 0,0 0,-4 2,-5 -2,-1 -2,-5 -2,-5 2,2 6,4 9,5 z"
+         id="path2" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(38.629166,-35.983337)">
+    <g
+       id="g180"
+       transform="translate(-415.93908,-262.51594)">
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+         x="388.37906"
+         y="372.24609"
+         id="text151"><tspan
+           sodipodi:role="line"
+           id="tspan151"
+           x="388.37906"
+           y="372.24609">plaintext</tspan></text>
+      <rect
+         style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+         id="rect151"
+         width="59.388733"
+         height="19.397945"
+         x="406.79956"
+         y="341.72018" />
+      <path
+         id="path152"
+         style="fill:none;stroke:#000000;stroke-width:0.5"
+         d="m 433.99393,370.10496 h 5 m -2.5,-2.5 v 5 m 2.5,-2.5 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.5,-2.5 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+         x="380.63614"
+         y="353.44092"
+         id="text152"><tspan
+           sodipodi:role="line"
+           id="tspan152"
+           style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+           x="380.63614"
+           y="353.44092">key</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 395.00375,351.2998 h 9.50841"
+         id="path153" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+         x="412.49438"
+         y="353.5603"
+         id="text153"><tspan
+           sodipodi:role="line"
+           id="tspan153"
+           x="412.49438"
+           y="353.5603">block cipher</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 436.49393,361.11815 v 4.7519"
+         id="path154" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 423.52586,370.10496 h 8.37773"
+         id="path155" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 435.67684,335.21588 v 4.5744"
+         id="path156" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+         x="478.21216"
+         y="353.44092"
+         id="text156"><tspan
+           sodipodi:role="line"
+           id="tspan156"
+           style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+           x="478.21216"
+           y="353.44092">key</tspan></text>
+      <rect
+         style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+         id="rect156"
+         width="59.388733"
+         height="19.397945"
+         x="504.37579"
+         y="341.72018" />
+      <path
+         id="path157"
+         style="fill:none;stroke:#000000;stroke-width:0.5"
+         d="m 531.56996,370.10495 h 5 m -2.5,-2.5 v 5 m 2.5,-2.5 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.5,-2.5 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 492.57978,351.29979 h 9.50841"
+         id="path158" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+         x="510.07062"
+         y="353.56027"
+         id="text158"><tspan
+           sodipodi:role="line"
+           id="tspan158"
+           x="510.07062"
+           y="353.56027">block cipher</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 534.06996,361.11814 v 4.7519"
+         id="path159" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+         x="485.95508"
+         y="372.24606"
+         id="text159"><tspan
+           sodipodi:role="line"
+           id="tspan159"
+           x="485.95508"
+           y="372.24606">plaintext</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 521.10189,370.10495 h 8.37773"
+         id="path160" />
+      <rect
+         style="fill:none;stroke:#1a1a1a;stroke-width:0.611267;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.891015"
+         id="rect160"
+         width="59.388733"
+         height="19.397945"
+         x="601.9519"
+         y="341.72018" />
+      <path
+         id="path161"
+         style="fill:none;stroke:#000000;stroke-width:0.5"
+         d="m 629.14608,370.10495 h 5 m -2.5,-2.5 v 5 m 2.5,-2.5 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.5,-2.5 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:Pomodoro;-inkscape-font-specification:'Pomodoro, Normal';font-variant-ligatures:none;fill:#7137c8;stroke-width:0.264583"
+         x="575.78851"
+         y="353.44092"
+         id="text161"><tspan
+           sodipodi:role="line"
+           id="tspan161"
+           style="font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal'"
+           x="575.78851"
+           y="353.44092">key</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 590.1559,351.29979 h 9.50841"
+         id="path162" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#0000d4;stroke-width:0.264583"
+         x="607.64673"
+         y="353.56027"
+         id="text162"><tspan
+           sodipodi:role="line"
+           id="tspan162"
+           x="607.64673"
+           y="353.56027">block cipher</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 631.64608,361.11814 v 4.7519"
+         id="path163" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#00aa44;stroke-width:0.264583"
+         x="583.53137"
+         y="372.24609"
+         id="text163"><tspan
+           sodipodi:role="line"
+           id="tspan163"
+           x="583.53137"
+           y="372.24609">plaintext</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 618.67801,370.10495 h 8.37773"
+         id="path164" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+         x="416.59662"
+         y="384.80026"
+         id="text164"><tspan
+           sodipodi:role="line"
+           id="tspan164"
+           x="416.59662"
+           y="384.80026">ciphertext</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 436.49393,372.68841 v 4.7519"
+         id="path165" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+         x="514.17267"
+         y="384.80026"
+         id="text165"><tspan
+           sodipodi:role="line"
+           id="tspan165"
+           x="514.17267"
+           y="384.80026">ciphertext</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 534.06996,372.68841 v 4.7519"
+         id="path166" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;fill:#aa0000;stroke-width:0.264583"
+         x="611.75153"
+         y="384.80026"
+         id="text166"><tspan
+           sodipodi:role="line"
+           id="tspan166"
+           x="611.75153"
+           y="384.80026">ciphertext</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#ArrowTriangleStylized_Fnone_S-000000)"
+         d="m 631.64608,372.68841 v 4.7519"
+         id="path167" />
+      <text
+         xml:space="preserve"
+         style="font-size:11.2889px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;stroke-width:0.264583"
+         x="494.17316"
+         y="312.14981"
+         id="text167"><tspan
+           sodipodi:role="line"
+           x="494.17316"
+           y="312.14981"
+           id="tspan170">Counter (CTR)</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 534.06996,335.3466 v 4.5744"
+         id="path171" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;marker-end:url(#marker10_Fnone_S-000000)"
+         d="m 631.64608,335.11871 v 4.5744"
+         id="path172" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;stroke-width:0.264583"
+         x="398.94235"
+         y="333.11014"
+         id="text172"><tspan
+           sodipodi:role="line"
+           id="tspan172"
+           x="398.94235"
+           y="333.11014">&lt;<tspan
+   style="fill:#ff0000"
+   id="tspan173">Nonce</tspan>, <tspan
+   style="fill:#ffd42a"
+   id="tspan174">Counter</tspan>&gt;</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;stroke-width:0.264583"
+         x="491.61526"
+         y="333.11014"
+         id="text177"><tspan
+           sodipodi:role="line"
+           id="tspan177"
+           x="491.61526"
+           y="333.11014">&lt;<tspan
+   style="fill:#ff0000"
+   id="tspan175">Nonce</tspan>, <tspan
+   style="fill:#ffd42a"
+   id="tspan176">Counter+1</tspan>&gt;</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.7611px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:none;stroke-width:0.264583"
+         x="589.19141"
+         y="333.11014"
+         id="text180"><tspan
+           sodipodi:role="line"
+           id="tspan180"
+           x="589.19141"
+           y="333.11014">&lt;<tspan
+   style="fill:#ff0000"
+   id="tspan178">Nonce</tspan>, <tspan
+   style="fill:#ffd42a"
+   id="tspan179">Counter+2</tspan>&gt;</tspan></text>
+    </g>
+  </g>
+</svg>
