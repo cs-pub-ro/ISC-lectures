@@ -5,9 +5,9 @@
 .DS_Store
 node_modules/
 dist/
+tmp/
 .slidev/
 docker-compose.yml
-Dockerfile
 .agents.md
 nginx-spa.conf
 lectures/*/slides/
