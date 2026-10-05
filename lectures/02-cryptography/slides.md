@@ -33,9 +33,9 @@ subtitle: "Cryptographic ciphers, protocols, applications and attacks"
 
 **Is about:**
 
-- **Cryptography** — the science of writing a secret message
-- **Cryptanalysis** — the science of breaking cryptography
-- **Cryptology** — all of the above (actually, synonymous with cryptography)
+- **Cryptography** — the science of writing a secret message;
+- **Cryptanalysis** — the science of breaking cryptography;
+- **Cryptology** — the overall study of secure communication.
 
 ---
 
@@ -123,9 +123,9 @@ layout: two-cols
 # Transposition
 
 - Characters **change their position** in the text, but keep their original meaning
-- E.g. encircles wood, called **scytales**, with paper (similar to the Rail Fence Cipher [13])
+- E.g. **scytales**: rods wrapped in a strip of leather/papyrus (similar to the Rail Fence Cipher [13])
 
-<div class="flex justify-center items-center h-ful">
+<div class="flex justify-center items-center">
 <div style="margin-top: 2em; width: 70%">
 
 ![hist_scytale_cipher.png](./images/hist_scytale_cipher.png)
@@ -283,7 +283,7 @@ the ciphertext should change-->
 
 <div class="flex flex-col items-center" style="text-align: center;">
 
-![Enigma Machine](./images/substitution_permutation_network.svg)
+![S-P Network](./images/substitution_permutation_network.svg)
 
 [S-P Network](https://en.wikipedia.org/wiki/Substitution%E2%80%93permutation_network)
 
@@ -553,11 +553,10 @@ layout: two-cols
 
 # Mode 3: Cipher Feedback (CFB)
 
-- Random access to ciphertext
-- Decryption is parallelizable
+- Same Encryption algorithm used for Decryption 
 - Identical messages: as in CBC
 - Chaining: similar to CBC
-- Error propagation ...
+- Errors: self-synchronizing
 
 <CfbDiagram width="660px" height="179px" />
 
@@ -626,14 +625,14 @@ layout: two-cols
 - One of the earliest **public-key protocols**
 - Took Merkle's idea and improved it so the attacker requires **exponential computations**
 - Establish a secret between 2 (possibly unacquainted) parties!
-- **Security:** discrete logarithm problem (NP-complete)
+- **Security:** discrete logarithm problem
 
 ::right::
 
 <div class="flex flex-col items-center" style="text-align: center;">
 
-![Diffie-Helman Paint Analogy](./images/diffie_helman.svg)
-[Diffie-Helman Paint
+![Diffie-Hellman Paint Analogy](./images/diffie_helman.svg)
+[Diffie-Hellman Paint
 Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
 
 </div>
@@ -648,10 +647,11 @@ Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
 
 ---
 
-# Diffie–Hellman -- example
+# Diffie–Hellman example
 
 Common parameters (publicly shared):
-  * $p = 5$ (prime); $g = 2$ (primitive root)
+  * $p = 5$ (prime); $g = 2$ ([primitive
+  root](https://owlsmath.neocities.org/Primitive%20Root%20Calculator/calculator))
 
 <br>
 
@@ -677,14 +677,22 @@ Walk through the example line by line; point out that p and g are public.
 -->
 
 ---
+layout: two-cols
+---
 
 # RSA (1977)
+
+<v-click>
 
 - **Ron Rivest, Adi Shamir, Leonard Adleman**
 - **Key pair:**
   - Private key: p, q … ⇒ **decryption key**
   - Public key: n = p·q, e
 - **Security:** factorization problem!
+
+</v-click>
+<v-click>
+
 - **Primitives:**
 
 ```
@@ -694,6 +702,24 @@ m = decrypt(c, PrivKey);
 s = sign(m, PrivKey)
 if (verify(s, PubKey)) ...
 ```
+
+</v-click>
+
+::right::
+
+<v-click>
+
+<br><br><br><br>
+
+<div class="flex flex-col justify-center items-center gap-2">
+
+$c \equiv m^e \pmod{n}$
+
+$c^d \equiv (m^e)^d \equiv m \pmod{n}$
+
+</div>
+
+</v-click>
 
 ---
 
@@ -711,10 +737,12 @@ if (verify(s, PubKey)) ...
 # Elliptic Curve Cryptography
 
 - Another approach to asymmetric encryption
-- Elliptic curves in finite fields instead of finite Galois fields
+- Elliptic curves over finite fields
+
+   $y^2 = x^3 + ax + b$
 
 - **Smaller numbers for equivalent security** (e.g., **384 vs 4096 bits**)
-- Same domain parameters (e.g., p, a, b, G, n, h) ⇒ **standard curves** (e.g., NIST)!
+- Same domain parameters (e.g., $p, a, b, G, n, h$) ⇒ **standard curves** (e.g., NIST)!
 - Algorithms: **ECDH**, **ECIES**, **ECDSA**, **EdDSA**, etc.
 
 ---
@@ -728,12 +756,15 @@ layout: section
 # Message digest functions (hashing)
 
 - **One-way functions** providing data 'summarization'
+
+  * E.g., `5eb63bbbe01eeed093cb22bb8f5acdc3`
+ 
 - Message **integrity**, **key derivation**
 - Collisions exist but should be **hard to find**
 - Popular algorithms:
   - **MD5** (broken): 1991, 128 bits
   - **SHA-1** family (1995): 160 bits
-  - **SHA-2** family (2001), **SHA-3** (2010): 256–512 bits
+  - **SHA-2** family (2001), **SHA-3** (2015): 256–512 bits
 
 ---
 
@@ -785,7 +816,7 @@ layout: section
 - Often **highly academic**
 - Weaker versions used (e.g., AES with fewer rounds)
 - Unrealistic assumptions:
-  - In chosen-ciphertext attacks, the attacker requires an impractical number of deliberately chosen plaintext–ciphertext pairs
+  - In chosen-ciphertext attacks, the attacker requires an impractical number of deliberately chosen ciphertexts
 
 ---
 layout: section
@@ -797,10 +828,35 @@ layout: section
 
 # Post-quantum cryptography
 
-- **GNFS** — fastest known (classical) algorithm to factor a prime on a binary processor (time depends on b bits)
-- **Shor's algorithm** (Peter Shor) — computes a prime factorization on a **quantum computer**, much faster
+- **GNFS** (_General number field sieve_) — fastest known (classical) algorithm to factor a number on a binary processor (time depends on b bits).
+  Complexity:
 
-→ Shor's algorithm breaks factorization-based crypto (RSA!). We need new assumptions.
+  $$O(\exp\!\left(\left(\sqrt[3]{\tfrac{64}{9}} + o(1)\right) \cdot (\log N)^{1/3} \cdot (\log\log N)^{2/3}\right))$$
+
+
+- **Shor's algorithm** (Peter Shor) — computes a prime factorization on a **quantum computer**, much number
+  
+  $$O\!\left((\log N)^{3}\,(\log\log N)^{2}\right)$$
+
+  → Shor's algorithm breaks factorization-based crypto (RSA!). We need new assumptions.
+
+
+--- 
+
+# Identity / Attribute based encryption
+
+- **Hierarchical Identity-Based Encryption**
+  * Derive an unlimited **tree** of child keys, e.g. `org → team → user`
+  * **Root** holds one master secret key and can decrypt anything below!
+  * A child key decrypts only ciphertexts addressed to its **subtree**
+
+- **Attribute-Based Encryption**
+  * **Authority** holds a master key
+  * Issues private keys bound to **attribute sets**
+
+     e.g. `role = engineer ∧ clearance ≥ 3 ∧ dept = R&D`
+
+  * Either _ciphertexts_ or _keys_ carry an **access policy**!
 
 ---
 
@@ -812,17 +868,28 @@ layout: section
 - In **2020**, there was a solution for **encrypted machine learning**
 
 ---
+layout: two-cols
+---
 
 # Resources
 
-- [1] [History of cryptography — Wikipedia](https://en.wikipedia.org/wiki/History_of_cryptography) · [11] [The Atlantic — history of encryption](https://www.theatlantic.com/technology/archive/2016/01/the-long-and-winding-history-of-encryption/423726/)
+- [1] [History of cryptography — Wikipedia](https://en.wikipedia.org/wiki/History_of_cryptography) 
 - [2] [Attacks on cryptosystems — TutorialsPoint](https://www.tutorialspoint.com/cryptography/attacks_on_cryptosystems.htm)
-- [3] [Caesar cipher — Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher) · [12] [Atbash code](https://www.gotquestions.org/Atbash-code.html)
+- [3] [Caesar cipher — Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
 - [4] [DES history](http://www.umsl.edu/~siegelj/information_theory/projects/des.netau.net/des%20history.html)
-- [5] [Modes of operation](http://www.utdallas.edu/~muratk/courses/crypto07_files/modes.pdf) · [6] [Modes of block ciphers](http://www.crypto-it.net/eng/theory/modes-of-block-ciphers.html)
-- [7] [History of encryption — SANS](https://www.sans.org/reading-room/whitepapers/vpns/history-encryption-730) · [8] [Encryption research review](http://www.eng.utah.edu/~nmcdonal/Tutorials/EncryptionResearchReview.pdf)
+- [5] [Modes of operation](http://www.utdallas.edu/~muratk/courses/crypto07_files/modes.pdf)
+- [6] [Modes of block ciphers](http://www.crypto-it.net/eng/theory/modes-of-block-ciphers.html)
+- [7] [History of encryption — SANS](https://www.sans.org/reading-room/whitepapers/vpns/history-encryption-730)
+
+::right::
+
+<br><br>
+
+- [8] [Encryption research review](http://www.eng.utah.edu/~nmcdonal/Tutorials/EncryptionResearchReview.pdf)
 - [9] *Indistinguishability Obfuscation from Well-Founded Assumptions* — Jain, Lin, Sahai
 - [10] *Communication Theory of Secrecy Systems* — C. E. Shannon [PDF](https://www.cs.virginia.edu/~evans/greatworks/shannon1949.pdf)
+- [11] [The Atlantic — history of encryption](https://www.theatlantic.com/technology/archive/2016/01/the-long-and-winding-history-of-encryption/423726/)
+- [12] [Atbash code](https://www.gotquestions.org/Atbash-code.html)
 - [13] [Transposition ciphers](http://cochranmath.pbworks.com/w/page/118045167/Transposition%20Ciphers)
 
 ---
@@ -835,4 +902,3 @@ class: text-center
 *Communication Theory of Secrecy Systems* — Claude E. Shannon (1949)
 
 [cs.virginia.edu/~evans/greatworks/shannon1949.pdf](https://www.cs.virginia.edu/~evans/greatworks/shannon1949.pdf)
-
