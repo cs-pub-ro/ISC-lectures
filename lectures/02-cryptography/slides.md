@@ -25,17 +25,25 @@ subtitle: "Cryptographic ciphers, protocols, applications and attacks"
 
 # This lecture
 
+<v-click>
+
 **Is not about:**
 
 - **Steganography** - concealing a file/message/image/video within another
 - **Obfuscation** - hiding program implementation without altering execution (Indistinguishability Obfuscation [9])
 - **Cryptocurrency** (//hype gone//)
 
+</v-click>
+
+<v-click>
+
 **Is about:**
 
 - **Cryptography** — the science of writing a secret message;
 - **Cryptanalysis** — the science of breaking cryptography;
 - **Cryptology** — the overall study of secure communication.
+
+</v-click>
 
 ---
 
@@ -140,18 +148,30 @@ layout: two-cols
 
 # Fast forward on crypto history
 
+<v-click>
+
 - **Caesar cipher** (100 BCE – 44 BCE)
   - Shift cipher, e.g., k=4 → A→E, T→X …
   - Most of Caesar's enemies would have been illiterate ⇒ secure
+
+</v-click>
+<v-click>
+
 - **Vigenère cipher** (1553 CE)
   - Poly-alphabetic substitution
+
+</v-click>
+<v-click>
+
 - **1st & 2nd WW** → electro-mechanical cipher machines:
   - **Enigma** for encryption
   - **Bombe** for decryption and cracking
 
+</v-click>
+
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div v-after class="flex flex-col items-center" style="text-align: center;">
 
 ![Enigma Machine](./images/enigma_museo_scienza_Milano.jpg)
 [Military Model Enigma I, 1930](https://en.wikipedia.org/wiki/Enigma_machine)
@@ -176,13 +196,14 @@ layout: section
 
 # What does an ideal cipher look like?
 
-- No correlation between **plaintext**, **key**, and **ciphertext**
+<v-clicks>
 
-- Cannot recover **key** from known plaintext + ciphertext
+ - No correlation between **plaintext**, **key**, and **ciphertext**
+ - Cannot recover **key** from known plaintext + ciphertext
+ - Shannon's **Confusion & Diffusion** !
+   > Do unbreakable algorithms exist?
 
-- **Confusion & Diffusion** !
-
-> Do unbreakable algorithms exist?
+</v-clicks>
 
 <!--
 Leave the question open — we'll revisit with One-time Pad and modern ciphers.
@@ -192,7 +213,9 @@ Leave the question open — we'll revisit with One-time Pad and modern ciphers.
 
 # The XOR operator
 
-Properties:
+* Most useful crypto building block.
+
+* Properties:
 
 $$
 A \oplus B = B \oplus A \qquad
@@ -204,7 +227,7 @@ $$
 (B \oplus A) \oplus A = B \oplus 0 = B
 $$
 
-→ Apply XOR between message & key, apply with key again to **decrypt**!
+   → Apply XOR between message & key, apply with key again to **decrypt**!
 
 ---
 
@@ -225,7 +248,6 @@ $$
 </v-click>
 
 <div class="flex justify-center items-start gap-1 font-mono text-2xl" style="margin-top: 1.5em;">
-
 <span style="text-align: right; line-height: 1.9; padding-right: 0.5em;">
   M<br>⊕ K<br>───<br>= C
 </span>
@@ -240,13 +262,11 @@ $$
 <v-click><div class="otp-col"><div>1</div><div>⊕</div><div>1</div><div>─</div><div>0</div></div></v-click>
 
 </div>
-
 <v-click>
 
 **Ciphertext** `C` = 11000110 — decrypt: `C ⊕ K` = 01100001 = `a` ✔
 
 </v-click>
-
 <style>
 .otp-col {
   display: flex; flex-direction: column; align-items: center;
@@ -265,23 +285,24 @@ layout: two-cols
 
 # Shannon's S-P network
 
-- **Claude Shannon** — father of Information Theory (1949) [10]
+<v-clicks>
 
+- **Claude Shannon** — father of Information Theory (1949) [10]
 - **Substitution** provides *'confusion'*
   - By building a complex binding between input and output
 <!-- that each binary digit (bit) of the ciphertext should depend on several
 parts of the key -->
-
 - **Permutation** (transposition) provides *'diffusion'*
   - By moving bits, one single bit of plaintext should influence about half of output bits
 <!-- if we change a single bit of the plaintext, then about half of the bits in
 the ciphertext should change-->
-
 - Encryption algorithms / functions **MUST be invertible**
+
+</v-clicks>
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div v-click="2" class="flex flex-col items-center" style="text-align: center;">
 
 ![S-P Network](./images/substitution_permutation_network.svg)
 
@@ -329,13 +350,20 @@ layout: two-cols
 
 - Two main families based on the **keys** used for encryption/decryption
 
+<v-click>
+
 - **Symmetric:**
   - Same key used for both encryption and decryption
   - Two variants: **Block** and **Stream**
 
+</v-click>
+<v-click>
+
 - **Asymmetric:**
   - Different keys: **public** ≠ **private**
   - New feature unlocked: **digital signatures**!
+
+</v-click>
 
 ---
 
@@ -343,12 +371,19 @@ layout: two-cols
 
 **Public algorithms** — all details are in the public domain, known to everyone.
 
+<v-click>
+
 - **Kerckhoffs' principle** (Dutch cryptographer): a cryptosystem should be secure even if everything about the system, **except the key**, is public knowledge.
 - Reformulated as **Shannon's maxim**: *"the enemy knows the system"* — one ought to design systems under the assumption that the enemy will immediately gain full familiarity with them.
+
+</v-click>
+<v-click>
 
 **Proprietary algorithms** — details known only to the designers and users.
 
 - ...security through obscurity.
+
+</v-click>
 
 ---
 layout: section
@@ -358,6 +393,8 @@ layout: section
 ---
 
 # Symmetric ciphers
+
+<v-clicks>
 
 - A symmetric cipher is built of:
   - A **'secret key'** (data exchanged 'in secret' by the two parties)
@@ -369,6 +406,8 @@ layout: section
   - **Algorithm strength** (for example against statistical cryptanalysis)
 
 - Two modes for symmetric encryption: **stream** and **block** 😕
+
+</v-clicks>
 
 ---
 class: text-center
@@ -401,6 +440,8 @@ Same key vs key pair → stream (bit by bit) vs block (fixed-size chunks) → bl
 
 # Stream ciphers
 
+<v-clicks>
+
 - **Keystream** — an 'infinite' stream of bits generated from a key
 - Operations (remember One-Time Pad?):
   - `keystream ⊕ message → ciphertext`
@@ -409,6 +450,8 @@ Same key vs key pair → stream (bit by bit) vs block (fixed-size chunks) → bl
 - Popular algorithms:
   - **RC4** (deprecated / broken)
   - **Salsa20 / ChaCha** (used by WireGuard)
+
+</v-clicks>
 
 ---
 layout: two-cols
@@ -447,13 +490,22 @@ layout: two-cols
 
 # Block ciphers: AES
 
+<v-clicks>
+
 - January **1997**: NIST announced a competition for the successor to DES
 - October **2000**: NIST selected **Rijndael** (pronounced "Rhine doll") by Belgian cryptographers **Joan Daemen** & **Vincent Rijmen**
 - **2003**: AES approved for use with Secret and Top Secret classified information of the U.S. government
 
+- Parameters:
+  * **Key length**: 2 variants, `128` or `256` bits
+  * **Block size**: `128` bits (`16` bytes)
+  * `10-14` S-P rounds ;) 
+
+</v-clicks>
+
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div v-click="4" class="flex flex-col items-center" style="text-align: center;">
 
 ![AES Round Function](./images/aes_round_function.png)
 
@@ -478,7 +530,7 @@ layout: two-cols
 
 <v-click>
 
-<div class="flex flex-col items-center gap-1 font-mono" style="margin-top: 1.5em;">
+<div class="flex flex-col items-center gap-1 font-mono" style="margin: 1.2em 0;">
   <div class="bm-data">data (1 MByte)</div>
   <div style="color: #64748b;">↓ split into fixed-size blocks</div>
   <div class="flex justify-center items-center gap-2">
@@ -500,26 +552,26 @@ layout: two-cols
 
 <style>
 .bm-data {
-  width: 65%; height: 2em; display: flex; align-items: center; justify-content: center;
+  width: 65%; height: 1.7em; display: flex; align-items: center; justify-content: center;
   background: #dcfce7; border: 2px solid #16a34a; border-radius: 0.3em; color: #14532d;
 }
 .bm-block {
-  width: 4.8em; height: 2em; display: flex; align-items: center; justify-content: center;
+  width: 4.1em; height: 1.7em; display: flex; align-items: center; justify-content: center;
   background: #fef9c3; border: 2px solid #ca8a04; border-radius: 0.3em;
 }
 .bm-key {
   text-align: center;
-  width: 9em; height: 3em; display: flex; align-items: center; justify-content: center;
+  width: 7.7em; height: 2.55em; display: flex; align-items: center; justify-content: center;
   background: repeating-linear-gradient(45deg, #fef2f2, #fef2f2 0.5em, #fecaca 0.5em, #fecaca 1em);
-  border: 2px solid #7f1d1d; border-radius: 0.3em; font-size: 0.9em;
+  border: 2px solid #7f1d1d; border-radius: 0.3em; font-size: 0.77em;
   color: #7f1d1d;
 }
 .bm-cipher {
-  width: 7em; height: 2.6em; display: flex; align-items: center; justify-content: center;
+  width: 6em; height: 2.2em; display: flex; align-items: center; justify-content: center;
   background: #fce7f3; border: 2px solid #db2777; border-radius: 0.3em; font-weight: bold;
 }
 .bm-ciphertext {
-  width: 8em; height: 2.6em; display: flex; align-items: center; justify-content: center;
+  width: 6.8em; height: 2.2em; display: flex; align-items: center; justify-content: center;
   background: repeating-linear-gradient(45deg, #f1f5f9, #f1f5f9 0.5em, #e2e8f0 0.5em, #e2e8f0 1em);
   border: 2px dashed #475569; border-radius: 0.3em; color: #475569;
 }
@@ -527,6 +579,13 @@ layout: two-cols
 </style>
 
 </v-click>
+
+<v-click>
+
+- `Last block < block size`? => **padding**!
+
+</v-click>
+
 
 ---
 
@@ -622,14 +681,18 @@ layout: two-cols
 
 # Diffie–Hellman (1976)
 
+<v-clicks>
+
 - One of the earliest **public-key protocols**
-- Took Merkle's idea and improved it so the attacker requires **exponential computations**
+- Took Ralph Merkle's idea (Merkle's puzzle) and improved it so the attacker requires **exponential computations**
 - Establish a secret between 2 (possibly unacquainted) parties!
 - **Security:** discrete logarithm problem
 
+</v-clicks>
+
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div v-click class="flex flex-col items-center" style="text-align: center;">
 
 ![Diffie-Hellman Paint Analogy](./images/diffie_helman.svg)
 [Diffie-Hellman Paint
