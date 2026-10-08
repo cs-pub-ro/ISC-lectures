@@ -825,6 +825,40 @@ $c^d \equiv (m^e)^d \equiv m \pmod{n}$
 
 ---
 
+# RSA — worked example
+
+Key Generation: Alice chooses primes p = 17, q = 11.
+
+| Step | Value |
+| --- | --- |
+| Alice computes modulus **n** = p · q = 17 · 11 | **187** |
+| Alice computes totient **φ(n)** = (p-1) · (q-1) = 16 · 10 | **160** |
+| Alice chooses public key **e** (1 < e < 160, coprime to 160) | **7** |
+| Alice computes private key **d** (e · d ≡ 1 mod 160) → 7 · 23 = 161 | **23** |
+| Bob encrypts message **m = 88**: **c** = mᵉ mod n = 88⁷ mod 187 | **11** |
+| Alice decrypts ciphertext **c = 11**: **m** = cᵈ mod n = 11²³ mod 187 | **88** |
+
+**Alice's Public Key: (n=187, e=7) · Private Key: (d=23)**
+
+<br>
+
+<div class="text-sm bg-blue-50 p-4 rounded text-black border-l-4 border-blue-500">
+💡 <b>Verify the Math!</b> Open <a href="https://owlsmath.neocities.org/dynamic?Calculators|type|tool" target="_blank">Owls Math Calculators</a>:
+<ul class="mt-2 mb-0">
+<li><b>Euler's Totient Calculator:</b> Enter <code>187</code> to automatically compute φ(n) = 160.</li>
+<li><b>Prime Factor Calculator:</b> Play the attacker! Enter the public modulus <code>187</code> to instantly extract the secret primes <code>17</code> and <code>11</code>.</li>
+</ul>
+</div>
+
+<!--
+PRESENTER NOTES / DEMO:
+- The private key trick: "Look at step 4. 7 * 23 = 161. What is 161 modulo 160? It's 1. That's all a private key is." This perfectly demystifies the trapdoor math without needing to put the Extended Euclidean Algorithm on screen.
+- Emphasize the core vulnerability of RSA using the tool: If an attacker intercepts the public key (n=187), they can break the encryption *if* they can factor it. 
+- You can also mention that Owls Math has a "Primitive Root Calculator" which is exactly how 'g' is chosen for the Diffie-Hellman parameters from the previous slide!
+-->
+
+---
+
 # The UK version
 
 - **James H. Ellis** — idea of non-secret encryption in **1970** (5 years before Merkle)
