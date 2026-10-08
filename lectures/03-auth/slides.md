@@ -224,6 +224,19 @@ layout: section
 
 ---
 
+# Password Hashing & Salting
+
+- Standard hashes (SHA-256, SHA-3) are designed to be **fast**.
+- If a hash is fast, attackers can guess billions of passwords per second using GPUs (Brute Force / Rainbow Tables).
+- **Passwords need SLOW hashes** (Key Derivation Functions):
+  - **Argon2** (Modern standard), **bcrypt**, **PBKDF2**.
+- **The Salt:** 
+  - A random string added to the password *before* hashing: `Hash(Salt + Password)`.
+  - Stored in plaintext next to the username.
+  - Defeats Rainbow Tables and ensures two users with the same password have completely different hashes in the database.
+
+---
+
 # Attacks on stored passwords
 
 **Offline:**

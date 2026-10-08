@@ -386,6 +386,19 @@ layout: two-cols
 </v-click>
 
 ---
+
+# The Foundation of Crypto: Randomness
+
+- Cryptography relies absolutely on unpredictability (for Keys, IVs, Nonces).
+- **PRNG (Pseudo-Random Number Generator):** 
+  - Functions like `rand()` in C or `Math.random()`.
+  - Highly predictable if you know the seed (e.g., `time(NULL)`).
+  - **NEVER USE THESE FOR CRYPTOGRAPHY.**
+- **CSPRNG (Cryptographically Secure PRNG):**
+  - Gathers actual entropy from OS hardware events (mouse movements, CPU interrupts).
+  - Use `/dev/urandom` or `getrandom()` (Linux), `BCryptGenRandom` (Windows), or `crypto.getRandomValues()` (Web).
+
+---
 layout: section
 ---
 # Symmetric ciphers
@@ -442,7 +455,7 @@ Same key vs key pair → stream (bit by bit) vs block (fixed-size chunks) → bl
 
 <v-clicks>
 
-- **Keystream** — an 'infinite' stream of bits generated from a key
+- **Keystream** — an 'infinite' stream of bits generated from a key and a Nonce/IV (for key reuse)
 - Operations (remember One-Time Pad?):
   - `keystream ⊕ message → ciphertext`
   - `ciphertext ⊕ keystream → original message`
@@ -598,6 +611,32 @@ layout: two-cols
 <EcbDiagram width="660px" height="143px" />
 
 ---
+layout: two-cols
+---
+
+# Why ECB is a bad idea
+
+- **Electronic Codebook (ECB)** maps the exact same plaintext block to the exact same ciphertext block.
+- While the data is completely encrypted, the **structural patterns** remain completely visible!
+- This is why we need Initialization Vectors (IVs) and chaining modes (CBC, GCM).
+
+::right::
+
+<div class="flex flex-col items-center mt-4" style="text-align: center;">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Tux.jpg" class="h-40 mb-2" />
+<em class="text-sm">Original Plaintext Image</em>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Tux_ecb.jpg" class="h-40 mb-2" />
+<em class="text-sm">Encrypted with AES-ECB</em>
+
+</div>
+
+<style>
+.slidev-layout.two-columns { grid-template-columns: 55% 45%; }
+</style>
+
+---
 
 # Mode 2: Cipher-Block Chaining (CBC)
 
@@ -713,7 +752,7 @@ Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
 # Diffie–Hellman example
 
 Common parameters (publicly shared):
-  * $p = 5$ (prime); $g = 2$ ([primitive
+  * $p = 23$ (prime); $g = 5$ ([primitive
   root](https://owlsmath.neocities.org/Primitive%20Root%20Calculator/calculator))
 
 <br>
@@ -722,10 +761,10 @@ Common parameters (publicly shared):
 
 | Step | Value |
 | --- | --- |
-| Alice's private key: $a = 4$; sends public key → Bob: $A = g^a \mod{p} = 2^4 \mod{5}$ | **1** |
-| Bob's private key: $b = 6$; sends public key → Alice: $B = g^b \mod{p} = 2^6 \mod{5}$ | **4** |
-| Alice computes: $s = B^a \mod{p} = 4^4 \mod{5}$ | **1** |
-| Bob computes: $s = A^b \mod{p} = 1^6 \mod{5}$ | **1** |
+| Alice's private key: $a = 4$; sends public key → Bob: $A = g^a \mod{p} = 5^4 \mod{23}$ | **4** |
+| Bob's private key: $b = 3$; sends public key → Alice: $B = g^b \mod{p} = 5^3 \mod{23}$ | **10** |
+| Alice computes: $s = B^a \mod{p} = 10^4 \mod{23}$ | **18** |
+| Bob computes: $s = A^b \mod{p} = 4^3 \mod{23}$ | **18** |
 
 </v-clicks>
 
@@ -797,6 +836,16 @@ $c^d \equiv (m^e)^d \equiv m \pmod{n}$
 
 ---
 
+# The Real World: Hybrid Cryptography
+
+- **Asymmetric crypto** (RSA/ECC) solves the key exchange problem, but is incredibly slow and computationally heavy.
+- **Symmetric crypto** (AES) is incredibly fast, but has the key distribution problem.
+- **Solution: Combine them! (How TLS/HTTPS works):**
+  1. **Handshake (Asymmetric):** Alice and Bob use RSA or ECDH to safely exchange a temporary "Session Key" over the public internet.
+  2. **Bulk Data (Symmetric):** Alice and Bob use the shared Session Key with AES-GCM to encrypt the actual multi-gigabyte data stream.
+
+---
+
 # Elliptic Curve Cryptography
 
 - Another approach to asymmetric encryption
@@ -826,7 +875,7 @@ layout: section
 - Collisions exist but should be **hard to find**
 - Popular algorithms:
   - **MD5** (broken): 1991, 128 bits
-  - **SHA-1** family (1995): 160 bits
+  - **SHA-1** family (1995): 160 bits (Broken / Deprecated — SHAttered 2017)
   - **SHA-2** family (2001), **SHA-3** (2015): 256–512 bits
 
 ---
@@ -838,6 +887,17 @@ layout: section
   - **HMAC** — function is hashing
   - **CBC-MAC** — function is CBC encryption mode
 - **Asymmetric signature:** RSA, DSA, ECDSA, etc.
+
+---
+
+# Authenticated Encryption (AEAD)
+
+- **AEAD (Authenticated Encryption with Associated Data)**
+- In the past, developers manually combined Encryption (CBC) with a MAC (HMAC). This was error-prone and led to devastating bugs (e.g., Padding Oracle Attacks).
+- AEAD modes provide **Confidentiality AND Integrity** simultaneously in a single, safe API call.
+- *Rule of thumb for modern software engineers:* Never build your own crypto puzzle. Use standard AEADs.
+  - **AES-GCM** (Standard for TLS, Wi-Fi WPA3)
+  - **ChaCha20-Poly1305** (Standard for WireGuard)
 
 ---
 
