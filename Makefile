@@ -20,7 +20,7 @@ install: ## Install dependencies
 	npm install
 
 dev: ## Start dev server on PORT
-	npx @slidev/cli --port $(PORT) $(OPEN) $(SLIDES_MS)
+	npx @slidev/cli --port $(PORT) $(OPEN) $(SLIDES_MD)
 
 _OUT_ABS = $(abspath $(OUT_DIR))
 build_all: ## Build all lectures + index into $(OUT_DIR)
