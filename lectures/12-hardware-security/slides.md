@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 12 — Hardware Security
 info: |
   ## ISC — Lecture 12 · Hardware Security
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 12: Hardware Security"
+subtitle: "Roots of trust, TEEs, HSMs, and hardware attacks"
 ---
 
-# Hardware Security
-
-<font size=4>Roots of trust, TEEs, HSMs, and hardware attacks</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; today we go one level down: hardware as a root of trust.

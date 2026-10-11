@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 6 — Malicious Software
 info: |
   ## ISC — Lecture 6 · Malicious Software
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 6: Malicious Software"
+subtitle: "Malware internals, detection, analysis, and defense"
 ---
 
-# Malicious Software
-
-<font size=4>Malware internals, detection, analysis, and defense</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students. Lecture 6: malicious software. Based on ISC course material by M. Chiroiu & F. Stancu (2024).

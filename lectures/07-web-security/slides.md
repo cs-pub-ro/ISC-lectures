@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 7 — Web Security
 info: |
   ## ISC — Lecture 7 · Web Security
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 7: Web Security"
+subtitle: "HTTP security, injections, and the browser as an attack surface"
 ---
 
-# Web Security
-
-<font size=4>HTTP security, injections, and the browser as an attack surface</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 © 2024 by Mihai Chiroiu & Florin Stancu, CC BY-NC-SA 4.0. Based on the ISC course slides.

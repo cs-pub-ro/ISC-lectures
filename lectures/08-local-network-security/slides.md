@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 8 — Local Network Security
 info: |
   ## ISC — Lecture 8 · Local Network Security
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 8: Local Network Security"
+subtitle: "Attacks and defenses across the network layers"
 ---
 
-# Local Network Security
-
-<font size=4>Attacks and defenses across the network layers</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; frame this lecture around how attackers and defenders operate across the OSI layers within a local network.

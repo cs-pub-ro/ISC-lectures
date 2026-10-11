@@ -1,23 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 4 — Authorization, Access Control, Operating System Security
 info: |
   ## ISC — Lecture 4 · Access Control & OS Security
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 4: Authorization, Access Control, Operating System Security"
+subtitle: "Access control models, DAC vs MAC, RBAC, and the human factor"
 ---
 
-# Authorization, Access Control,
-# Operating System Security
-
-<font size=4>Access control models, DAC vs MAC, RBAC, and the human factor</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students. This lecture covers who is allowed to do what on a system:

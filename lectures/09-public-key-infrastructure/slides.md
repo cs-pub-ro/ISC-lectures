@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 9 — Public Key Infrastructure
 info: |
   ## ISC — Lecture 9 · Public Key Infrastructure
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 9: Public Key Infrastructure"
+subtitle: "Trust anchors, certificates, and how the web proves who it is"
 ---
 
-# Public Key Infrastructure
-
-<font size=4>Trust anchors, certificates, and how the web proves who it is</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; today we look at how public keys are distributed and trusted at scale.

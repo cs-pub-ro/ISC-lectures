@@ -1,13 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+touying:
+  preset: isc
 title: Lecture 3 — Authentication and Key Establishment
 info: |
   ## ISC — Lecture 3 · Authentication
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 3: Authentication and Key Establishment"
+subtitle: "Identitification, authentication, factors, key establishment protocols"
+---
+
+::default::
+
 ---
 
 # Authentication and Key Establishment

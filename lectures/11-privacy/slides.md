@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 11 — Privacy Preserving Technologies
 info: |
   ## ISC — Lecture 11 · Privacy
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 11: Privacy Preserving Technologies"
+subtitle: "Tracking, regulation, and ways to resist both"
 ---
 
-# Privacy Preserving Technologies
-
-<font size=4>Tracking, regulation, and ways to resist both</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; today: how we are watched, who regulates it, and the technologies that fight back.

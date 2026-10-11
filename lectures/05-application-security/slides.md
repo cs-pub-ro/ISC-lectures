@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 5 — Application Security
 info: |
   ## ISC — Lecture 5 · Application Security
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 5: Application Security"
+subtitle: "Software vulnerabilities, memory safety bugs, and defenses"
 ---
 
-# Application Security
-
-<font size=4>Software vulnerabilities, memory safety bugs, and defenses</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; introduce the lecture. Content based on ISC material (© 2024 Mihai Chiroiu & Florin Stancu).

@@ -1,22 +1,25 @@
 ---
 routerMode: hash
 download: 'slides.pdf'
-theme: default
+theme: ../../isc-theme
 colorSchema: light
+selectable: false
+touying:
+  preset: isc
 title: Lecture 10 — Remote Network Security, Tunnels
 info: |
   ## ISC — Lecture 10 · Remote Network Security & Tunnels
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
+src: ../_shared/intro.md#1
+---
+---
+layout: cover
+title: "Lecture 10: Remote Network Security, Tunnels"
+subtitle: "IPSec, TLS/SSH, OpenVPN, WireGuard"
 ---
 
-# Tunnels. Remote Security.
-
-<font size=4>IPSec, TLS/SSH, OpenVPN, WireGuard</font>
-
-<div class="mt-12 py-1" @click="$slidev.nav.next" hover:bg="white op-10">
-  Press Space for next slide
-</div>
+::default::
 
 <!--
 Welcome students; today: how to securely connect to remote networks.
