@@ -840,6 +840,14 @@ Key Generation: Alice chooses primes p = 17, q = 11.
 
 **Alice's Public Key: (n=187, e=7) · Private Key: (d=23)**
 
+<style>
+table { font-size: 0.9em; }
+</style>
+
+---
+
+# RSA — worked example (2)
+
 <br>
 
 <div class="text-sm bg-blue-50 p-4 rounded text-black border-l-4 border-blue-500">
@@ -870,16 +878,6 @@ PRESENTER NOTES / DEMO:
 
 ---
 
-# The Real World: Hybrid Cryptography
-
-- **Asymmetric crypto** (RSA/ECC) solves the key exchange problem, but is incredibly slow and computationally heavy.
-- **Symmetric crypto** (AES) is incredibly fast, but has the key distribution problem.
-- **Solution: Combine them! (How TLS/HTTPS works):**
-  1. **Handshake (Asymmetric):** Alice and Bob use RSA or ECDH to safely exchange a temporary "Session Key" over the public internet.
-  2. **Bulk Data (Symmetric):** Alice and Bob use the shared Session Key with AES-GCM to encrypt the actual multi-gigabyte data stream.
-
----
-
 # Elliptic Curve Cryptography
 
 - Another approach to asymmetric encryption
@@ -890,6 +888,16 @@ PRESENTER NOTES / DEMO:
 - **Smaller numbers for equivalent security** (e.g., **384 vs 4096 bits**)
 - Same domain parameters (e.g., $p, a, b, G, n, h$) ⇒ **standard curves** (e.g., NIST)!
 - Algorithms: **ECDH**, **ECIES**, **ECDSA**, **EdDSA**, etc.
+
+---
+
+# The Real World: Hybrid Cryptography
+
+- **Asymmetric crypto** (RSA/ECC) solves the key exchange problem, but is incredibly slow and computationally heavy.
+- **Symmetric crypto** (AES) is incredibly fast, but has the key distribution problem.
+- **Solution: Combine them! (How TLS/HTTPS works):**
+  1. **Handshake (Asymmetric):** Alice and Bob use RSA or ECDH to safely exchange a temporary "Session Key" over the public internet.
+  2. **Bulk Data (Symmetric):** Alice and Bob use the shared Session Key with AES-GCM to encrypt the actual multi-gigabyte data stream.
 
 ---
 layout: section
@@ -955,6 +963,8 @@ layout: section
 - **Known Plaintext Attack (KPA)** — attacker knows plaintext for parts of the ciphertext; task: decrypt the rest (typically by finding the key)
 - **Chosen Plaintext Attack (CPA)** — attacker gets text of his choice encrypted; simplifies finding the encryption key
 - **Chosen Ciphertext Attack (CCA)** — attacker obtains decryptions of chosen ciphertexts; can attempt to recover the decryption key
+
+<!-- Chosen Ciphertext attacks: CBC Padding Oracle Attack / Bleichenbacher RSA -->
 
 ---
 
