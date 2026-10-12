@@ -245,6 +245,8 @@ layout: section
 # Server-side Security
 
 ---
+layout: two-cols
+---
 
 # Server-side Processing
 
@@ -253,13 +255,14 @@ layout: section
 
 **Sample directory layout — `/var/www`:**
 
-```
+```text
+/var/www
 |-- index.html
 |-- login.php
 |-- css/style.css
 |-- images/
-|-- logo.png
-|-- map.png
+|   |-- logo.png
+|   |-- map.png
 ```
 
 **Example requests:**
@@ -269,6 +272,16 @@ layout: section
 > GET /images/logo.png HTTP/1.0
 > POST /login.php HTTP/1.0
 ```
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/server_side_processing_flow.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -335,11 +348,11 @@ $query = "SELECT * FROM users WHERE user = '" .
 $result = mysql_query($conn, $query);
 ```
 
-**What if user input is `admin' -- comment`?**
+**What if user input is `admin' -- comment here`?**
 
 ```sql
 SELECT * FROM users
-WHERE user = 'admin' -- comment
+WHERE user = 'admin' -- comment here
 ' AND password=''
 ^<- injected input ->^
 ```
@@ -407,6 +420,8 @@ GET /uploads/image_9876.gif.php
 - **Remote Code Execution** :(
 
 ---
+layout: two-cols
+---
 
 # Code Injection (2)
 
@@ -420,6 +435,16 @@ Content-Disposition: form-data; name="../../index.php"
 
 - Uploader overwrites `index.php` via a `../` in the filename
 - A real-world listing (from the notes) shows such uploads alongside normal site files
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/code_injection_dir_listing.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -470,6 +495,8 @@ delete_user.php?id=5368: anyone who guesses/knows an ID can act on it.
   - e.g. **ShellShock** (BASH vulnerability) [11]
 
 ---
+layout: two-cols
+---
 
 # Pwned Websites
 
@@ -485,6 +512,16 @@ delete_user.php?id=5368: anyone who guesses/knows an ID can act on it.
 <!--
 Identical hints produced identical ciphertexts — the "greatest crossword puzzle in the world."
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/adobe_3des_crossword.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -644,6 +681,8 @@ Cookies are re-sent automatically (see AJAX) — that's why the forged request "
 - Extensions that block such requests [20]
 
 ---
+layout: two-cols
+---
 
 # Browser Vulnerabilities
 
@@ -663,6 +702,20 @@ Cookies are re-sent automatically (see AJAX) — that's why the forged request "
 
 **Exploit kits:** Angler, RIG, GrandSoft, etc.
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/adobe_flash_logo.jpg" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/activex_logo.jpg" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/java_logo.jpg" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Browser Vulnerabilities (3)
@@ -687,6 +740,16 @@ Cookies are re-sent automatically (see AJAX) — that's why the forged request "
 
 **2021:** Apple Safari exploit, Zoom Messenger, Chrome & MS Edge
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/cve_references_flash_ie_chart.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Secure Browsers
@@ -707,7 +770,7 @@ If you want a secure browser:
 
 # OWASP [25]
 
-**The Open Web Application Security Project**
+**The Open Worldwide Application Security Project**
 
 **OWASP Top 10 for 2021** (preview [26]):
 

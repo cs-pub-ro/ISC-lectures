@@ -93,6 +93,8 @@ class: text-center
 - **TEMPEST**: spying through leaking EM emanations
 
 ---
+layout: two-cols
+---
 
 # Legitimate reasons (ofc)
 
@@ -104,6 +106,18 @@ class: text-center
 
 - Sanctioning of Dmitry Khoroshev as the alleged leader of LockBit, jointly with UK & Australia
 
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/nasa_hacker_diicot_news_ro.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/lockbit_charges_news.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Web tracking
@@ -115,6 +129,17 @@ class: text-center
   - Google Analytics, Facebook/Twitter/TikTok Share widgets etc.
 - **Spy Pixel**
   - Email client makes remote request to display image, contains unique ID / email hash
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/email_tracking_pixel.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/tracking_url_query_string.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -145,6 +170,8 @@ class: text-center
   - Doom Scrolling → user pauses → record interests!
 
 ---
+layout: two-cols
+---
 
 # Web browser monopolies
 
@@ -156,6 +183,16 @@ class: text-center
   - Rules limit, no behavioral ad blocking …
   - **No uBlock for you!**
 - **Federated Learning of Cohorts (FLoC)**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/declarative_net_request_flow.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -169,6 +206,8 @@ class: text-center
 - Government agencies often **bypass warrant requirements** by doing commercial agreements with companies (
 
 ---
+layout: two-cols
+---
 
 # Regulatory approach: GDPR
 
@@ -180,6 +219,18 @@ class: text-center
 - Exemptions: law & national security
 - Downloading / exporting your personal data from providers
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/seagull_privacy_meme.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # GDPR effects
@@ -188,6 +239,19 @@ class: text-center
   - *Jan 21, 2019*
 - 'I'm glad Swedish television is taking seagull privacy so seriously' (ofc)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/google_gdpr_fine_headline.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/cookie_consent_dialog.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Not only GDPR anymore
@@ -198,6 +262,18 @@ class: text-center
 - While many of these laws agree on the broad terms of data protection, each implements these protections in its own way
 - US states (Nevada, New York, Texas, Washington) following California's lead
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/gdpr_not_only_acronym.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # IAPP
@@ -206,6 +282,18 @@ class: text-center
 - **International Association of Privacy Professionals**
 
 [iapp.org/certify](https://iapp.org/certify/programs/)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/iapp_cipp_badge.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/iapp_cipm_badge.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/iapp_cipt_badge.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -288,6 +376,8 @@ The injected /1 route is more specific than the VPN default route — traffic go
 -->
 
 ---
+layout: two-cols
+---
 
 # Mix Networks
 
@@ -296,6 +386,16 @@ The injected /1 route is more specific than the VPN default route — traffic go
 - Mixer decrypts and extracts **next hop address**
 - Anonymization of **sender-destination relationship**
 - **High latency:** mixer must wait & aggregate multiple messages before sending them
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/mixnet_diagram.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -309,6 +409,8 @@ The injected /1 route is more specific than the VPN default route — traffic go
   - **Message length** (no. of packets traversing network)
 
 ---
+layout: two-cols
+---
 
 # TOR
 
@@ -316,12 +418,24 @@ The injected /1 route is more specific than the VPN default route — traffic go
 - Uses **SOCKS encapsulation** of application traffic
 - TOR server may be hosted on separate device (e.g., Raspberry PI)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tor_protocol_stack.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Mixnets vs Onion routing
 
 > 'Tor plays with **space alone** (the bytes that you send across the network go through various other servers thus they aren't where they are supposed to be) and mixnets play with both **space and time** (adds delays and shuffles the request through various servers as well).'
 
+---
+layout: two-cols
 ---
 
 # Pretty Good Privacy
@@ -336,6 +450,16 @@ The injected /1 route is more specific than the VPN default route — traffic go
 - Unpopular due to UX/learning curve
 
 [keys.openpgp.org](https://keys.openpgp.org/)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/pgp_web_of_trust.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 

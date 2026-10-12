@@ -139,6 +139,8 @@ Receive Packet -> Check SPI in SAD -> Decrypt/Authenticate -> check SPD -> Forwa
 ```
 
 ---
+layout: two-cols
+---
 
 # IPSec AH
 
@@ -149,6 +151,18 @@ Receive Packet -> Check SPI in SAD -> Decrypt/Authenticate -> check SPD -> Forwa
 - Uses a **Message Authentication Code** for integrity
 - **Not working with NAT/PAT**
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ipsec_ah_header_format.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # IPSec ESP
@@ -156,6 +170,16 @@ Receive Packet -> Check SPI in SAD -> Decrypt/Authenticate -> check SPD -> Forwa
 - **RFC 4303** — IP Encapsulating Security Payload
 - IP protocol field **51**
 - Provides **Data Confidentiality, Integrity, Authenticity or none**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ipsec_esp_packet_format.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -305,6 +329,8 @@ layout: section
 - Uses negotiated algorithms to encrypt and hash data
 
 ---
+layout: two-cols
+---
 
 # TLS downgrade attack
 
@@ -313,6 +339,18 @@ layout: section
 
 [acunetix.com — TLS vulnerabilities (final part)](https://www.acunetix.com/blog/articles/tls-vulnerabilities-attacks-final-part/)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tls_downgrade_poodle_attack.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # TLS CRIME attack
@@ -322,12 +360,25 @@ layout: section
 
 [acunetix.com](https://www.acunetix.com/blog/articles/tls-vulnerabilities-attacks-final-part/)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tls_crime_attack_overview.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/tls_crime_attack_cookie_probing.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 layout: section
 ---
 
 # SSH
 
+---
+layout: two-cols
 ---
 
 # SSH architecture
@@ -340,6 +391,16 @@ layout: section
   - **RFC 4254** — SSH Connection Protocol
     - Channel Multiplexing
     - Port forwarding, **SOCKS proxy**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tunnel_port_forwarding_icon.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -374,12 +435,24 @@ layout: section
 </v-clicks>
 
 ---
+layout: two-cols
+---
 
 # Chisel
 
 **TCP/UDP tunnel, transported over HTTP, secured via SSH** :)
 
 [ssh.com — SSH tunneling example](https://www.ssh.com/academy/ssh/tunneling-example)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/chisel_architecture.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -426,10 +499,22 @@ layout: section
   - Reverse SSH, Cloudflare Tunnel, ngrok, Pinggy.io etc.
 
 ---
+layout: two-cols
+---
 
 # Example: Cloudflare
 
 [Cloudflare One — connect networks](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/cloudflare_tunnel_flow.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: end

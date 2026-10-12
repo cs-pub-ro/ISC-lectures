@@ -26,6 +26,8 @@ Welcome students. Lecture 6: malicious software. Based on ISC course material by
 -->
 
 ---
+layout: two-cols
+---
 
 # Objectives
 
@@ -38,12 +40,20 @@ Welcome students. Lecture 6: malicious software. Based on ISC course material by
 
 </v-clicks>
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/objectives_virus_comic.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+
 ---
 layout: section
 ---
 
 # What is malware?
 
+---
+layout: two-cols
 ---
 
 # What is malware?
@@ -66,6 +76,15 @@ Emphasize the distinction: malware is intentional. A buggy or "hold my beer"
 piece of software is not automatically malware — it's a (bad) software quality issue.
 -->
 
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/malware_monster_laptop.png" style="max-height: 340px; max-width: 50%; margin-top: 2em;'" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Malware attributes
@@ -83,6 +102,8 @@ piece of software is not automatically malware — it's a (bad) software quality
 </v-clicks>
 
 ---
+layout: two-cols
+---
 
 # Classification
 
@@ -97,12 +118,24 @@ piece of software is not automatically malware — it's a (bad) software quality
 
 - Rootkit, adware, RATs, ransomware, miners etc.
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/adware_popup_ads_collage.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 layout: section
 ---
 
 # Types of malware
 
+---
+layout: two-cols
 ---
 
 # Virus
@@ -112,6 +145,16 @@ layout: section
 - Executable code modification / injection
 - File format vectors (macros / scripting / local buffer overflows etc.)
 - Spreading media: email attachments, removable drives (floppy / USB), network file sharing etc.
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/pe_header_cff_explorer.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -129,6 +172,8 @@ for (file in scan_disks()):
 ```
 
 ---
+layout: two-cols
+---
 
 # Worm
 
@@ -138,6 +183,18 @@ for (file in scan_disks()):
   - local/global IPv4 address generation
   - address books for email spreading
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/worm_monsters_art.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Early popular viruses
@@ -153,6 +210,16 @@ for (file in scan_disks()):
 
 [Virus Encyclopedia](http://virus.wikidot.com/)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/brain_virus_boot_sector.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Email-spreading worms
@@ -167,6 +234,8 @@ for (file in scan_disks()):
 - **Koobface (2009–2013)** — infostealer spread via social apps
 - Win32.Antiman.A (2005) ☠
 
+---
+layout: two-cols
 ---
 
 # Popular worms (1)
@@ -184,6 +253,17 @@ for (file in scan_disks()):
 <!--
 Code Red famously defaced sites, e.g. "Welcome to http://www.worm.com! Hacked By Chinese!".
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/iloveyou_worm_hexdump.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/code_red_defacement.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -205,6 +285,8 @@ Highlight Stuxnet as the canonical APT: state-sponsored, physical-world impact
 -->
 
 ---
+layout: two-cols
+---
 
 # Trojan Horse
 
@@ -214,6 +296,16 @@ Highlight Stuxnet as the canonical APT: state-sponsored, physical-world impact
 - May be installed as late payload by worms!
 - Functions: remote access, info stealing (keylogger), botnet zombies, ransomware, backdoor etc.
 - Script kiddies: trojan construction kits!
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/trojan_horse_cartoon.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -234,6 +326,8 @@ Highlight Stuxnet as the canonical APT: state-sponsored, physical-world impact
 - Commercial tools / open source projects for building yourself
 
 ---
+layout: two-cols
+---
 
 # Historical / popular RATs
 
@@ -245,6 +339,17 @@ Highlight Stuxnet as the canonical APT: state-sponsored, physical-world impact
   - [Poison Ivy Reload](https://github.com/killeven/Poison-Ivy-Reload)
   - [thorse](https://github.com/PushpenderIndia/thorse) (Python3 :D)
   - [SilverRAT](https://github.com/UpSetst/SilverRAT-FULL-Source-Code)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/sub7_editserver_gui.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/sub7_client_gui.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -281,6 +386,8 @@ layout: section
 [awesome-linux-rootkits](https://github.com/milabs/awesome-linux-rootkits)
 
 ---
+layout: two-cols
+---
 
 # Execution concealment
 
@@ -300,6 +407,18 @@ layout: section
 - Firmware-level (SMM rootkits)
 - Code obfuscators / packers
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/detour_hooking_diagram.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Command & control / stealth comm.
@@ -317,6 +436,18 @@ layout: section
 - Transported using common protocols: HTTP, DNS, SNMP, ICMP, ARP
 - Extreme Covert Channels: 1 bit at a time (:
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/botnet_c2_hierarchy.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Ransomware
@@ -326,6 +457,16 @@ layout: section
 - Advanced techniques (asymmetric ciphers, timed triggers etc.)
 - CryptoLocker (2013), WannaCry (2017), Petya
 - Ransomware as a Service (e.g., REvil, Hive)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/wannacry_decryptor_note.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -352,6 +493,10 @@ layout: two-cols
 - Firewalling (or the extreme: air gapping)
 - Cloud-based threat intelligence
 - Honeypots
+
+<div class="flex flex-col items-center" style="text-align: center;">
+<img src="./images/antivirus_vendor_logos.png" style="max-height: 300px; max-width: 100%;" />
+</div>
 
 ---
 

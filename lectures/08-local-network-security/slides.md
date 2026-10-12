@@ -51,6 +51,8 @@ layout: section
 </v-clicks>
 
 ---
+layout: two-cols
+---
 
 # OSI model
 
@@ -70,6 +72,18 @@ Playful mapping from the Purdue essay.
 
 [Source [1]](https://www.cs.purdue.edu/homes/dec/essay.network.layers.html)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/snow_white_poster.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # L1: wire / fiber tapping
@@ -81,6 +95,17 @@ Playful mapping from the Purdue essay.
 <!--
 Physically tapping a line: cheap tools, detectable via light loss.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/fiber_tap_diagram.jpg" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/fiber_tap_device.jpg" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -111,6 +136,8 @@ Note the lateral move: if not on the same network, pivot via a cloud-connected d
 -->
 
 ---
+layout: two-cols
+---
 
 # ARP poisoning
 
@@ -123,6 +150,16 @@ Note the lateral move: if not on the same network, pivot via a cloud-connected d
 Emphasize: ARP has no authentication; the real fix is detection, not just static entries.
 -->
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/arp_spoofing_attack.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # STP injection
@@ -134,12 +171,27 @@ Rogue switch/bridge alters STP so traffic routes through the attacker.
 -->
 
 ---
+layout: two-cols
+---
 
 # VLAN hopping
 
 - Trick the switch into treating untagged traffic as a different VLAN
 - E.g., via double-tagging or DTP (Cisco) emulation
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/vlan_hopping_double_tag.jpg" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/ethernet_8021q_frame.jpg" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Wardriving
@@ -155,6 +207,16 @@ Rogue switch/bridge alters STP so traffic routes through the attacker.
 <!--
 Modern wardriving is cheap and portable.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/pwnagotchi_photo.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -175,6 +237,8 @@ These counter the specific L2 attacks just listed.
 -->
 
 ---
+layout: two-cols
+---
 
 # 802.1x
 
@@ -183,6 +247,16 @@ These counter the specific L2 attacks just listed.
 <!--
 Port-based network access control; pairs with WPA Enterprise for wireless.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/radius_eap_flow.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -207,6 +281,8 @@ layout: section
 </v-clicks>
 
 ---
+layout: two-cols
+---
 
 # DHCP spoofing
 
@@ -220,6 +296,16 @@ layout: section
 <!--
 Show how a rogue DHCP becomes the gateway/DNS: trivially a network MitM.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/dhcp_dora_sequence.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -281,6 +367,8 @@ Explain stealthy scan variants and cheap defenses like port knocking.
 -->
 
 ---
+layout: two-cols
+---
 
 # (Distributed) Denial of Service
 
@@ -295,6 +383,18 @@ Explain stealthy scan variants and cheap defenses like port knocking.
 Key idea: DDoS can't be blocked at the edge, only absorbed/sunk.
 -->
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ddos_architecture.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # DDoS: reflection / amplification
@@ -309,6 +409,16 @@ Key idea: DDoS can't be blocked at the edge, only absorbed/sunk.
 <!--
 Reflection turns a helper server into an attacker; amplification scales it.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/udp_reflection_amplification.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -332,6 +442,8 @@ Firewalls are the primary L3 control; contrast stateful vs. stateless.
 -->
 
 ---
+layout: two-cols
+---
 
 # Networking equipment manufacturers
 
@@ -349,6 +461,16 @@ Firewalls are the primary L3 control; contrast stateful vs. stateless.
 Big vendors; note that size does not imply security (next slide).
 -->
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/vendor_logos_collage.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Intrusion Detection/Prevention Systems
@@ -358,10 +480,10 @@ Big vendors; note that size does not imply security (next slide).
 - Based on **signatures**
   - How to be fast? algorithms, GPU / FPGA
 
-| Reality          | True       | False      |
-|------------------|------------|------------|
-| **Detection True** | True Positive   | False Positive |
-| **Detection False** | False Negative  | True Negative |
+| Reality \ Detection Result | True           | False          |
+|----------------------------|----------------|----------------|
+| **True**                   | True Positive  | False Negative |
+| **False**                  | False Positive | True Negative  |
 
 <!--
 Frame IDS/IPS as classification: explain TP/FP/FN/TN trade-offs.
@@ -435,6 +557,8 @@ Three anti-spoofing/anti-phishing mechanisms for domain-based email trust.
 -->
 
 ---
+layout: two-cols
+---
 
 # Honeypots
 
@@ -446,6 +570,16 @@ Three anti-spoofing/anti-phishing mechanisms for domain-based email trust.
 <!--
 Honeypots are cheap intelligence: study attacks on a sacrificial system.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/honeypot_architecture.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 

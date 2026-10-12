@@ -42,6 +42,8 @@ layout: section
 # Trustworthy systems
 
 ---
+layout: two-cols
+---
 
 # Trustworthy systems
 
@@ -55,6 +57,18 @@ layout: section
 - Bug probability?
 - It's over 9000!
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/trusted_untrusted_app_stack.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Trustworthy systems (2)
@@ -64,6 +78,16 @@ layout: section
 - Approach: Turn a portion of a platform into a trustworthy environment!
 - **Trusted Execution Environments!**
 - Applications: confidential cloud, banking, medical privacy, industrial equipment etc.
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tee_stack_minimal_tcb.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -100,6 +124,8 @@ layout: section
   > — Ross Anderson
 
 ---
+layout: two-cols
+---
 
 # Trusted Platform Module
 
@@ -109,6 +135,18 @@ layout: section
   - **Root of trust for storage (RTS)** — a trusted implementation for one or more secret keys — the **storage root key (SRK)**
   - **Root of trust for reporting (RTR)** — a trusted implementation for a secret key representing a unique platform identity — the **endorsement key (EK)**
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/infineon_optiga_tpm2_chip.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # TPM capabilities
@@ -120,6 +158,16 @@ layout: section
   - EK and SRK **never leave** TPM
 - **Secure Storage** (binding / sealing)
 - **Attestation** (Local / Remote)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/tpm_internal_architecture.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -143,6 +191,8 @@ layout: section
 - The encrypted data is **always bound to a specific platform state**!
 
 ---
+layout: two-cols
+---
 
 # Attestation (remote and local)
 
@@ -153,6 +203,16 @@ layout: section
 3. Client supplies report to **remote service** for secret provisioning
 
 </v-clicks>
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/remote_attestation_flow.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -184,6 +244,8 @@ layout: section
 - HW platforms: **Intel TxT, ARM TrustZone, Intel SGX (RIP), AMD SEV, Intel TDX**
 
 ---
+layout: two-cols
+---
 
 # Intel SGX
 
@@ -193,6 +255,16 @@ layout: section
 - Enclaves **cannot harm the system**
   - Only run unprivileged code (Ring 3)
   - Memory protection (RAM encrypted)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/intel_sgx_architecture.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -270,6 +342,8 @@ layout: section
 # Hardware Security Modules
 
 ---
+layout: two-cols
+---
 
 # Hardware Security Modules
 
@@ -279,6 +353,18 @@ layout: section
   - **Tamper-resistance**
 - Used to keep secrets (**and die with them!**)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/hsm_pcie_crypto_card.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Smart cards
@@ -288,6 +374,18 @@ layout: section
 - Examples include: bank cards, SIM cards, passports / ID cards, building access cards, electronic car keys etc.
 - And most of them run **JavaCard** :D
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/smart_card_anatomy.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Security keys
@@ -298,6 +396,16 @@ layout: section
 - Connected / wireless (Bluetooth / NFC) tokens
 - **Stolen / lost → enrol backups!**
 - YubiKey, NitroKey, Google Titan
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/yubikey5_nfc_security_key.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -317,6 +425,8 @@ layout: section
 - Vulnerabilities → **malicious code injection** …
 
 ---
+layout: two-cols
+---
 
 # Physical attacks
 
@@ -330,6 +440,16 @@ layout: section
   - Can't touch this!
   - E.g., HSMs
   - Self-destructing in 10 … 9 …
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/evil_maid_laptop_teardown.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -368,6 +488,8 @@ layout: section
 - Mitigation impact: **between 5-30%** (depending on workload)
 
 ---
+layout: two-cols
+---
 
 # Meltdown concept
 
@@ -377,6 +499,18 @@ layout: section
 The speculative window is the bug: reads happen, then get rolled back — but the cache remembers.
 -->
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/meltdown_kernel_data_leak.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # RowHammer
@@ -387,6 +521,16 @@ The speculative window is the bug: reads happen, then get rolled back — but th
   - Each row must be periodically **refreshed**!
 - **Starvation + electrical currents** may charge / discharge adjacent rows!
 - Fortunately, **not entirely practical from JavaScript!**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/rowhammer_dram_rows.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: end

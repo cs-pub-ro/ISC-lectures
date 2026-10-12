@@ -107,18 +107,32 @@ layout: section
   [blog.cloudflare.com](https://blog.cloudflare.com/inside-the-log4j2-vulnerability-cve-2021-44228/)
 
 ---
+layout: two-cols
+---
 
 # Memory safety
 
 - Microsoft: **70% of all high severity security bugs are memory safety issues** [1]
 
 [zdnet.com](https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/)
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/memory_safety_root_causes_pie.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 layout: section
 ---
 
 # Cause & classification
 
+---
+layout: two-cols
 ---
 
 # Intro: address space
@@ -127,6 +141,18 @@ layout: section
 - Compiler (linker) / OS decide where each segment goes
 - Address space layout has impact on application's security
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/address_space_layout.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Intro: stack frame
@@ -147,12 +173,24 @@ int main() {
 Walk through how `call` saves the return address on the stack — the key to stack exploits.
 -->
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/stack_frame_layout.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 layout: section
 ---
 
 # Memory safety bugs & examples
 
+---
+layout: two-cols
 ---
 
 # Stack buffer overflow [2]
@@ -161,12 +199,24 @@ Happens when a buffer is written after its allocated size:
 
 ```c
 char buf[10];
-char *input = 'This text is larger than expected';
+char *input = "This text is larger than expected";
 strcpy(buf, input);
 ```
 
 [security-summer-school.github.io/binary](https://security-summer-school.github.io/binary/)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/stack_buffer_overflow_direction.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Stack overflow → hijack
@@ -174,6 +224,19 @@ strcpy(buf, input);
 - The `ret` instruction pops the return address from the stack, then jumps to it
 - CPU executes the injected code (**shellcode**)
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/stack_overflow_injected_code.png" style="max-height: 150px; max-width: 100%;" />
+<img src="./images/nop_sled_bytes.png" style="max-height: 150px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Generic exploit steps [7]
@@ -189,6 +252,16 @@ strcpy(buf, input);
 </v-clicks>
 
 [7] SoK: Eternal War in Memory — [ieee-security.org](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/attack_tree_exploit_path.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: section
@@ -209,6 +282,8 @@ layout: section
 - **Shadow Stack**
 
 ---
+layout: two-cols
+---
 
 # Address Space Layout Randomization (ASLR)
 
@@ -217,6 +292,18 @@ layout: section
 - Segments can only be randomized at startup!
 - **KASLR** — randomize kernel-space!
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/aslr_rerandomization.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Stack Canaries
@@ -228,6 +315,16 @@ layout: section
   - memory leaks / side channels
   - canary guessing
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/stack_canary_layout.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # Return to LibC
@@ -238,10 +335,22 @@ layout: section
 - Reminder: call args from `%EBP - 0x08`!
 
 ---
+layout: two-cols
+---
 
 # Return oriented programming
 
 - Defeats DEP / No-execute (NX): instead of injecting new code, chain calls to existing code fragments on the stack
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/rop_gadget_chain.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -275,6 +384,8 @@ int main() {
 ```
 
 ---
+layout: two-cols
+---
 
 # Object Oriented Security
 
@@ -282,6 +393,18 @@ int main() {
 - Attacker replaces VTable pointers with controlled memory
 - When an object method is called, the function pointer is loaded from the attacker's VTable
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/vtable_dispatch.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # The Heap
@@ -293,6 +416,16 @@ int main() {
 - `free()` → clears/resets chunk + metadata
 
 [Source: GLibC Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals)
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/glibc_thread_arena.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -386,6 +519,8 @@ VAL = (VAL + 0xA8909090)|0;
 ```
 
 ---
+layout: two-cols
+---
 
 # Drilling down into root causes
 
@@ -402,6 +537,18 @@ Microsoft (BlueHatIL): trends, challenges, and shifts in software vulnerability 
 
 *CVEs may have multiple root causes, so they can be counted in multiple categories.*
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/bluehatil_cve_root_causes.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Control Flow Integrity
@@ -420,6 +567,16 @@ sort2(int a[], int b[], int len) {
 <!--
 Enforce that control flow only takes architecturally valid paths.
 -->
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/cfi_call_graph.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 

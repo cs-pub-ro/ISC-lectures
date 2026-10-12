@@ -100,6 +100,8 @@ layout: section
 # Certificates
 
 ---
+layout: two-cols
+---
 
 # Certificates
 
@@ -113,6 +115,16 @@ layout: section
   - ID / Registration number
   - Custom metadata etc.
 - **Standard for certificates: X.509**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/certificate_of_participation_example.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -137,6 +149,8 @@ mail: john@example.com
 ```
 
 ---
+layout: two-cols
+---
 
 # Certificate structure: X.509
 
@@ -150,6 +164,18 @@ mail: john@example.com
   - Key fingerprints + digital signatures
   - Extensions …
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/x509_certificate_structure.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Encodings vs standards
@@ -165,18 +191,28 @@ mail: john@example.com
   - RFC 2440 (OpenPGP Message Format)
   - Card Verifiable Certificates — embedded devices
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/asn1_der_sequence_encoding.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
 ---
 
 # ASN.1/BER, practically
 
-| Integer value | BER | BER | BER | BER |
-| ------------- | --- | --- | --- | --- |
-| 0             | 02  | 01  | 00  |     |
-| 127           | 02  | 02  | 00  | 7F  |
-| 128           | 02  | 02  | 00  | 80  |
-| 256           | 02  | 02  | 01  | 00  |
-| -128          | 02  | 01  | 80  |     |
-| -129          | 02  | 02  | FF  | 7F  |
+| Integer value | BER encoding   |
+| ------------- | -------------- |
+| 0             | `02 01 00`     |
+| 127           | `02 01 7F`     |
+| 128           | `02 02 00 80`  |
+| 256           | `02 02 01 00`  |
+| -128          | `02 01 80`     |
+| -129          | `02 02 FF 7F`  |
 
 <!--
 Tag-length-value: 02 = INTEGER tag; length, then bytes.
@@ -202,6 +238,8 @@ Tag-length-value: 02 = INTEGER tag; length, then bytes.
 </v-clicks>
 
 ---
+layout: two-cols
+---
 
 # Certificate Authorities
 
@@ -214,6 +252,16 @@ Tag-length-value: 02 = INTEGER tag; length, then bytes.
 - Trust the gatekeepers?
   - **Mutual assurance:** popular OS & browser vendors!
   - + **Certificate Transparency**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ca_hierarchy_root_intermediate_leaf.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -237,6 +285,8 @@ Home-lab classic: your own root of trust.
 -->
 
 ---
+layout: two-cols
+---
 
 # Certificate revocation
 
@@ -246,6 +296,16 @@ Home-lab classic: your own root of trust.
 - CAs can **also** be revoked 😈
 - **Certificate Revocation Lists (CRLs)**
 - **Online Certificate Status Protocol (OCSP)**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/crl_viewer_revoked_certificates.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -262,6 +322,8 @@ Home-lab classic: your own root of trust.
   - `cACompromise (2)`
   - `privilegeWithdrawn (9)`
 
+---
+layout: two-cols
 ---
 
 # Online Certificate Status Protocol (OCSP)
@@ -283,6 +345,18 @@ CertID ::= SEQUENCE {
 }
 ```
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/certificate_aia_ocsp_urls.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Certificate usage & validation
@@ -294,6 +368,16 @@ CertID ::= SEQUENCE {
   - **Domain Validation**
   - **Organisation Level**
   - **Extended Validation**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ev_certificate_browser_popup.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -364,6 +448,8 @@ layout: section
 - **Decentralized / Web of Trust!**
 
 ---
+layout: two-cols
+---
 
 # TOFU
 
@@ -372,6 +458,18 @@ layout: section
 - Key remains cached (`~/.ssh/known_hosts`)
 - Compare **fingerprints**
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/ssh_host_key_changed_warning.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # Off-The-Record messaging
@@ -385,6 +483,18 @@ layout: section
   - XMPP (Jabber)
   - Signal / WhatsApp etc.
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/signal_safety_number_verification.jpg" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # GPG/PGP — Web of Trust model
@@ -397,6 +507,16 @@ layout: section
 - **Trust scoring:**
   - Must be signed by **fully-trusted** or at least **3 marginally trusted** keys
   - Trust doesn't propagate when path length **> 5**
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/web_of_trust_graph.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -413,6 +533,8 @@ layout: section
 - Provider-based encryption: **ProtonMail**
 
 ---
+layout: two-cols
+---
 
 # Email server authentication
 
@@ -424,6 +546,18 @@ layout: section
   - IP addresses allowed to send using the SMTP server
   - E.g., allow marketing services (e.g., sendgrid / mailgun) to send mails using the company's domains
 
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/dkim_signing_verification_flow.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
+
+---
+layout: two-cols
 ---
 
 # DNSSEC
@@ -434,6 +568,16 @@ layout: section
   - Parent zone authenticates your public key (and so on, recursively)
   - Root DNS zones' keys are trusted by resolvers (similar to Root CAs in browsers)
   - Actually, the recursive resolve process is a bit more complicated than this (
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<img src="./images/dnssec_validation_chain.png" style="max-height: 340px; max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 layout: end
