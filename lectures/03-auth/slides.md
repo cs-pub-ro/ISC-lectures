@@ -406,12 +406,6 @@ layout: two-cols
 - **Must always enroll backup keys!**
 
 ---
-layout: section
----
-
-# One-time passwords
-
----
 layout: two-cols
 ---
 
@@ -481,7 +475,7 @@ layout: section
 
 - $ID_A$, $ID_B$, $ID_S$ — a unique identifier for A, B and S (Trusted Server)
 - $k_{A,B}$ — a key shared between A and B
-- $\{ID_A\}_{K_A}$ — encryption/signature of $ID_A$ under the key of A
+- $\{ID_A\}_{k_A}$ — encryption/signature of $ID_A$ under the key of A
 - $A \to B : \{ID_A\}_{k_{A,B}}$ — A sends to B the message $ID_A$ encrypted by the shared key of A and B
 
 ---
@@ -501,11 +495,9 @@ layout: section
 
 # Symmetric protocol (1) — naive
 
-```
-1. A -> S : ID_A, ID_B                (I am A, give me key for B)
-2. S -> A : k_A,B                     (key transferred in unencrypted form)
-3. A -> B : ID_A, k_A,B               (key transferred in unencrypted form)
-```
+1. $A \to S : ID_A, ID_B$ *(I am A, give me the key for B)*
+2. $S \to A : k_{A,B}$ *(key transferred in unencrypted form)*
+3. $A \to B : ID_A, k_{A,B}$ *(key transferred in unencrypted form)*
 
 **Possible attacks:**
 
@@ -515,18 +507,14 @@ layout: section
 
 # Symmetric protocol (2) — encrypted at the server
 
-```
-1. A -> S : ID_A, ID_B
-2. S -> A : {k_A,B} k_A,S , {k_A,B} k_B,S    (encrypted with A,S shared secret)
-3. A -> B : ID_A, {k_A,B} k_B,S              (encrypted with B,S shared secret)
-```
+1. $A \to S : ID_A, ID_B$
+2. $S \to A : \{k_{A,B}\}_{k_{A,S}}, \{k_{A,B}\}_{k_{B,S}}$ *(encrypted with the A–S shared secret)*
+3. $A \to B : ID_A, \{k_{A,B}\}_{k_{B,S}}$ *(encrypted with the B–S shared secret)*
 
 **Possible attack — reflection:**
 
-```
-3'. A -> T : ID_A, {k_A,B} k_B,S
-4'. T -> B : ID_T, {k_A,B} k_B,S
-```
+3'. $A \to T : ID_A, \{k_{A,B}\}_{k_{B,S}}$<br>
+4'. $T \to B : ID_T, \{k_{A,B}\}_{k_{B,S}}$
 
 (Trudy replaces the identity A presented to B!)
 
@@ -534,13 +522,11 @@ layout: section
 
 # Symmetric protocol (2') — Trudy in the middle
 
-```
-1. A -> T : ID_A, ID_B
-2. T -> S : ID_A, ID_T
-3. S -> T : {k_A,T} k_A,S , {k_A,T} k_T,S
-4. T -> A : {k_A,T} k_A,S , {k_A,T} k_T,S
-5. A -> T : ID_A, {k_A,T} k_T,S
-```
+1. $A \to T : ID_A, ID_B$
+2. $T \to S : ID_A, ID_T$
+3. $S \to T : \{k_{A,T}\}_{k_{A,S}}, \{k_{A,T}\}_{k_{T,S}}$
+4. $T \to A : \{k_{A,T}\}_{k_{A,S}}, \{k_{A,T}\}_{k_{T,S}}$
+5. $A \to T : ID_A, \{k_{A,T}\}_{k_{T,S}}$
 
 Trudy in the middle …
 
@@ -552,51 +538,40 @@ Every message looks legitimate because each one is sealed by S.
 
 # Symmetric protocol (3) — include IDs
 
-```
-1. A -> S : ID_A, ID_B
-2. S -> A : {k_A,B, ID_B} k_A,S , {k_A,B, ID_A} k_B,S
-3. A -> B : ID_A, {k_A,B, ID_A} k_B,S
-```
+1. $A \to S : ID_A, ID_B$
+2. $S \to A : \{k_{A,B}, ID_B\}_{k_{A,S}}, \{k_{A,B}, ID_A\}_{k_{B,S}}$
+3. $A \to B : ID_A, \{k_{A,B}, ID_A\}_{k_{B,S}}$
 
 **Possible attack — replay of an old (broken) key:**
 
-```
-1. A -> T : ID_A, ID_B
-2. T -> A : {k'_A,B, ID_B} k_A,S , {k'_A,B, ID_A} k_B,S
-3. A -> B : ID_A, {k_A,B, ID_A} k_B,S
-```
+1. $A \to T : ID_A, ID_B$
+2. $T \to A : \{k'_{A,B}, ID_B\}_{k_{A,S}}, \{k'_{A,B}, ID_A\}_{k_{B,S}}$
+3. $A \to B : ID_A, \{k_{A,B}, ID_A\}_{k_{B,S}}$
 
 ---
 
 # Symmetric protocol (4) — Needham–Schroeder (1978)
 
-```
-1. A -> S : ID_A, ID_B, N_A
-2. S -> A : {k_A,B, ID_B, N_A, {k_A,B, ID_A} k_B,S} k_A,S
-3. A -> B : {k_A,B, ID_A} k_B,S
-4. B -> A : {N_B} k_A,B
-5. A -> B : {N_B - 1} k_A,B
-```
+1. $A \to S : ID_A, ID_B, N_A$
+2. $S \to A : \{k_{A,B}, ID_B, N_A, \{k_{A,B}, ID_A\}_{k_{B,S}}\}_{k_{A,S}}$
+3. $A \to B : \{k_{A,B}, ID_A\}_{k_{B,S}}$
+4. $B \to A : \{N_B\}_{k_{A,B}}$
+5. $A \to B : \{N_B - 1\}_{k_{A,B}}$
 
 **Possible attack — Denning–Sacco replay of an old broken key:**
 
-```
-1. T -> B : {k'_A,B, ID_A} k_B,S
-2. B -> T : {N_B} k'_A,B
-3. T -> B : {N_B - 1} k'_A,B
-```
+1. $T \to B : \{k'_{A,B}, ID_A\}_{k_{B,S}}$
+2. $B \to T : \{N_B\}_{k'_{A,B}}$
+3. $T \to B : \{N_B - 1\}_{k'_{A,B}}$
 
 ---
 
 # Symmetric protocol (5) — final form
 
-```
-1. B -> A : ID_B, N_B
-2. A -> S : ID_A, ID_B, N_A, N_B
-3. S -> A : {k_A,B, ID_B, N_A} k_A,S ,
-            {k_A,B, ID_A, N_B} k_B,S
-4. A -> B : {k_A,B, ID_A, N_B} k_B,S
-```
+1. $B \to A : ID_B, N_B$
+2. $A \to S : ID_A, ID_B, N_A, N_B$
+3. $S \to A : \{k_{A,B}, ID_B, N_A\}_{k_{A,S}}, \{k_{A,B}, ID_A, N_B\}_{k_{B,S}}$
+4. $A \to B : \{k_{A,B}, ID_A, N_B\}_{k_{B,S}}$
 
 **Possible attacks:**
 
@@ -618,26 +593,25 @@ layout: two-cols
 
 # Plain Diffie–Hellman
 
-```
 A and B (think they) talk:
-1. A -> B : DH_A                     (g^a mod p)
-2. B -> A : DH_B, {ID_B} k_A,B       (both obtain the same k_A,B)
-3. A -> B : {ID_A} k_A,B
-```
+
+1. $A \to B : DH_A$ *(with $g^a \bmod p$)*
+2. $B \to A : DH_B, \{ID_B\}_{k_{A,B}}$ *(both obtain the same $k_{A,B}$)*
+3. $A \to B : \{ID_A\}_{k_{A,B}}$
 
 ::right::
 
 # Classic MitM attack
 
-```
 Attacker Trudy:
-1. A -> T : DH_A
-2. T -> B : DH_T
-3. B -> T : DH_B, {ID_B} k_T,B
-4. T -> B : {ID_A} k_T,B
-5. T -> A : DH_T, {ID_B} k_A,T
-... etc.
-```
+
+1. $A \to T : DH_A$
+2. $T \to B : DH_T$
+3. $B \to T : DH_B, \{ID_B\}_{k_{T,B}}$
+4. $T \to B : \{ID_A\}_{k_{T,B}}$
+5. $T \to A : DH_T, \{ID_B\}_{k_{A,T}}$
+
+… etc.
 
 <!--
 Trudy terminates two separate DH exchanges and relays identities.
@@ -647,11 +621,9 @@ Trudy terminates two separate DH exchanges and relays identities.
 
 # Protocol for asymmetric encryption (STS simplified)
 
-```
-1. A -> B : DH_A
-2. B -> A : DH_B, {{DH_A, DH_B} pubA} k_A,B
-3. A -> B : {{DH_A, DH_B} pubB} k_A,B
-```
+1. $A \to B : DH_A$
+2. $B \to A : DH_B, \{\{DH_A, DH_B\}_{pubA}\}_{k_{A,B}}$
+3. $A \to B : \{\{DH_A, DH_B\}_{pubB}\}_{k_{A,B}}$
 
 - We assume each party has private/public keys
 - Public keys are known to all entities
@@ -757,12 +729,9 @@ layout: two-cols
 
 # Kerberos (v1) protocol
 
-```
-1. A -> KAS : ID_A, ID_B, N_A
-2. KAS -> A : {k_A,B, ID_B, T_KAS, N_A} k_A,KAS,
-              {k_A,B, ID_A, T_S} k_B,KAS
-3. A -> B : {k_A,B, ID_A, T_KAS} k_B,KAS, {ID_A, T_A} k_A,B
-```
+1. $A \to KAS : ID_A, ID_B, N_A$
+2. $KAS \to A : \{k_{A,B}, ID_B, T_{KAS}, N_A\}_{k_{A,KAS}}, \{k_{A,B}, ID_A, T_S\}_{k_{B,KAS}}$
+3. $A \to B : \{k_{A,B}, ID_A, T_{KAS}\}_{k_{B,KAS}}, \{ID_A, T_A\}_{k_{A,B}}$
 
 - $k_{A,B}$: session key between A and B
 - $\{k_{A,B}, ID_A, T_{KAS}\}_{k_{B,KAS}}$: **ticket** for A to use when contacting B
