@@ -33,6 +33,8 @@ layout: section
 # Access control
 
 ---
+layout: two-cols
+---
 
 # Examples of Access Control
 
@@ -45,6 +47,16 @@ layout: section
 - **Firewalls** — if a packet matches certain conditions, it is dropped
 
 </v-clicks>
+
+::right::
+
+<div class="flex flex-col items-center" style="text-align: center;">
+<img src="./images/gandalf_shall_not_pass.jpg" style="max-width: 100%;" />
+</div>
+<style>
+.slidev-layout.two-columns { grid-template-columns: 55% 45%; }
+.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
+</style>
 
 ---
 
@@ -135,15 +147,8 @@ layout: section
   - authorization, **obligations**, **conditions** (e.g., quotas)
   - continuity and mutability of attributes
 
----
-layout: section
----
 
 # Discretionary access controls (DAC)
-
----
-
-# DAC
 
 - **No precise definition**
 - Basically, DAC allows access rights to be propagated **at the subject's discretion**
@@ -170,6 +175,8 @@ Let $S$ be the set of all subjects, $O$ the set of all objects, $P$ the set of a
 
 - An **access control matrix** $(M_{s,o})$: rows = subjects, columns = objects
 - Element $M_{s,o} \subseteq P$ = permissions subject $s$ has for object $o$
+
+<br>
 
 | Subjects | catalog.csv | cat-anonim.txt | /dev/kmem | /sbin/sudo | PID 1001 |
 | -------- | ----------- | -------------- | --------- | ---------- | -------- |
@@ -299,14 +306,8 @@ The horse carries the attacker's payload with the victim's keys.
 - Better yet: **DAC + MAC!**
 
 ---
-layout: section
----
 
-# Mandatory access controls (MAC)
-
----
-
-# Mandatory Access Control
+# Mandatory Access Control (MAC)
 
 - Access rights assigned based on **regulations by a central authority**
 - Implemented using a **'reference monitor'**
@@ -343,7 +344,7 @@ Contrast with DAC: MAC rules take precedence — no DAC fallback.
 layout: section
 ---
 
-# Modeling Access Control
+# Multi-level security
 
 - Multi-level security (MLS)
 - **Bell-LaPadula** (BLP)
@@ -439,9 +440,9 @@ Motivating example: auditors must not mix data of competing companies.
 layout: section
 ---
 
-# Role-Based Access Control
+# RBAC
 
-::right::
+---
 
 # Group-based access control
 
@@ -476,7 +477,7 @@ A role brings together:
 layout: section
 ---
 
-# Authorization implementations
+# Auth Implementations
 
 ---
 
@@ -559,6 +560,8 @@ layout: section
 
 # Social engineering
 
+<img src="./images/social_engineering.jpg" style="width: 40%; margin-left: 2em; float: right;" />
+
 - **Non-technical intrusion** — tricking people to break security policies
 - **Manipulation** — relies on false confidence:
   - Everyone trusts someone
@@ -597,7 +600,6 @@ layout: section
 - [4] [Rutgers CS419 — Access Control notes](https://people.cs.rutgers.edu/~pxk/419/notes/access.html)
 
 ---
-layout: end
 class: text-center
 ---
 
