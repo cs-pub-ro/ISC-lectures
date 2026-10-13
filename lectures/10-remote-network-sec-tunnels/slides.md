@@ -153,13 +153,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ipsec_ah_header_format.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ipsec_ah_header_format.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -173,13 +169,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ipsec_esp_packet_format.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ipsec_esp_packet_format.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -341,13 +333,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tls_downgrade_poodle_attack.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tls_downgrade_poodle_attack.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -362,14 +350,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tls_crime_attack_overview.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/tls_crime_attack_cookie_probing.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tls_crime_attack_overview.png" class="img-sm" />
+<img src="./images/tls_crime_attack_cookie_probing.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -394,13 +378,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tunnel_port_forwarding_icon.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tunnel_port_forwarding_icon.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -446,13 +426,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/chisel_architecture.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/chisel_architecture.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -508,13 +484,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/cloudflare_tunnel_flow.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/cloudflare_tunnel_flow.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: end

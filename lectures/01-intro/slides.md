@@ -35,7 +35,10 @@ class: text-center
 
 — Harry Hershfield
 
-![Sleeping Student](./images/Sleeping.jpg)
+<div class="img-col">
+<img src="./images/Sleeping.jpg" alt="Sleeping Student">
+</div>
+
 ---
 
 # Selected topics
@@ -121,20 +124,14 @@ layout: quote
 - Don't protect **$1B** with encryption that can be broken for **$1M**.
 - Don't spend **$10M** to protect **$1M**.
 
-<br/>
-<div class="flex flex-col items-center slideimg" style="text-align: center;">
+<div class="img-col">
 
 ![XKCD #538](./images/xkcd_security_538.png)
+*https://xkcd.com/538/*
 
-<a style="font-style: italic; font-size: 9pt;"
-	href="https://xkcd.com/538/">https://xkcd.com/538/</a>
 </div>
-
 <style>
-.slideimg {
-	p { width: 40%; margin: 0.3em auto; text-align: center; }
-	img { display: inline; }
-}
+.img-col p { width: 40%; }
 </style>
 
 ---

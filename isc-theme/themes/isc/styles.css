@@ -16,4 +16,51 @@
   .slidev-layout {
     padding: var(--tou-default-content-padding);
   }
+
+  /* ============================================================
+   * Shared slides layout helpers
+   * ============================================================ */
+
+  /* Images: sane default cap, classes for exceptions */
+  .slidev-layout img {
+    max-width: 100%;
+    max-height: 340px;
+  }
+
+  .slidev-layout img + em {
+    display: block;
+    font-style: italic;
+    margin-top: 0.5em;
+    font-size: 0.8em;
+  }
+
+  .img-sm { max-height: 150px; }
+  .img-tall { max-height: 360px; }
+
+  /* Centered image + caption column */
+  .img-col {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4em;
+  }
+
+  /* two-cols ratios: 52/48 is the default, named variants for the rest.
+     Frontmatter `class:` lands on the .col-left/.col-right children (not the
+     grid container), so variants are matched via :has(). */
+  .slidev-layout.two-columns {
+    grid-template-columns: 52% 48%;
+
+    &:has(.col-left.cols-65-35) {
+      grid-template-columns: 65% 35%;
+      .col-right img { display: inline; max-width: 85%; }
+    }
+    &:has(.col-left.cols-50-50) { grid-template-columns: 50% 50%; }
+    &:has(.col-left.cols-55-45) { grid-template-columns: 55% 45%; }
+    &:has(.col-left.cols-45-55) { grid-template-columns: 45% 55%; }
+    &:has(.col-left.cols-40-60) { grid-template-columns: 40% 60%; }
+    &:has(.col-left.cols-35-65) { grid-template-columns: 35% 65%; }
+  }
 }

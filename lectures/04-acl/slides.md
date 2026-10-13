@@ -34,6 +34,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-55-45
 ---
 
 # Examples of Access Control
@@ -50,13 +51,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
-<img src="./images/gandalf_shall_not_pass.jpg" style="max-width: 100%;" />
+<div class="img-col" style="padding: 3em;">
+<img src="./images/gandalf_shall_not_pass.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 55% 45%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 

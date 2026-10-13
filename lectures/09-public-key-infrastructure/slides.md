@@ -118,13 +118,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/certificate_of_participation_example.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/certificate_of_participation_example.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -166,13 +162,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/x509_certificate_structure.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/x509_certificate_structure.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -193,13 +185,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/asn1_der_sequence_encoding.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/asn1_der_sequence_encoding.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -255,13 +243,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ca_hierarchy_root_intermediate_leaf.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ca_hierarchy_root_intermediate_leaf.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -299,13 +283,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/crl_viewer_revoked_certificates.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/crl_viewer_revoked_certificates.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -347,13 +327,9 @@ CertID ::= SEQUENCE {
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/certificate_aia_ocsp_urls.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/certificate_aia_ocsp_urls.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -371,13 +347,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ev_certificate_browser_popup.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ev_certificate_browser_popup.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -460,13 +432,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ssh_host_key_changed_warning.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ssh_host_key_changed_warning.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -485,13 +453,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/signal_safety_number_verification.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/signal_safety_number_verification.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -510,13 +474,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/web_of_trust_graph.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/web_of_trust_graph.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -548,13 +508,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/dkim_signing_verification_flow.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/dkim_signing_verification_flow.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -571,13 +527,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/dnssec_validation_chain.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/dnssec_validation_chain.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: end

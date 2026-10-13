@@ -117,13 +117,9 @@ layout: two-cols
 [zdnet.com](https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/)
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/memory_safety_root_causes_pie.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/memory_safety_root_causes_pie.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -143,13 +139,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/address_space_layout.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/address_space_layout.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -175,13 +167,9 @@ Walk through how `call` saves the return address on the stack — the key to sta
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/stack_frame_layout.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/stack_frame_layout.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -207,13 +195,9 @@ strcpy(buf, input);
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/stack_buffer_overflow_direction.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/stack_buffer_overflow_direction.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -226,14 +210,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/stack_overflow_injected_code.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/nop_sled_bytes.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/stack_overflow_injected_code.png" class="img-sm" />
+<img src="./images/nop_sled_bytes.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -255,13 +235,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/attack_tree_exploit_path.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/attack_tree_exploit_path.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -294,13 +270,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/aslr_rerandomization.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/aslr_rerandomization.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -317,13 +289,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/stack_canary_layout.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/stack_canary_layout.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -344,13 +312,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/rop_gadget_chain.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/rop_gadget_chain.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -395,13 +359,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/vtable_dispatch.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/vtable_dispatch.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -419,13 +379,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/glibc_thread_arena.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/glibc_thread_arena.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -539,13 +495,9 @@ Microsoft (BlueHatIL): trends, challenges, and shifts in software vulnerability 
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/bluehatil_cve_root_causes.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/bluehatil_cve_root_causes.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -570,13 +522,9 @@ Enforce that control flow only takes architecturally valid paths.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/cfi_call_graph.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/cfi_call_graph.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 

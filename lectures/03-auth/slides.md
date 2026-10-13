@@ -207,6 +207,7 @@ Other authentication attributes that can be used:
 
 ---
 layout: two-cols
+class: cols-45-55
 ---
 
 # Chaining factors
@@ -223,8 +224,8 @@ layout: two-cols
 ::right::
 
 <div class="flex justify-center items-center gap-2">
-<img v-click="2" src="./images/2fa_email_link.png" style="max-height: 360px;" />
-<img v-click="1" src="./images/2fa_mobile_push.png" style="max-height: 360px;" />
+<img v-click="2" src="./images/2fa_email_link.png" class="img-tall" />
+<img v-click="1" src="./images/2fa_mobile_push.png" class="img-tall" />
 
 </div>
 
@@ -233,10 +234,6 @@ layout: two-cols
 [rublon.com — 2FA vs 2SV](https://rublon.com/blog/2fa-2sv-difference/)
 
 </div>
-
-<style>
-.slidev-layout.two-columns { grid-template-columns: 45% 55%; }
-</style>
 
 ---
 
@@ -253,9 +250,7 @@ layout: two-cols
 </v-clicks>
 
 <div v-click="1" class="flex flex-col items-center" style="text-align: center; margin-top: 1em;">
-
 <img src="./images/ms_password_reuse.png" style="max-width: 72%; max-height: 190px;" />
-
 </div>
 
 ---
@@ -264,14 +259,13 @@ layout: two-cols
 
 - Top lists change very little year to year
 
-<div class="flex flex-col items-center" style="text-align: center;">
-
+<div class="img-col">
 <img src="./images/nordpass_common_passwords.png" style="margin-top: 1em;max-width: 82%; max-height: 300px;" />
-
 </div>
 
 ---
 layout: two-cols
+class: cols-45-55
 ---
 
 # Password strength
@@ -282,18 +276,11 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div class="img-col">
 
 ![XKCD #936 — Password Strength](./images/xkcd_password_strength.png)
 
-<a style="font-style: italic; font-size: 9pt;" href="https://xkcd.com/936/">xkcd.com/936</a>
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 45% 55%;
-	.col-right img { display: inline; max-width: 90%; }
-}
-</style>
 
 ---
 
@@ -463,12 +450,6 @@ layout: two-cols
 ![LastPass breach — 25 million users](./images/lastpass_breach.png)
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 50% 50%;
-	.col-right img { display: inline; max-width: 100%; }
-}
-</style>
 
 ---
 
@@ -512,17 +493,11 @@ T = floor(unix_timestamp / X)
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; margin-top: 2em;">
+<div class="img-col">
 
 ![How Time-Based One-Time Passwords (TOTP) Work](./images/keeper_totp.png)
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 48% 52%;
-	.col-right img { display: inline; max-width: 100%; }
-}
-</style>
 
 ---
 
@@ -840,13 +815,9 @@ layout: section
 >
 > — Ursula von der Leyen, State of the Union, 16 September 2020
 
-<style>
-.slidev-layout.two-columns { grid-template-columns: 58% 42%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
-
 ---
 layout: two-cols
+class: cols-55-45
 ---
 
 # NIST SP 800-63 digital identity guidelines
@@ -860,16 +831,15 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;  margin-left: 5em; margin-top: 5em;">
-<img src="./images/nist_800-63.png" style="max-height: 330px;" />
+<div class="img-col" style="padding: 1em; margin-top: 3em;">
 
-<a style="font-style: italic; font-size: 9pt;"
-	href="https://pages.nist.gov/800-63-3/">pages.nist.gov/800-63-3/</a>
+![NIST 800-63-3](./images/nist_800-63.png)
+*[pages.nist.gov/800-63-3/](https://pages.nist.gov/800-63-3/)*
+
 </div>
+
 <style>
 table { font-size: 0.9em; }
-.slidev-layout.two-columns { grid-template-columns: 50% 49%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
 </style>
 
 ---
@@ -958,6 +928,7 @@ KAS = Kerberos Authentication Server; T_S = Timestamp server.
 
 ---
 layout: two-cols
+class: cols-40-60
 ---
 
 # SAML
@@ -970,17 +941,12 @@ layout: two-cols
 </v-clicks>
 
 ::right::
-<div v-click class="flex flex-col items-center" style="text-align: center;">
+
+<div v-click class="img-col" style="padding:2em;">
 
 ![SAML authentication flow](./images/saml_flow.png)
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 32% 68%;
-	.col-right img { display: inline; max-width: 100%; }
-}
-</style>
 
 ---
 

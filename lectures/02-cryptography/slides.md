@@ -69,6 +69,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Early encryption schemes
@@ -80,24 +81,16 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div class="img-col">
 
 ![Tablet (Rimush, Louvre AO 5476)](./images/hist_rimush_tablet.jpg)
+*[Tablet (Rimush, Louvre AO 5476)](https://commons.wikimedia.org/wiki/File:Tablet_Rimush_Louvre_AO5476.jpg)*
 
-<a style="font-style: italic; font-size: 9pt;"
-	href="https://commons.wikimedia.org/wiki/File:Tablet_Rimush_Louvre_AO5476.jpg">Tablet (Rimush, Louvre AO 5476)</a>
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%; 
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Substitution
@@ -108,23 +101,11 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div class="img-col">
 
 ![Tablet](./images/hist_atbash_cipher.gif)
-
-<a style="font-style: italic; font-size: 9pt;"
-	href="https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e">https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e
-</a>
+*[https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e](https://medium.com/@amangondaliya555/atbash-cipher-70e284ad921e)*
 </div>
-
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 
@@ -137,13 +118,14 @@ layout: two-cols
 <div style="margin-top: 2em; width: 70%">
 
 ![hist_scytale_cipher.png](./images/hist_scytale_cipher.png)
-[toebes.com — Flynns, 1924](https://toebes.com/Flynns/Flynns-19241213.htm)
+*[toebes.com — Flynns, 1924](https://toebes.com/Flynns/Flynns-19241213.htm)*
 
 </div>
 </div>
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Fast forward on crypto history
@@ -171,20 +153,12 @@ layout: two-cols
 
 ::right::
 
-<div v-after class="flex flex-col items-center" style="text-align: center;">
+<div v-after class="img-col">
 
 ![Enigma Machine](./images/enigma_museo_scienza_Milano.jpg)
-[Military Model Enigma I, 1930](https://en.wikipedia.org/wiki/Enigma_machine)
+*[Military Model Enigma I, 1930](https://en.wikipedia.org/wiki/Enigma_machine)*
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 layout: section
@@ -281,6 +255,7 @@ Point out C ⊕ K = M — the key *is* the decryption.
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Shannon's S-P network
@@ -302,21 +277,12 @@ the ciphertext should change-->
 
 ::right::
 
-<div v-click="2" class="flex flex-col items-center" style="text-align: center;">
+<div v-click="2" class="img-col">
 
 ![S-P Network](./images/substitution_permutation_network.svg)
-
-[S-P Network](https://en.wikipedia.org/wiki/Substitution%E2%80%93permutation_network)
+*[S-P Network](https://en.wikipedia.org/wiki/Substitution%E2%80%93permutation_network)*
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 
 ---
@@ -468,6 +434,7 @@ Same key vs key pair → stream (bit by bit) vs block (fixed-size chunks) → bl
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Block ciphers: DES (and 3DES)
@@ -481,24 +448,16 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div class="img-col">
 
 ![Feistel Network](./images/feistel_cipher.png)
-
-[Feistel Network](https://en.wikipedia.org/wiki/Feistel_cipher)
+*[Feistel Network](https://en.wikipedia.org/wiki/Feistel_cipher)*
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Block ciphers: AES
@@ -518,21 +477,12 @@ layout: two-cols
 
 ::right::
 
-<div v-click="4" class="flex flex-col items-center" style="text-align: center;">
+<div v-click="4" class="img-col">
 
 ![AES Round Function](./images/aes_round_function.png)
-
-[AES Round Function](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+*[AES Round Function](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)*
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 
@@ -612,6 +562,7 @@ layout: two-cols
 
 ---
 layout: two-cols
+class: cols-55-45
 ---
 
 # Why ECB is a bad idea
@@ -622,19 +573,15 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center mt-4" style="text-align: center;">
+<div class="img-col mt-4">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Tux.jpg" class="h-40 mb-2" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Tux.jpg" class="h-40" />
 <em class="text-sm">Original Plaintext Image</em>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Tux_ecb.jpg" class="h-40 mb-2" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Tux_ecb.jpg" class="h-40 mt-2" />
 <em class="text-sm">Encrypted with AES-ECB</em>
 
 </div>
-
-<style>
-.slidev-layout.two-columns { grid-template-columns: 55% 45%; }
-</style>
 
 ---
 
@@ -716,6 +663,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-65-35
 ---
 
 # Diffie–Hellman (1976)
@@ -731,21 +679,12 @@ layout: two-cols
 
 ::right::
 
-<div v-click class="flex flex-col items-center" style="text-align: center;">
+<div v-click class="img-col">
 
 ![Diffie-Hellman Paint Analogy](./images/diffie_helman.svg)
-[Diffie-Hellman Paint
-Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
+*[Diffie-Hellman Paint Analogy](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)*
 
 </div>
-<style>
-.slidev-layout.two-columns {
-	grid-template-columns: 65% 35%;
-	.col-right img {
-		display: inline; max-width: 85%;
-	}
-}
-</style>
 
 ---
 

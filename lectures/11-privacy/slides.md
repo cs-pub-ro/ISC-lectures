@@ -107,14 +107,10 @@ layout: two-cols
 - Sanctioning of Dmitry Khoroshev as the alleged leader of LockBit, jointly with UK & Australia
 
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/nasa_hacker_diicot_news_ro.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/lockbit_charges_news.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/nasa_hacker_diicot_news_ro.png" class="img-sm" />
+<img src="./images/lockbit_charges_news.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -132,14 +128,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/email_tracking_pixel.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/tracking_url_query_string.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/email_tracking_pixel.png" class="img-sm" />
+<img src="./images/tracking_url_query_string.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -186,13 +178,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/declarative_net_request_flow.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/declarative_net_request_flow.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -221,13 +209,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/seagull_privacy_meme.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/seagull_privacy_meme.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -241,14 +225,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/google_gdpr_fine_headline.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/cookie_consent_dialog.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/google_gdpr_fine_headline.png" class="img-sm" />
+<img src="./images/cookie_consent_dialog.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -264,13 +244,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/gdpr_not_only_acronym.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/gdpr_not_only_acronym.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -285,15 +261,11 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/iapp_cipp_badge.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/iapp_cipm_badge.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/iapp_cipt_badge.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/iapp_cipp_badge.png" class="img-sm" />
+<img src="./images/iapp_cipm_badge.png" class="img-sm" />
+<img src="./images/iapp_cipt_badge.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -389,13 +361,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/mixnet_diagram.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/mixnet_diagram.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -420,13 +388,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tor_protocol_stack.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tor_protocol_stack.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -453,13 +417,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/pgp_web_of_trust.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/pgp_web_of_trust.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 

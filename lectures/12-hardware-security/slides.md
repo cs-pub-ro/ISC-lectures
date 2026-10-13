@@ -59,13 +59,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/trusted_untrusted_app_stack.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/trusted_untrusted_app_stack.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -81,13 +77,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tee_stack_minimal_tcb.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tee_stack_minimal_tcb.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -137,13 +129,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/infineon_optiga_tpm2_chip.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/infineon_optiga_tpm2_chip.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -161,13 +149,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/tpm_internal_architecture.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/tpm_internal_architecture.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -206,13 +190,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/remote_attestation_flow.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/remote_attestation_flow.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -258,13 +238,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/intel_sgx_architecture.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/intel_sgx_architecture.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -355,13 +331,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/hsm_pcie_crypto_card.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/hsm_pcie_crypto_card.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -376,13 +348,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/smart_card_anatomy.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/smart_card_anatomy.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -399,13 +367,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/yubikey5_nfc_security_key.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/yubikey5_nfc_security_key.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -443,13 +407,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/evil_maid_laptop_teardown.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/evil_maid_laptop_teardown.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -501,13 +461,9 @@ The speculative window is the bug: reads happen, then get rolled back — but th
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/meltdown_kernel_data_leak.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/meltdown_kernel_data_leak.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -524,13 +480,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/rowhammer_dram_rows.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/rowhammer_dram_rows.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: end

@@ -275,13 +275,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/server_side_processing_flow.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/server_side_processing_flow.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -438,13 +434,9 @@ Content-Disposition: form-data; name="../../index.php"
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/code_injection_dir_listing.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/code_injection_dir_listing.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -515,13 +507,9 @@ Identical hints produced identical ciphertexts — the "greatest crossword puzzl
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/adobe_3des_crossword.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/adobe_3des_crossword.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -704,15 +692,11 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/adobe_flash_logo.jpg" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/activex_logo.jpg" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/java_logo.jpg" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/adobe_flash_logo.jpg" class="img-sm" />
+<img src="./images/activex_logo.jpg" class="img-sm" />
+<img src="./images/java_logo.jpg" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -742,13 +726,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/cve_references_flash_ie_chart.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/cve_references_flash_ie_chart.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 

@@ -42,8 +42,8 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/objectives_virus_comic.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/objectives_virus_comic.png" />
 </div>
 
 ---
@@ -77,13 +77,9 @@ piece of software is not automatically malware — it's a (bad) software quality
 -->
 
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
+<div class="img-col">
 <img src="./images/malware_monster_laptop.png" style="max-height: 340px; max-width: 50%; margin-top: 2em;'" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -120,13 +116,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/adware_popup_ads_collage.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/adware_popup_ads_collage.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -148,13 +140,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/pe_header_cff_explorer.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/pe_header_cff_explorer.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -185,13 +173,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/worm_monsters_art.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/worm_monsters_art.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -212,13 +196,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/brain_virus_boot_sector.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/brain_virus_boot_sector.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -256,14 +236,10 @@ Code Red famously defaced sites, e.g. "Welcome to http://www.worm.com! Hacked By
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/iloveyou_worm_hexdump.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/code_red_defacement.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/iloveyou_worm_hexdump.png" class="img-sm" />
+<img src="./images/code_red_defacement.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -299,13 +275,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/trojan_horse_cartoon.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/trojan_horse_cartoon.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -342,14 +314,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/sub7_editserver_gui.png" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/sub7_client_gui.png" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/sub7_editserver_gui.png" class="img-sm" />
+<img src="./images/sub7_client_gui.png" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -409,13 +377,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/detour_hooking_diagram.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/detour_hooking_diagram.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -438,13 +402,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/botnet_c2_hierarchy.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/botnet_c2_hierarchy.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -460,13 +420,9 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/wannacry_decryptor_note.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/wannacry_decryptor_note.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -494,7 +450,7 @@ layout: two-cols
 - Cloud-based threat intelligence
 - Honeypots
 
-<div class="flex flex-col items-center" style="text-align: center;">
+<div class="img-col">
 <img src="./images/antivirus_vendor_logos.png" style="max-height: 300px; max-width: 100%;" />
 </div>
 

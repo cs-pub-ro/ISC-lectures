@@ -74,13 +74,9 @@ Playful mapping from the Purdue essay.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/snow_white_poster.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/snow_white_poster.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -98,14 +94,10 @@ Physically tapping a line: cheap tools, detectable via light loss.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/fiber_tap_diagram.jpg" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/fiber_tap_device.jpg" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/fiber_tap_diagram.jpg" class="img-sm" />
+<img src="./images/fiber_tap_device.jpg" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -152,13 +144,9 @@ Emphasize: ARP has no authentication; the real fix is detection, not just static
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/arp_spoofing_attack.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/arp_spoofing_attack.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -181,14 +169,10 @@ layout: two-cols
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/vlan_hopping_double_tag.jpg" style="max-height: 150px; max-width: 100%;" />
-<img src="./images/ethernet_8021q_frame.jpg" style="max-height: 150px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/vlan_hopping_double_tag.jpg" class="img-sm" />
+<img src="./images/ethernet_8021q_frame.jpg" class="img-sm" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -210,13 +194,9 @@ Modern wardriving is cheap and portable.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/pwnagotchi_photo.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/pwnagotchi_photo.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -250,13 +230,9 @@ Port-based network access control; pairs with WPA Enterprise for wireless.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/radius_eap_flow.png" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/radius_eap_flow.png" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: section
@@ -299,13 +275,9 @@ Show how a rogue DHCP becomes the gateway/DNS: trivially a network MitM.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/dhcp_dora_sequence.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/dhcp_dora_sequence.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -385,13 +357,9 @@ Key idea: DDoS can't be blocked at the edge, only absorbed/sunk.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/ddos_architecture.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/ddos_architecture.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 layout: two-cols
@@ -412,13 +380,9 @@ Reflection turns a helper server into an attacker; amplification scales it.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/udp_reflection_amplification.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/udp_reflection_amplification.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -463,13 +427,9 @@ Big vendors; note that size does not imply security (next slide).
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/vendor_logos_collage.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/vendor_logos_collage.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
@@ -573,13 +533,9 @@ Honeypots are cheap intelligence: study attacks on a sacrificial system.
 
 ::right::
 
-<div class="flex flex-col items-center" style="text-align: center; gap: 0.4em;">
-<img src="./images/honeypot_architecture.jpg" style="max-height: 340px; max-width: 100%;" />
+<div class="img-col">
+<img src="./images/honeypot_architecture.jpg" />
 </div>
-<style>
-.slidev-layout.two-columns { grid-template-columns: 52% 48%; }
-.slidev-layout.two-columns .col-right img { display: inline; max-width: 100%; }
-</style>
 
 ---
 
