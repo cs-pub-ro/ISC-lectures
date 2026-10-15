@@ -995,13 +995,16 @@ KAS = Kerberos Authentication Server; T_S = Timestamp server.
 
 ---
 layout: two-cols
-class: cols-40-60
+class: cols-50-50
 ---
 
-# SAML
+# OIDC + SAML
 
 <v-clicks>
 
+- **OIDC**: OpenID Connect - decentralized authentication standard
+  * third generation of OpenID suite (on top of the OAuth 2.0 **authorization protocol**!)
+  * **yep**: you must first authorize your OIDC provider (after authenticating there!) to authenticate you for your desired service ;)
 - **Security Assertion Markup Language** — XML-based federation format
 - Carries authentication results as **assertions** between domains
 
@@ -1024,7 +1027,7 @@ class: cols-40-60
 - **RADIUS** — central authentication, authorization and accounting protocol
 - **EAP** — Extensible Authentication Protocol
   - wraps authentication methods (e.g., EAP-TLS, EAP-PEAP)
-  - common in Wi-Fi (802.1X) and remote access
+  - common in Wi-Fi / LAN (802.1X) and remote access
 
 </v-clicks>
 
