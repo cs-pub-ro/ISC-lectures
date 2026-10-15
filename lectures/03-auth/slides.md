@@ -521,7 +521,7 @@ T = floor(unix_timestamp / X)
 layout: section
 ---
 
-# Key establishment protocols
+# Protocols
 
 ---
 
@@ -553,7 +553,92 @@ layout: section
 
 ---
 
-# Symmetric authentication
+# Symmetric authentication (how NOT to do it!)
+
+**A wants to authenticate to B.** They share a secret $k_{A,B}$ (e.g. a password).
+
+<v-clicks>
+
+1. $A \to B : ID_A,\text{Hash}(k_{A,B})$ *(identity sent in clear, password remains secure!)*
+2. $B$: *hashes the same input and verifies*
+
+</v-clicks>
+
+<v-click>
+
+**Possible attack: replay!**
+
+- Trudy eavesdrops **once**, records $\text{Hash}(k_{A,B})$, and replays it **forever**
+- A static response is a permanent valid credential...
+
+→ the challenge **must be fresh** (a nonce) so each attempt differs!
+
+</v-click>
+
+---
+
+# Symmetric challenge–response (1)
+
+Same scenario: **A wants to authenticate to B.**, sharing symmetric $k_{A,B}$.
+
+<v-clicks>
+
+1. $A \to B : ID_A$ *(A announces itself)*
+2. $B \to A : N_B$ *(B issues a fresh challenge / nonce)*
+3. $A \to B : \text{Hash}(N_B \,\|\, k_{A,B})$
+
+</v-clicks>
+
+<v-click>
+
+**Note**: The *Nonce* should **never** repeat!
+
+</v-click>
+
+---
+
+# Symmetric challenge-response (2) attacks
+
+<v-clicks>
+
+Trudy (_MitM_) eavesdrops and records many runs:
+
+$$ (N_B^{(1)},\, \text{Hash}(N_B^{(1)} \| k_{A,B})),\;\; (N_B^{(2)},\, \text{Hash}(N_B^{(2)} \| k_{A,B})),\;\; \dots $$
+
+- $N_B$ is sent **in the clear**, so Trudy can test guesses **offline**:
+
+$$ \text{Hash}(N_B \| \text{guess}) \stackrel{?}{=} \text{Hash}(N_B \| k_{A,B}) $$
+
+- A weak / common $k_{A,B}$ (a password) falls to a **offline dictionary / forward-search** attack
+- Even without guessing: Trudy can **replay** a captured $(N_B, \text{Hash}(\cdot))$ pair if B ever reuses a nonce
+
+</v-clicks>
+
+---
+
+# Challenge-response (3) identity replacement attack
+
+**Goal:** Trudy makes B authenticate her *as* A. Trudy does **not** know $k_{A,B}$.
+
+<v-clicks>
+
+1. $T \to B : ID_A$ *(Trudy pretends to be A)*
+2. $B \to T : N_B$ *(B issues the challenge)*
+3. $T \to A : N_B$ *(Trudy reflects the challenge to the real A, posing as B)*
+4. $A \to T : \text{Hash}(N_B \,\|\, k_{A,B})$ *(A computes a **valid** response)*
+5. $T \to B : \text{Hash}(N_B \,\|\, k_{A,B})$ *(Trudy forwards A's answer to B)*
+
+</v-clicks>
+
+<v-click>
+
+B accepts — Trudy is authenticated as A, without ever knowing $k_{A,B}$.
+
+</v-click>
+
+---
+
+# Symmetric Authentication via Trusted Party
 
 <v-clicks>
 
@@ -565,35 +650,15 @@ layout: section
 </v-clicks>
 
 <v-click>
-<br>
 
-> Why? **Enterprise authentication!**
-
-</v-click>
-
----
-
-# Symmetric protocol (1) — naive
-
-<v-clicks>
-
-1. $A \to S : ID_A, ID_B$ *(I am A, give me the key for B)*
-2. $S \to A : k_{A,B}$ *(key transferred in unencrypted form)*
-3. $A \to B : ID_A, k_{A,B}$ *(key transferred in unencrypted form)*
-
-</v-clicks>
-
-<v-click>
-
-**Possible attacks:**
-
-- An attacker with MitM capabilities gets $k_{A,B}$
+Why? **Enterprise authentication!** <br>
+_people come and go, printers/servers remain_...
 
 </v-click>
 
 ---
 
-# Symmetric protocol (2) — encrypted at the server
+# Symmetric protocol (1) - encrypted at the server
 
 <v-click>
 
@@ -621,7 +686,7 @@ Requirements: $k_{A,S}$, $k_{B,S}$ with a trusted **S**erver
 
 ---
 
-# Symmetric protocol (2') — Trudy in the middle
+# Symmetric protocol (2) - Trudy in the middle
 
 **Classic Man-in-the-Middle (MitM) attack:**
 
@@ -646,7 +711,7 @@ Every message looks legitimate because each one is sealed by S.
 
 ---
 
-# Symmetric protocol (3) — include IDs
+# Symmetric protocol (3) - include IDs
 
 <v-clicks>
 
@@ -667,7 +732,7 @@ Every message looks legitimate because each one is sealed by S.
 
 ---
 
-# Symmetric protocol (4) — Needham–Schroeder (1978)
+# Symmetric protocol (4) - Needham–Schroeder (1978)
 
 <v-clicks>
 
@@ -680,7 +745,7 @@ Every message looks legitimate because each one is sealed by S.
 </v-clicks>
 <v-click>
 
-**Possible attack — Denning–Sacco replay of an old broken key:**
+**Possible attack: Denning–Sacco replay of an old broken key:**
 
 1. $T \to B : \{k'_{A,B}, ID_A\}_{k_{B,S}}$
 2. $B \to T : \{N_B\}_{k'_{A,B}}$
@@ -690,7 +755,7 @@ Every message looks legitimate because each one is sealed by S.
 
 ---
 
-# Symmetric protocol (5) — final form
+# Symmetric protocol (5) - final form (ok I promise!)
 
 <v-clicks>
 
@@ -773,6 +838,8 @@ Trudy terminates two separate DH exchanges and relays identities.
 ---
 
 # Protocol for asymmetric encryption (STS simplified)
+
+Station-to-Station (DH Protocol with Mutual Authentication)
 
 <v-clicks>
 
