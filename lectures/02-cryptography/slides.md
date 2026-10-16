@@ -871,6 +871,30 @@ layout: section
 
 ---
 
+## HMAC
+
+$$
+\operatorname{HMAC}(K,m)
+=
+H\left(
+(K' \oplus \mathrm{opad})
+\;\|\;
+H\left((K' \oplus \mathrm{ipad}) \;\|\; m\right)
+\right)
+$$
+
+where
+
+$$
+K' =
+\begin{cases}
+H(K), & \text{if } K \text{ is larger than the hash block size} \\
+K, & \text{otherwise}
+\end{cases}
+$$
+
+---
+
 # Authenticated Encryption (AEAD)
 
 - **AEAD (Authenticated Encryption with Associated Data)**

@@ -274,6 +274,11 @@ class: cols-45-55
 >
 > — [xkcd.com/936](https://xkcd.com/936/)
 
+<div v-click class="mt-3 p-4 rounded border-l-4 border-blue-600 bg-blue-50 text-black text-sm">
+<b>Modern NIST SP 800-63B Guidelines (The "Anti-Annoyance" Rules):</b><br>
+NIST now explicitly recommends <b>against</b> periodic password expiration (e.g., changing every 90 days) and <b>against</b> forcing arbitrary special characters (<code>!@#$</code>). Instead: Enforce length (passphrases) and check the password against known-breached databases.
+</div>
+
 ::right::
 
 <div class="img-col">
@@ -405,6 +410,7 @@ layout: two-cols
 
 - Rate-limit
 - Lock out after N failed attempts
+  - Naive lockouts create a **Denial of Service** (DoS) vector!
 - Some cryptographic hardware devices are _online_ (stateful) in this regard!
 
 </v-clicks>
@@ -462,6 +468,7 @@ layout: two-cols
 - Give a **unique public key** to the web server (no reuse!)
 - Use the private key **instead of a password**
 - Private key must be stored on **secure hardware**!
+- Passkeys are FIDO2 credentials stored in software (Apple Keychain, Google Password Manager, etc.)
 - FIDO-certified security keys: Yubikey, SoloKey, NitroKey ;)
 - Hardware validates the 2nd factor:
   - something you **know** (PIN — rate limited!)
@@ -471,6 +478,36 @@ layout: two-cols
 </v-clicks>
 
 ---
+
+# FIDO2 Authentication
+
+```mermaid {scale: 0.5}
+sequenceDiagram
+    participant U as User
+    participant B as Browser / Client
+    participant S as Server / Relying Party
+    participant A as Authenticator / FIDO2 device
+
+    U->>S: Start login
+    S->>S: Generate random challenge
+    S-->>B: Challenge + allowed credential IDs
+
+    B->>A: Authenticate(challenge, RP ID)
+
+    A->>U: User verification<br/>(PIN / biometric / presence)
+    U-->>A: Approved
+
+    A-->>B: Signature + authenticator data
+
+    B-->>S: Credential ID + signature + challenge data
+
+    S->>S:Verify signature with public key
+
+    S-->>U: Authentication successful
+```
+
+
+---
 layout: two-cols
 ---
 
@@ -478,7 +515,7 @@ layout: two-cols
 
 <v-clicks>
 
-- **OATH**: **HOTP** & **TOTP**
+- **OATH**: **H(ash based)OTP** & **T(ime based)OTP**
 - **TOTP**: [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238)
 
 ```
@@ -498,6 +535,23 @@ T = floor(unix_timestamp / X)
 ![How Time-Based One-Time Passwords (TOTP) Work](./images/keeper_totp.png)
 
 </div>
+
+---
+
+# FIDO2 >> TOTP / HOTP
+
+<v-clicks>
+
+- FIDO2 is **asymmetric** crypto
+- TOTP / HOTP are **symmetric** crypto
+- FIDO2 avoids **all** TOTP/HOTP weaknesses:
+  - not vulnerable to replay attacks
+  - not vulnerable to phishing
+  - not vulnerable to credential stuffing
+  - not vulnerable to meddler-in-the-middle attacks
+  - not vulnerable to server compromise
+
+</v-clicks>
 
 ---
 
@@ -585,7 +639,7 @@ Same scenario: **A wants to authenticate to B.**, sharing symmetric $k_{A,B}$.
 
 1. $A \to B : ID_A$ *(A announces itself)*
 2. $B \to A : N_B$ *(B issues a fresh challenge / nonce)*
-3. $A \to B : \text{Hash}(N_B \,\|\, k_{A,B})$
+3. $A \to B : \text{HMAC}_{k_{A,B}}(N_B)$
 
 </v-clicks>
 
@@ -603,14 +657,14 @@ Same scenario: **A wants to authenticate to B.**, sharing symmetric $k_{A,B}$.
 
 Trudy (_MitM_) eavesdrops and records many runs:
 
-$$ (N_B^{(1)},\, \text{Hash}(N_B^{(1)} \| k_{A,B})),\;\; (N_B^{(2)},\, \text{Hash}(N_B^{(2)} \| k_{A,B})),\;\; \dots $$
+$$ (N_B^{(1)},\, \text{HMAC}_{k_{A,B}}(N_B^{(1)})),\;\; (N_B^{(2)},\, \text{HMAC}_{k_{A,B}}(N_B^{(2)})),\;\; \dots $$
 
 - $N_B$ is sent **in the clear**, so Trudy can test guesses **offline**:
 
-$$ \text{Hash}(N_B \| \text{guess}) \stackrel{?}{=} \text{Hash}(N_B \| k_{A,B}) $$
+$$ \text{HMAC}_{k_{A,B}}(N_B) \stackrel{?}{=} \text{HMAC}_{k_{A,B}}(N_B) $$
 
 - A weak / common $k_{A,B}$ (a password) falls to a **offline dictionary / forward-search** attack
-- Even without guessing: Trudy can **replay** a captured $(N_B, \text{Hash}(\cdot))$ pair if B ever reuses a nonce
+- Even without guessing: Trudy can **replay** a captured $(N_B, \text{HMAC}(\cdot))$ pair if B ever reuses a nonce
 
 </v-clicks>
 
@@ -625,8 +679,8 @@ $$ \text{Hash}(N_B \| \text{guess}) \stackrel{?}{=} \text{Hash}(N_B \| k_{A,B}) 
 1. $T \to B : ID_A$ *(Trudy pretends to be A)*
 2. $B \to T : N_B$ *(B issues the challenge)*
 3. $T \to A : N_B$ *(Trudy reflects the challenge to the real A, posing as B)*
-4. $A \to T : \text{Hash}(N_B \,\|\, k_{A,B})$ *(A computes a **valid** response)*
-5. $T \to B : \text{Hash}(N_B \,\|\, k_{A,B})$ *(Trudy forwards A's answer to B)*
+4. $A \to T : \text{HMAC}_{k_{A,B}}(N_B)$ *(A computes a **valid** response)*
+5. $T \to B : \text{HMAC}_{k_{A,B}}(N_B)$ *(Trudy forwards A's answer to B)*
 
 </v-clicks>
 
@@ -675,7 +729,7 @@ Requirements: $k_{A,S}$, $k_{B,S}$ with a trusted **S**erver
 </v-clicks>
 <v-click>
 
-**Possible attack — reflection:**
+**Possible attack — identity misbinding (source substitution):**
 
 3'. $A \to T : ID_A, \{k_{A,B}\}_{k_{B,S}}$<br>
 4'. $T \to B : ID_T, \{k_{A,B}\}_{k_{B,S}}$
@@ -844,8 +898,8 @@ Station-to-Station (DH Protocol with Mutual Authentication)
 <v-clicks>
 
 1. $A \to B : DH_A$
-2. $B \to A : DH_B, \{\{DH_A, DH_B\}_{pubA}\}_{k_{A,B}}$
-3. $A \to B : \{\{DH_A, DH_B\}_{pubB}\}_{k_{A,B}}$
+2. $B \to A : DH_B, \{\text{Sign}_{privB}(DH_A, DH_B)\}_{k_{A,B}}$
+3. $A \to B : \{\text{Sign}_{privA}(DH_A, DH_B)\}_{k_{A,B}}$
 
 </v-clicks>
 <br>
@@ -957,7 +1011,7 @@ table { font-size: 0.9em; }
 
 ---
 
-# Kerberos (v1) protocol
+# Kerberos (v4) - Core protocol
 
 <v-clicks>
 
@@ -981,7 +1035,7 @@ KAS = Kerberos Authentication Server; T_S = Timestamp server.
 
 ---
 
-# Kerberos (v2)
+# Kerberos (v5) - Ticket Granting service
 
 <v-clicks>
 
@@ -1057,18 +1111,18 @@ actions) between domains
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<saml2p:AuthnRequest
-	xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" AttributeConsumingServiceIndex="1"
-    Destination="https://yourdomain/broker/sp/saml/login" ForceAuthn="true"
-    ID="_b6a016332e19a825bb42917c9870c93a" IssueInstant="2021-03-09T10:26:17.210Z"
-    Version="2.0">
-  <saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-    yourEntityID
-  </saml2:Issuer>
-  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
-  ... XML Signature ...
-  </ds:Signature>
-</saml2p:AuthnRequest>
+<saml2:Assertion ID="_12345" IssueInstant="2024-03-09T10:00:00Z" Version="2.0">
+  <saml2:Issuer>https://idp.example.com</saml2:Issuer>
+  <ds:Signature>... XML Signature ...</ds:Signature>
+  <saml2:Subject>
+    <saml2:NameID>johndoe@example.com</saml2:NameID>
+  </saml2:Subject>
+  <saml2:AuthnStatement AuthnInstant="2024-03-09T10:00:00Z">
+    <saml2:AuthnContext>
+      <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml2:AuthnContextClassRef>
+    </saml2:AuthnContext>
+  </saml2:AuthnStatement>
+</saml2:Assertion>
 ```
 
 </div>
@@ -1088,6 +1142,7 @@ code {font-size: 0.8em;}
 - **OpenID Connect**: modern authentication standard (3rd in OpenID suite)
   * Centralized, based on specific IdP (Identity Provider)
   * Built on top of OAuth 2.0 **authorization protocol**
+    * **OAuth 2.0 is for AUTHORIZATION (accessing APIs); OIDC is for AUTHENTICATION (proving who you are).**
   * IdP authorizes the client to access a special `/userinfo` endpoint to fetch
   	user identity (e.g., email)
 - Popular in web/desktop-based applications + RESTful APIs (instead of Enterprise)
@@ -1162,6 +1217,66 @@ jBFezWhTOAn4ov9X_wqqUBFKaXjZiGXHS4SWdZyatiw
 <style>
 code {font-size:0.9em;}
 </style>
+
+---
+layout: two-cols
+---
+
+# JWT Attacks: Trusting the Header
+
+<v-clicks>
+
+- **The Flaw:** Many backend libraries read the `alg` header from the **untrusted** user input *before* verifying the signature!
+- **Attack 1: The `alg: none` bypass**
+  - Attacker changes `"alg": "none"`.
+  - Attacker removes the signature entirely.
+  - Vulnerable backend sees `none`, skips verification, and accepts the forged payload!
+- **Attack 2: Key Confusion (RS256 $\to$ HS256)**
+  - Server expects Asymmetric (RS256) and uses a Public Key to verify.
+  - Attacker changes header to Symmetric (HS256) and signs the token using the server's *Public Key* as the *HMAC Secret*.
+
+</v-clicks>
+
+::right::
+
+<div v-click class="p-4" style="margin-top: 2em;">
+
+**The Malicious Payload:**
+
+```json
+// 1. Header (Modified)
+{ "alg": "none", "typ": "JWT" }
+
+// 2. Payload (Forged)
+{
+  "iss": "https://accounts.example.com",
+  "sub": "admin",
+  "aud": "my-app"
+}
+
+// 3. Signature (Empty!)
+```
+
+</div>
+---
+
+# Web Sessions: Where to store the token?
+
+Once the App receives a JWT or generates a Session ID, where does the browser keep it?
+
+<v-clicks>
+
+**1. LocalStorage / SessionStorage (HTML5 API)**
+- Accessible via JavaScript (`window.localStorage.setItem()`).
+- 💀 **Danger:** Highly vulnerable to **XSS (Cross-Site Scripting)**. If an attacker injects a malicious script on the page, they steal the token immediately!
+
+**2. HTTP Cookies (Best Practice for Sessions)**
+- Sent automatically by the browser on every request to that domain.
+- **`HttpOnly` flag:** Instructs the browser to hide the cookie from JavaScript. (Defeats XSS token theft!)
+- **`Secure` flag:** Only transmitted over HTTPS.
+- ⚠️ **Danger:** Vulnerable to **CSRF (Cross-Site Request Forgery)** if `SameSite` flags are not configured properly.
+
+</v-clicks>
 
 ---
 
