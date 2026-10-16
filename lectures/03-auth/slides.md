@@ -1176,6 +1176,13 @@ code {font-size:0.9em;}
 
 </v-clicks>
 
+<div v-click style="width: 45%; margin: 0 auto; text-align: center;">
+
+![EAP Overview](./images/eap-tls-overview.svg)
+
+</div>
+
+
 ---
 
 # References
