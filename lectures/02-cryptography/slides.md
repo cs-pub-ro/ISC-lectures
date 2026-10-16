@@ -893,6 +893,24 @@ K, & \text{otherwise}
 \end{cases}
 $$
 
+and $K'$ is zero-padded to the hash function's block size if necessary.
+
+---
+
+# Padding constants
+
+- **ipad** = inner padding  
+
+$$
+\mathrm{ipad} = \texttt{0x36 0x36 0x36 ...}
+$$
+
+- **opad** = outer padding  
+
+$$
+\mathrm{opad} = \texttt{0x5c 0x5c 0x5c ...}
+$$
+
 ---
 
 # Authenticated Encryption (AEAD)
