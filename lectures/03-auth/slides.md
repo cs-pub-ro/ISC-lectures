@@ -998,25 +998,170 @@ layout: two-cols
 class: cols-50-50
 ---
 
-# OIDC + SAML
+# Federated/SSO Authentication
+
+Typical flow:
 
 <v-clicks>
 
-- **OIDC**: OpenID Connect - decentralized authentication standard
-  * third generation of OpenID suite (on top of the OAuth 2.0 **authorization protocol**!)
-  * **yep**: you must first authorize your OIDC provider (after authenticating there!) to authenticate you for your desired service ;)
-- **Security Assertion Markup Language** — XML-based federation format
-- Carries authentication results as **assertions** between domains
+1. Client/App (abbr: <abbr title="Service Provider in SAML">SP</abbr>/<abbr title="Relying Party in OIDC">RP</abbr>) 
+   has no session -> redirects to the **IdP** (ID Provider)
+2. IdP authenticates the user (using its own factors, unshared with the app)
+3. IdP returns a signed assertion/token to the app
+4. App. verifies the signature + freshness, then establishes local session (e.g.,
+   using cookies)
 
 </v-clicks>
 
 ::right::
 
-<div v-click class="img-col" style="padding:2em;">
+<div style="width: 90%; margin: 2em auto;">
 
-![SAML authentication flow](./images/saml_flow.png)
+```mermaid
+sequenceDiagram
+  actor U as User
+  participant A as App (SP / RP)
+  participant I as IdP
+
+  U->>A: Access (no session)
+  A-->>U: Redirect + AuthnRequest
+  U->>I: Authenticate
+  I-->>U: Signed assertion / ID token
+  U->>A: Assertion / token
+  A->>A: Verify sig + freshness
+  A-->>U: Local session (cookie)
+```
 
 </div>
+
+---
+layout: two-cols
+class: cols-50-50
+---
+
+# SAML 2.0
+
+<v-clicks>
+
+- **Security Assertion Markup Language** - XML-based federation format
+- Carries signed authentication results as **assertions** (identity / groups + authorized
+actions) between domains
+- Used in Enterprise SSO (e.g., Microsoft Exchange)
+- Alternatives: OpenID Connect (JWT instead of XML)
+
+</v-clicks>
+
+::right::
+
+<div v-click style="padding:2em;">
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<saml2p:AuthnRequest
+	xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" AttributeConsumingServiceIndex="1"
+    Destination="https://yourdomain/broker/sp/saml/login" ForceAuthn="true"
+    ID="_b6a016332e19a825bb42917c9870c93a" IssueInstant="2021-03-09T10:26:17.210Z"
+    Version="2.0">
+  <saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
+    yourEntityID
+  </saml2:Issuer>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  ... XML Signature ...
+  </ds:Signature>
+</saml2p:AuthnRequest>
+```
+
+</div>
+
+<style>
+code {font-size: 0.8em;}
+</style>
+
+---
+
+# SSO: OpenID standards
+
+<v-clicks>
+
+- _OpenID History_: v1.0 (unused) & v2 - decentralized, popular in 2010s
+  * Due to OpenID's shortcomings, _OAuth2_ was very popular but erroneously used for authentication!
+- **OpenID Connect**: modern authentication standard (3rd in OpenID suite)
+  * Centralized, based on specific IdP (Identity Provider)
+  * Built on top of OAuth 2.0 **authorization protocol**
+  * IdP authorizes the client to access a special `/userinfo` endpoint to fetch
+  	user identity (e.g., email)
+- Popular in web/desktop-based applications + RESTful APIs (instead of Enterprise)
+  * E.g., Access GMail account in Outlook / Thunderbird, Google Drive API etc.
+
+</v-clicks>
+
+---
+
+# JWT (JSON Web Token)
+
+<v-clicks>
+
+- **Compact, signed** JSON token — 3 base64url parts: `header . payload . signature`
+- **Self-contained**: carries *claims* + a **signature** the resource server verifies **locally** (no callback to the IdP)
+- **Signed ≠ encrypted**: e.g., `HS256` / `RS256` / `ES256`; always verify `signature`, `exp`, `iss`!
+- **Relation to SSO / OAuth2:**
+  - OAuth 2.0 = **authorization** (access tokens)
+  - **OIDC** adds the **ID token** (a JWT) for **authentication**
+  - JWT = the **JSON analogue of a SAML assertion**
+- **Caveats**: no server-side revocation (use short `exp` + refresh tokens); the payload is **not secret** (integrity + authenticity only)
+
+</v-clicks>
+
+---
+layout: two-cols
+---
+# JWT example (HS256, signed)
+
+<div class="p-4">
+
+**Encoded** — `header.payload.signature`:
+
+```text
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3M
+iOiJodHRwczovL2FjY291bnRzLmV4YW1wbGUuY29tIiw
+ic3ViIjoiMTIzNDU2Nzg5MCIsImF1ZCI6Im15LWFwcCI
+sImlhdCI6MTY5MDAwMDAwMCwiZXhwIjoxNjkwMDAzNjA
+wLCJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20ifQ.
+jBFezWhTOAn4ov9X_wqqUBFKaXjZiGXHS4SWdZyatiw
+```
+
+*(signature `jBFezWhTOAn...` is HMAC-SHA256 of `header.payload`)*
+
+</div>
+
+::right::
+
+<div class="p-4" style="margin-top: 2em;">
+
+**Decoded** — header:
+
+```json
+{ "alg": "HS256", "typ": "JWT" }
+```
+
+**Decoded** — payload (token claims):
+
+```json
+{
+  "iss":   "https://accounts.example.com",
+  "sub":   "1234567890",
+  "aud":   "my-app",
+  "iat":   1690000000,
+  "exp":   1690003600,
+  "email": "johndoe@example.com"
+}
+```
+
+</div>
+
+<style>
+code {font-size:0.9em;}
+</style>
 
 ---
 
@@ -1042,6 +1187,8 @@ class: cols-50-50
 - [nordpass.com — most common passwords](https://nordpass.com/most-common-passwords-list/)
 - [xkcd.com/936](https://xkcd.com/936/)
 - [NIST SP 800-63 Digital Identity Guidelines](https://pages.nist.gov/800-63-3/)
+- [Understanding OpenID Connect Part 1](https://medium.com/@robert.broeckelmann/saml2-vs-jwt-understanding-openid-connect-part-1-fffe0d50f953)
+- [Understanding JSON Web Token (JWT)](https://medium.com/@robert.broeckelmann/saml2-vs-jwt-understanding-json-web-token-jwt-67d56462feaf)
 
 ---
 class: text-center
