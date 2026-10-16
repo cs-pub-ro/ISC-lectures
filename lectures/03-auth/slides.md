@@ -151,7 +151,7 @@ layout: two-cols
 | reflection     | replaying a captured message to the originating party                 |
 | relay          | forwarding a message in real time from a distinct protocol run        |
 | interleaving   | weaving together messages from distinct concurrent protocols          |
-| middle-person  | eavesdropping on communication                                        |
+| meddler-in-the-middle  | eavesdropping on communication                                        |
 | bruteforce     | usable for short credentials (e.g., PIN codes without rate limiting)  |
 | dictionary     | using a heuristically prioritized list in a guessing attack           |
 | forward search | feeding guesses into a one-way function, seeking output matches       |
@@ -545,10 +545,10 @@ T = floor(unix_timestamp / X)
 - FIDO2 is **asymmetric** crypto
 - TOTP / HOTP are **symmetric** crypto
 - FIDO2 avoids **all** TOTP/HOTP weaknesses:
-  - not vulnerable to replay attacks
-  - not vulnerable to phishing
-  - not vulnerable to credential stuffing
-  - not vulnerable to meddler-in-the-middle attacks
+  - not vulnerable to **replay** attacks
+  - not vulnerable to phishing (**pre-capture** or **relay** attacks)
+  - not vulnerable to credential stuffing (**bruteforce** or **dictionary** attacks)
+  - not vulnerable to **middle-person** attacks (Origin Binding defeats MitM proxies)
   - not vulnerable to server compromise
 
 </v-clicks>
@@ -678,7 +678,7 @@ $$ \text{HMAC}_{k_{A,B}}(N_B) \stackrel{?}{=} \text{HMAC}_{k_{A,B}}(N_B) $$
 
 1. $T \to B : ID_A$ *(Trudy pretends to be A)*
 2. $B \to T : N_B$ *(B issues the challenge)*
-3. $T \to A : N_B$ *(Trudy reflects the challenge to the real A, posing as B)*
+3. $T \to A : N_B$ *(Trudy opens a concurrent session and sends B's challenge to A)*
 4. $A \to T : \text{HMAC}_{k_{A,B}}(N_B)$ *(A computes a **valid** response)*
 5. $T \to B : \text{HMAC}_{k_{A,B}}(N_B)$ *(Trudy forwards A's answer to B)*
 
@@ -687,6 +687,7 @@ $$ \text{HMAC}_{k_{A,B}}(N_B) \stackrel{?}{=} \text{HMAC}_{k_{A,B}}(N_B) $$
 <v-click>
 
 B accepts — Trudy is authenticated as A, without ever knowing $k_{A,B}$.
+> **Attack Type:** This is an **Interleaving** attack! Trudy weaves together messages from two distinct, concurrent protocol runs to bypass the cryptography.
 
 </v-click>
 
@@ -742,7 +743,7 @@ Requirements: $k_{A,S}$, $k_{B,S}$ with a trusted **S**erver
 
 # Symmetric protocol (2) - Trudy in the middle
 
-**Classic Man-in-the-Middle (MitM) attack:**
+**Classic Meddler-in-the-Middle (MitM) attack:**
 
 <v-clicks>
 
@@ -1268,13 +1269,13 @@ Once the App receives a JWT or generates a Session ID, where does the browser ke
 
 **1. LocalStorage / SessionStorage (HTML5 API)**
 - Accessible via JavaScript (`window.localStorage.setItem()`).
-- 💀 **Danger:** Highly vulnerable to **XSS (Cross-Site Scripting)**. If an attacker injects a malicious script on the page, they steal the token immediately!
+- 💀 **Danger:** Highly vulnerable to **XSS (Cross-Site Scripting)**. If an attacker injects a malicious script on the page, they steal the token immediately and execute a **replay** attack against the backend API until the token expires!
 
 **2. HTTP Cookies (Best Practice for Sessions)**
 - Sent automatically by the browser on every request to that domain.
 - **`HttpOnly` flag:** Instructs the browser to hide the cookie from JavaScript. (Defeats XSS token theft!)
 - **`Secure` flag:** Only transmitted over HTTPS.
-- ⚠️ **Danger:** Vulnerable to **CSRF (Cross-Site Request Forgery)** if `SameSite` flags are not configured properly.
+- ⚠️ **Danger:** Vulnerable to **CSRF (Cross-Site Request Forgery)** if `SameSite` flags are not configured properly. 
 
 </v-clicks>
 
