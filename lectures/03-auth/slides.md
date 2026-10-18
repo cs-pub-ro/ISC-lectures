@@ -1227,14 +1227,11 @@ layout: two-cols
 
 <v-clicks>
 
-- **The Flaw:** Many backend libraries read the `alg` header from the **untrusted** user input *before* verifying the signature!
-- **Attack 1: The `alg: none` bypass**
-  - Attacker changes `"alg": "none"`.
-  - Attacker removes the signature entirely.
-  - Vulnerable backend sees `none`, skips verification, and accepts the forged payload!
-- **Attack 2: Key Confusion (RS256 $\to$ HS256)**
-  - Server expects Asymmetric (RS256) and uses a Public Key to verify.
-  - Attacker changes header to Symmetric (HS256) and signs the token using the server's *Public Key* as the *HMAC Secret*.
+- Many backend libraries read the `alg` header from the **untrusted** user input *before* verifying the signature!
+- **Attack 1**: `alg: none` bypass + remove signature
+  - Backend skips verification, and accepts the forged payload!
+- **Attack 2**: Key Confusion (RS256 $\to$ HS256)
+  - Attacker changes header to Symmetric (HS256) and signs the token using the server's *Public Key* as the *HMAC Secret*
 
 </v-clicks>
 
@@ -1242,7 +1239,7 @@ layout: two-cols
 
 <div v-click class="p-4" style="margin-top: 2em;">
 
-**The Malicious Payload:**
+**Payload sample:**
 
 ```json
 // 1. Header (Modified)
