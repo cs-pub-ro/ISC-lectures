@@ -188,23 +188,11 @@ Let $S$ be the set of all subjects, $O$ the set of all objects, $P$ the set of a
 - An **ACL** is a set $\{A_o \mid o \in O\}$ — **one element for each object**
 - Each element = the pairs $(s, p)$ of subjects $s$ with permission $p$ for that object
 
-::right::
+<div class="img-col" style="width: 70%; margin: 0 auto;">
 
-```text
-catalog.csv
-  root:  rw
-  mihai: rw
+![Access control matrix sliced by object into one ACL per object](./images/acl_matrix_to_acls.svg)
 
-cat-anonim.txt
-  root:  rw
-  mihai: rw
-  student: r
-
-/sbin/sudo
-  root:  rwx
-  mihai: rx
-  student: r
-```
+</div>
 
 ---
 
@@ -226,14 +214,13 @@ cat-anonim.txt
 # Capability lists
 
 - Alternate implementation: each **user stores a list of his capabilities**, instead of objects storing ACLs
-- Storing capabilities = giving each subject **tokens** that grant access to the permissions they are entitled to
+- Storage: give each subject **tokens** that grant access to the permissions they are entitled to
 
-|         | catalog.csv | cat-anonim.txt | /dev/kmem | /sbin/sudo | PID 1001 |
-| ------- | ----------- | -------------- | --------- | ---------- | -------- |
-| Root    | rw          | rw             | rw        | rwx        | kill     |
-| mihai   | rw          | rw             | -         | rx         | kill     |
-| student | -           | r              | -         | rx         | -        |
-| guest   | -           | -              | -         | -          | -        |
+<div class="img-col" style="width: 70%; margin: 0 auto;">
+
+![Access control matrix sliced by subject into one list of capability tokens per subject](./images/capability_matrix_to_caps.svg)
+
+</div>
 
 <!--
 Transpose of the matrix representation: rows are now users holding tokens.
@@ -243,16 +230,23 @@ Transpose of the matrix representation: rows are now users holding tokens.
 
 # Capability examples
 
+- POSIX: ~~capabilities~~ are misnamed (better regarded as roles in RBAC)!
 - **Posix API descriptors:**
 
 ```c
 int fd = open("/etc/passwd", O_RDWR);
-// Code flow: fork() -> setuid/setgid() -> exec()
-// -> new process inherits fd (the authorization 'token')
+// fork() -> setuid/setgid() -> exec(), inherits fd
+//    (the authorization 'token' => retains read access!)
 ```
 
-- **Linux:** per-process capabilities
-- **Windows:** Security Identifier (**SID**) with associated capabilities in an Active Directory
+<div class="" style="float: right; padding: 0; width: 45%;">
+
+![SID architecture](./images/windows_sid_architecture.png)
+*[Microsoft Learn - Understand Security Identifiers](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers)*
+
+</div>
+
+- **Windows:** Security Identifier (**SID**) with subauthorities in an Active Directory
 
 ---
 
