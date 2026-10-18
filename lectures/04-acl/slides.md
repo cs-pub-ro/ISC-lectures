@@ -6,17 +6,17 @@ colorSchema: light
 selectable: false
 touying:
   preset: isc
-title: Lecture 4 — Authorization, Access Control, Operating System Security
+title: Lecture 4 — Authorization & Access Control
 info: |
-  ## ISC — Lecture 4 · Access Control & OS Security
+  ## ISC — Lecture 4 · Authorization & Access Control
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
 src: ../_shared/intro.md#1
 ---
 ---
 layout: cover
-title: "Lecture 4: Authorization, Access Control, Operating System Security"
-subtitle: "Access control models, DAC vs MAC, RBAC, and the human factor"
+title: "Lecture 4: Authorization & Access Control"
+subtitle: "Access control models, DAC vs MAC, RBAC, OS security and the human factor"
 ---
 
 ::default::
@@ -42,7 +42,7 @@ class: cols-55-45
 <v-clicks>
 
 - **Social Networks** — access to personal information
-- **Web Browsers** — access only to a website (same origin policy)
+- **Web Browsers** — access restricted between web domains (same origin policy)
 - **Operating Systems** — one user cannot arbitrarily access/kill another user's files/processes
 - **CPU Memory Protection** — code in one region (e.g., Ring 3) cannot access data in a more privileged region (e.g., Ring 0)
 - **Firewalls** — if a packet matches certain conditions, it is dropped
@@ -59,13 +59,11 @@ class: cols-55-45
 
 # PEI Model [1]
 
-Access control = **P**rotection – **E**nforcement – **I**nterpretation:
+Access control = **P**olicy – **E**nforcement – **I**mplementation:
 
-- **Protection** — what resources exist
-- **Enforcement** — the mechanism mediating access
-- **Interpretation** — the policy deciding who may access what
-
-[PEI Model paper](http://www.profsandhu.com/confrnc/asiaccs/asiaccs06-pei.pdf)
+- **Policy** — intent / goals, rules;
+- **Enforcement** — access mediation layer;
+- **Implementation** — technologies, protocols etc.
 
 ---
 
@@ -75,7 +73,7 @@ Basic abstractions:
 
 - **Subjects** — entities who wish to access a certain object
 - **Objects** — the resources being accessed (e.g., a file, a network packet)
-- **Rights** — the different modes of access (e.g., reading, writing) are called **permissions**
+- **Rights** / **permissions** — the different modes of access / actions allowed (e.g., reading, writing)
 
 <!--
 Emphasize: subject = active, object = resource, rights = how subject can use object.
@@ -86,8 +84,8 @@ Emphasize: subject = active, object = resource, rights = how subject can use obj
 # Users and Principals
 
 - A **Principal** is a **user** authenticated in a context
-- Principals — **unit of access control and authorization**
-- The user can emit principals with **downgraded privileges**
+- Principals are the **unit of access control and authorization**
+- The user can create principals with **downgraded privileges**
 
 ---
 
@@ -131,21 +129,22 @@ layout: section
 
 # Access control enforcement — overview
 
-- **DAC** (Discretionary Access Controls) — access rights can be **propagated** from one subject to another; possession of a right is sufficient to allow access
-- **MAC** (Mandatory Access Controls) — access based on **system-wide policies** (security labels), changeable only by the administrator
+- **DAC** (Discretionary Access Control) — access rights can be **propagated** from one subject to another; possession of a right is sufficient to allow access
+- **MAC** (Mandatory Access Control) — access based on **system-wide policies** (security labels), changeable only by the administrator
 - **RBAC** (Role-Based Access Control) — can be configured as both MAC or DAC; access based on **roles**
 
 ---
 
 # Access control enforcement — more
 
-- **ABAC** (Attribute-Based Access Control) — **properties of an object** are used when access decisions are made
+- **ABAC** (Attribute-Based Access Control) — **properties of a subject/object/action** are used when access decisions are made
 - **UCON** (Usage Control) — generalization of access control to include:
   - authorization, **obligations**, **conditions** (e.g., quotas)
   - continuity and mutability of attributes
 
+---
 
-# Discretionary access controls (DAC)
+# Discretionary Access Control (DAC)
 
 - **No precise definition**
 - Basically, DAC allows access rights to be propagated **at the subject's discretion**
@@ -218,8 +217,8 @@ cat-anonim.txt
 - Modern OSes support **full Access Control Lists** (multiple subjects!)
 
 ```bash
-➜ ls -l /usr/bin/ping
--rwxr-xr-- 1 root admin 92K Jan 18 08:05 /usr/bin/ping
+➜ ls -l /usr/bin/sudo
+-rwsr-xr-x 1 root admin 92K Jan 18 08:05 /usr/bin/sudo
 ```
 
 ---
@@ -248,12 +247,12 @@ Transpose of the matrix representation: rows are now users holding tokens.
 
 ```c
 int fd = open("/etc/passwd", O_RDWR);
-// Code flow: fork() -> setuidgid() -> exec()
+// Code flow: fork() -> setuid/setgid() -> exec()
 // -> new process inherits fd (the authorization 'token')
 ```
 
 - **Linux:** per-process capabilities
-- **Windows:** Security Identifier (**SID**) on Active Directory
+- **Windows:** Security Identifier (**SID**) with associated capabilities in an Active Directory
 
 ---
 
@@ -263,7 +262,7 @@ int fd = open("/etc/passwd", O_RDWR);
 - **Capabilities** do not require authentication, but require:
   - **unforgeability**
   - **control of propagation** (usually via cryptography)
-- The **Confused Deputy Problem** [1986]
+- The **Confused Deputy Problem** [N. Hardy, 1988]
   - E.g.: Cross-Site Scripting/Forgery (XSS / CSRF), setuid privilege escalation (e.g., `sudo`)
 - **Solution:** bundle resource access together with capability
 
@@ -296,7 +295,7 @@ The horse carries the attacker's payload with the victim's keys.
 - Privilege elevation / dropping:
   - **Unix:** `setuid()` / `setgid()` system calls
 - **Example POSIX scenario:**
-  - Only root can open ports ≤ 1024
+  - Only root can open ports < 1024
   - Web server (e.g., `apache2`) starts as **root**
   - Opens log files, sockets, etc. — then **drops root** (user → `www-data`)
 - Modern alternative: **Linux capabilities** (`CAP_NET_BIND_SERVICE`)
@@ -308,7 +307,7 @@ The horse carries the attacker's payload with the victim's keys.
 
 - Access rights assigned based on **regulations by a central authority**
 - Implemented using a **'reference monitor'**
-- Small **Trusted Computing Base (TCB)** [John Rushby, 1981, OSP]
+- Small **Trusted Computing Base (TCB)** [John Rushby, 1981]
   - Kernel < Hypervisor < Hardware
 - **TOCTTOU** (Time Of Check To Time of Use) problem:
   - Authority checks access to an object
@@ -328,7 +327,7 @@ The horse carries the attacker's payload with the victim's keys.
 ```text
 # TE rule: allow passwd_t shadow_t : file {read, write …}
 # ls -Z /etc/shadow
--r----  root  root  system_u:object_r:shadow_t  shadow
+-rw-r----- root root  system_u:object_r:shadow_t  shadow
 # ps -aZ
 gigel:user_r:passwd_t  16532 pts/0 00:00:00 passwd
 ```
@@ -344,8 +343,8 @@ layout: section
 # Multi-level security
 
 - Multi-level security (MLS)
-- **Bell-LaPadula** (BLP)
-- **Biba** Model
+  - **Bell-LaPadula** (BLP)
+  - **Biba** Model
 - **Chinese Wall**
 
 ---
@@ -358,11 +357,11 @@ layout: section
 
 ---
 
-# BLP Model
+# Bell-LaPadula (BLP) Model
 
-- Captures **confidentiality** (read) requirements only
+- Captures **confidentiality** requirements only. 
 - Modelled as **transitions through a set of states**, from an initial state
-- **State** = object, access matrix, current access information
+- **State** = current access set, access matrix, level function
 - State transition rules describe how the system goes from one state to another
 - Each object has a **classification level**
 - Each subject $s$ has a **security clearance**
@@ -384,13 +383,20 @@ Mnemonic: read up blocked, write down blocked.
 
 ---
 
+# BLP in practice
+
+- FreeBSD `mac_mls` + SELinux MLS policy (used by gov. defence / NATO)
+- Data diodes / one-way gateways (e.g., SCADA systems -- no write down)
+- Separation kernels (avionics / automotive)
+- VM compartmentalization (Qubes OS / sandboxes)
+
+---
+
 # BLP problems
 
-- **No communication** (e.g., acknowledges) from High to Low
+- **No communication** (e.g., acknowledging) from High to Low
 - Not all components can be enforced by BLP — e.g., **memory management** needs access to all levels
   - Called **'trusted subjects'** (part of TCB)
-- Can **overwrite** high and more important files
-  - Prevent overwrites unless **same level!**
 - **Covert channels** cannot be blocked by the star-property
 
 ---
@@ -399,17 +405,17 @@ Mnemonic: read up blocked, write down blocked.
 
 Integrity is also very important:
 
-- Each subject (process) has an **integrity level**; each object has an **integrity level**; levels are **totally ordered**
+- Each subject (process) has an **integrity level**; each object has an **integrity level**; levels are **ordered**
 - **NO read down; NO write up** — BLP **upside down**
-- The integrity of an object = the **lowest level of all objects that contributed** to its creation
 
 ---
 
-# Biba Model — in practice
+# Biba Model in practice
 
-- Used by **Windows**
-- E.g.: an **Internet Explorer** browser can **download a file** (created with a **low** integrity level) and **read everything** in the system
-- It **cannot write** to a **higher-level** object
+- Windows Integrity Control + Mark of the Web:
+  * Internet Explorer/Edge Protected Mode, Office Protected View cannot execute;
+  * Overwriting system-protected files is denied by lower processes!
+- iOS Gatekeeper: unsigned applications cannot execute!
 
 <!--
 Biba protects integrity (from untrusted low), BLP protects confidentiality (from snooping high).
@@ -480,13 +486,14 @@ layout: section
 
 # OAuth
 
-- **Open Authorization — not Authentication!**
+- Open **Authorization**, not **Authentication**!**
 - Users **delegate API access** to third-party services **without giving their password**
   - E.g., give Google Calendar API access to a task management app
 - **JSON Web Token (JWT)** — may contain subject IDs + capability lists
-- Authorization flow: client / server-side
-- **OpenID Connect:** OAuth's popular choice for **SSO authentication**
-  - Token with read-only access to a Google API endpoint returning your email → the third-party service **identifies you**
+- Authorization flow: client-side / server-side
+- **OpenID Connect:** popular extension for **SSO Authentication**
+  - Identity Provider authorizes access to `/userinfo` endpoint via token
+    → third-party service **identifies you**
 
 ---
 
@@ -591,7 +598,7 @@ layout: section
 
 # Resources
 
-- [1] [profsandhu.com — PEI Model](http://www.profsandhu.com/confrnc/asiaccs/asiaccs06-pei.pdf)
+- [1] [PEI Framework](https://profsandhu.com/confrnc/misconf/collabcom09_pei_pre.pdf)
 - [2] [Cornell CS5430 — Non-Logical Access Control](http://www.cs.cornell.edu/courses/cs5430/2011sp/NL.accessControl.html)
 - [3] [CS526 — Access Control slides](http://cnitarot.github.io/courses/cs526_Spring_2015/s2014_526_ac.pdf)
 - [4] [Rutgers CS419 — Access Control notes](https://people.cs.rutgers.edu/~pxk/419/notes/access.html)
