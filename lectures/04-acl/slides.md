@@ -52,7 +52,7 @@ class: cols-55-45
 ::right::
 
 <div class="img-col" style="padding: 3em;">
-<img src="./images/gandalf_shall_not_pass.jpg" />
+<img src="./images/gandalf_shall_not_pass.jpg" alt="Gandalf: You shall not pass!" />
 </div>
 
 ---
@@ -239,7 +239,7 @@ int fd = open("/etc/passwd", O_RDWR);
 //    (the authorization 'token' => retains read access!)
 ```
 
-<div class="" style="float: right; padding: 0; width: 45%;">
+<div class="" style="float: right; margin: 0 2em; padding: 0; width: 45%;">
 
 ![SID architecture](./images/windows_sid_architecture.png)
 *[Microsoft Learn - Understand Security Identifiers](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers)*
@@ -252,7 +252,7 @@ int fd = open("/etc/passwd", O_RDWR);
 
 # ACL vs. Capabilities
 
-- **ACL** require **authentication** of subjects
+- **ACLs** require **authentication** of subjects
 - **Capabilities** do not require authentication, but require:
   - **unforgeability**
   - **control of propagation** (usually via cryptography)
@@ -261,8 +261,13 @@ int fd = open("/etc/passwd", O_RDWR);
 - **Solution:** bundle resource access together with capability
 
 ---
+layout: two-cols
+class: cols-55-45
+---
 
 # DAC problems
+
+<v-clicks>
 
 - DAC philosophy: subjects can determine who has access to **their** objects
 - But there's a difference between **trusting a person** and **trusting a program**
@@ -270,12 +275,18 @@ int fd = open("/etc/passwd", O_RDWR);
 - **Trojan Horse attack** [1970]
 - Solution: use **MAC** ☺
 
+</v-clicks>
+
 ::right::
+
+<div v-click style="margin-top: 2em;">
 
 # Trojan Horse / buggy software
 
 - When a subject (e.g., buggy software) is exploited, it executes **the attacker's code**, while using **the privileges of the user who started it**
 - → **DAC-only systems cannot be trusted with classified information!**
+
+</div>
 
 <!--
 The horse carries the attacker's payload with the victim's keys.
@@ -334,26 +345,27 @@ Contrast with DAC: MAC rules take precedence — no DAC fallback.
 layout: section
 ---
 
-# Multi-level security
-
-- Multi-level security (MLS)
-  - **Bell-LaPadula** (BLP)
-  - **Biba** Model
-- **Chinese Wall**
+# Formal security models
 
 ---
 
-# Multi-level security (MLS)
+# Formal models
+
+## Multi-level security (MLS)
 
 - The capability of a system to carry information with **different sensitivities**, e.g. *Top Secret*
 - **Bell-LaPadula (BLP)** Model [1973]
 - **Biba** Model
 
+## Conflict of interest
+
+- Chinese Wall
+
 ---
 
 # Bell-LaPadula (BLP) Model
 
-- Captures **confidentiality** requirements only. 
+- Captures **confidentiality** requirements only.
 - Modelled as **transitions through a set of states**, from an initial state
 - **State** = current access set, access matrix, level function
 - State transition rules describe how the system goes from one state to another
@@ -409,7 +421,7 @@ Integrity is also very important:
 - Windows Integrity Control + Mark of the Web:
   * Internet Explorer/Edge Protected Mode, Office Protected View cannot execute;
   * Overwriting system-protected files is denied by lower processes!
-- iOS Gatekeeper: unsigned applications cannot execute!
+- iOS kernel / macOS Gatekeeper: unsigned applications cannot execute!
 
 <!--
 Biba protects integrity (from untrusted low), BLP protects confidentiality (from snooping high).
@@ -480,7 +492,7 @@ layout: section
 
 # OAuth
 
-- Open **Authorization**, not **Authentication**!**
+- Open **Authorization**, not **Authentication**!
 - Users **delegate API access** to third-party services **without giving their password**
   - E.g., give Google Calendar API access to a task management app
 - **JSON Web Token (JWT)** — may contain subject IDs + capability lists
@@ -512,6 +524,8 @@ def read_article(article):
 ```
 
 ---
+layout: two-cols
+---
 
 # Best practices
 
@@ -529,10 +543,17 @@ def read_article(article):
 
 ::right::
 
+<div v-click style="margin-top: 14em; font-size: 0.8em;">
+
+## Path Traversal example
+
 ```python
 requested_file.startswith("/home/user/share/")
-# but requested_file = "/home/user/share/../../../etc/shadow"
+# requested_file (user input) could be:
+#   "/home/user/share/../../../etc/shadow"
 ```
+
+</div>
 
 <!--
 The classic path traversal: prefix checks are not normalization.
@@ -558,7 +579,7 @@ layout: section
 
 # Social engineering
 
-<img src="./images/social_engineering.jpg" style="width: 40%; margin-left: 2em; float: right;" />
+<img src="./images/social_engineering.jpg" alt="Social Engineering" style="width: 40%; margin-left: 2em; float: right;" />
 
 - **Non-technical intrusion** — tricking people to break security policies
 - **Manipulation** — relies on false confidence:
@@ -593,9 +614,9 @@ layout: section
 # Resources
 
 - [1] [PEI Framework](https://profsandhu.com/confrnc/misconf/collabcom09_pei_pre.pdf)
-- [2] [Cornell CS5430 — Non-Logical Access Control](http://www.cs.cornell.edu/courses/cs5430/2011sp/NL.accessControl.html)
-- [3] [CS526 — Access Control slides](http://cnitarot.github.io/courses/cs526_Spring_2015/s2014_526_ac.pdf)
-- [4] [Rutgers CS419 — Access Control notes](https://people.cs.rutgers.edu/~pxk/419/notes/access.html)
+- [Cornell CS5430 — Non-Logical Access Control](https://www.cs.cornell.edu/courses/cs5430/2011sp/NL.accessControl.html)
+- [CS526 — Access Control slides](https://cnitarot.github.io/courses/cs526_Spring_2015/s2014_526_ac.pdf)
+- [Rutgers CS419 — Access Control notes](https://pk.org/rutgers/419/notes/access.html)
 
 ---
 class: text-center
