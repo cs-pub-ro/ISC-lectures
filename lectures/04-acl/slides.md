@@ -71,53 +71,49 @@ Access control = **P**olicy – **E**nforcement – **I**mplementation:
 
 Basic abstractions:
 
-- **Subjects** — entities who wish to access a certain object
-- **Objects** — the resources being accessed (e.g., a file, a network packet)
-- **Rights** / **permissions** — the different modes of access / actions allowed (e.g., reading, writing)
+- **Subject** — the entity requesting access; usually a **process** acting for a user
+- **Object** — the resource being accessed: file, directory, socket, memory segment
+- **Right** / **permission** — a permitted operation: read, write, execute, `kill`
+
+The same entity can be both:
+
+- Objects are usually **passive**, but processes are objects too: `kill`, `suspend`
+- A process is a *subject* when it reads a file, an *object* when you attach to it
 
 <!--
-Emphasize: subject = active, object = resource, rights = how subject can use object.
+Subject = active, object = resource, rights = how subject can use object.
+The last point matters later: processes holding capabilities are objects too.
 -->
 
 ---
 
-# Users and Principals
+# Users, principals and subjects
 
-- A **Principal** is a **user** authenticated in a context
-- Principals are the **unit of access control and authorization**
-- The user can create principals with **downgraded privileges**
+- **User** — a human identity
+- **Principal** — an identity authenticated in a context; the **unit of authorization**
+- **Subject** — a program executing **on behalf of** a principal
 
----
+<div style="width: 95%; margin: 0.2em auto;">
 
-# Principals and subjects
+```mermaid {theme: 'isc-cartoon', scale: 0.65}
+flowchart LR
+  U["User"] -->|"authenticates as"| P1["Principal<br/><em>admin session</em>"]
+  U -->|"or as"| P2["Principal<br/><em>downgraded</em>"]
+  P1 -->|"runs"| S1["Subject<br/><em>browser</em>"]
+  P2 -->|"runs"| S2["Subject<br/><em>sandboxed app</em>"]
+  S1 -->|"rights"| O["Object<br/><em>file / socket / process</em>"]
+  S2 -->|"rights"| O
+```
 
-- A **subject** is a **program executing on behalf of a principal**
+</div>
 
-Example:
+- **1** user → **N** principals → **N** subjects: **accountability** and least privilege
+- **Service accounts / API keys** — principals that authenticate without a password
+- In practice **principal ≈ subject**; the split matters when one principal runs many processes
 
-- You (user) → authenticate (principal) → run a browser (subject acting for you)
-
----
-
-# Users ↔ Principals relationship
-
-- Users and Principals: **One-To-Many** relation
-- Allows **accountability** of user's actions
-- Use the **least privileges** required for a task
-- E.g., **service accounts / API keys** (authentication w/o password)
-- For simplicity, a principal and a subject can be treated as identical concepts
-
----
-
-# Objects
-
-- An **object** is anything on which a subject can perform operations (mediated by rights)
-- Usually objects are **passive**:
-  - File
-  - Directory (Folder)
-  - Memory segment
-- But **subjects (e.g., processes) can also be objects**, with specific operations:
-  - `kill`, `suspend`, `resume`
+<!--
+Ask: where would you draw the principal/subject line inside a container?
+-->
 
 ---
 layout: section

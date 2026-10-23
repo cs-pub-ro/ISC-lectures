@@ -108,6 +108,39 @@ touying:
 logo: /logo.svg
 ```
 
+## Mermaid themes
+
+Named Mermaid themes can be selected per diagram with the usual options object:
+
+````md
+```mermaid {theme: 'isc-cartoon', scale: 0.65}
+flowchart LR
+  A --> B
+```
+````
+
+| Theme | Look |
+|-------|------|
+| `isc-cartoon` | White fill, thick black rounded borders, pill-shaped edge labels |
+
+Mermaid only accepts its own theme names, so each preset in
+[`setup/mermaid-themes.ts`](./setup/mermaid-themes.ts) is a plain Mermaid config.
+[`setup/transformers.ts`](./setup/transformers.ts) expands `{theme: '<name>'}`
+into a `%%{init: { ... }}%%` directive at build time. The fence is still handled
+by Slidev's built-in Mermaid renderer, so `scale` and any other options keep
+working as before.
+
+Inside node labels, `<em>` renders as an italic, regular-weight subtitle
+(e.g. `P1["Principal<br/><em>admin session</em>"]`), while the rest stays bold.
+
+To add a theme, append a preset to `mermaidThemes`:
+
+```ts
+export const mermaidThemes = {
+  'my-theme': { theme: 'base', themeVariables: { /* ... */ }, themeCSS: '/* ... */' },
+}
+```
+
 ## License
 
 [MIT](./LICENSE)
