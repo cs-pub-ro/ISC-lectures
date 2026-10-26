@@ -440,7 +440,7 @@ layout: section
 
 <div style="width: 100%; text-align: center;">
 
-```mermaid {theme: 'isc-cartoon', scale: 0.55}
+```mermaid {theme: 'isc-cartoon', scale: 0.57}
 flowchart LR
   subgraph US["Users"]
     alice
@@ -452,6 +452,8 @@ flowchart LR
     ta
     instructor
     admin
+    student ~~~ ta
+    admin ~~~ instructor
   end
   subgraph PE["Permissions"]
     readc["read:course"]
