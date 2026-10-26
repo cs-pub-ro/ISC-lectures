@@ -21,11 +21,6 @@ subtitle: "Access control models, DAC vs MAC, RBAC, implementations and the huma
 
 ::default::
 
-<!--
-Welcome students. This lecture covers who is allowed to do what on a system:
-access control models from theory (PEI, BLP, Biba) to practice (POSIX, OAuth).
--->
-
 ---
 layout: section
 ---
@@ -443,7 +438,7 @@ layout: section
 
 # RBAC reference model
 
-<div style="width: 100%;">
+<div style="width: 100%; text-align: center;">
 
 ```mermaid {theme: 'isc-cartoon', scale: 0.55}
 flowchart LR
@@ -759,6 +754,101 @@ def read_article(article):
 
 ---
 
+# Policy as code: OPA / Gatekeeper
+
+- **OPA (Open Policy Agent)** - decisions as a separate service: the **PDP**
+  (Policy Decision Point)
+- Policy written in **Rego**; the app sends `input` and asks `allow`
+- **Kubernetes Gatekeeper** = OPA + admission webhook: constraints as CRDs
+- Policy is versioned, reviewed and tested like code
+
+<div class="opa-code">
+
+```text
+package authz
+
+default allow := false
+
+allow if {
+    input.method == "GET"
+    input.user == input.owner
+}
+```
+
+</div>
+
+<style>
+.opa-code { --slidev-code-font-size: 14px; --slidev-code-line-height: 1.3; }
+</style>
+
+- Decoupled policy → one place to audit; the **PEP** becomes a proxy, gateway or SDK
+
+---
+
+# Cloud IAM policies (AWS)
+
+Identity-based policy = **who** may do **what** on **which resource**, under which **conditions**:
+
+<div class="iam-code">
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject"],
+    "Resource": "arn:aws:s3:::course-materials/04-acl/*",
+    "Condition": {"Bool": {"aws:SecureTransport": "true"}}
+  }]
+}
+```
+
+</div>
+
+<style>
+.iam-code { --slidev-code-font-size: 15px; --slidev-code-line-height: 1.35; }
+</style>
+
+- **Explicit deny** always wins; no statement = implicit deny (fail-safe default)
+- `"Resource": "*"` or `"Action": "*"` → red flag in a review
+- Conditions bring **ABAC**: tags (team, project), MFA, source IP, encryption
+- IAM is the **PDP**; the service endpoint is the **PEP**
+
+---
+
+# Kubernetes RBAC
+
+<div class="k8s-code">
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: { name: slide-editor, namespace: lectures }
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: { name: alice-edits-slides, namespace: lectures }
+subjects: [{ kind: User, name: alice }]
+roleRef: { kind: Role, name: slide-editor, apiGroup: rbac.authorization.k8s.io }
+```
+
+</div>
+
+<style>
+.k8s-code { --slidev-code-font-size: 13px; --slidev-code-line-height: 1.3; }
+</style>
+
+- **Role** = permissions; **RoleBinding** = who gets them (namespace-scoped)
+- `ClusterRole` / `ClusterRoleBinding` for cluster-wide resources
+- **ServiceAccounts** give pods an identity → tokens inside the container (**ambient authority**)
+- `kubectl auth can-i get configmaps --as alice` — test the policy, not the UI
+
+---
+
 # OAuth 2.0 - delegated authorization
 
 - OAuth is **authorization**, not authentication: it grants a client **access**, not identity
@@ -771,40 +861,41 @@ def read_article(article):
 - Recall: **OIDC** = identity layer on top of OAuth2 for authentication (ID token, `/userinfo`)
 
 ---
-layout: two-cols
+
+# Broken access control
+
+The **#1** web vulnerability class (OWASP A01:2021):
+
+- **Insecure Direct Object Reference (IDOR) / Broken Object Level Authorization (BOLA)**
+  * e.g., `GET /api/invoices/1001` -> change the ID to `1002` -> allowed? -> profit!
+  - Checks often exist for the *function* but not for the *object*
+- **Path Traversal**
+
+	```python
+	if request.file.startswith("/home/user/share/"): # ...
+	# but, inb4...
+	request = {"file": "/home/user/share/../../../etc/shadow"}
+	```
+
+- **Horizontal** escalation (another user's data) -> **vertical** escalation (admin function)
+- Hiding a button is not authorization: re-check server-side, per request, per object!
+
 ---
 
-# Best practices
+# Design principles [Saltzer & Schroeder, 1975]
 
-<v-clicks>
+Checklist for reviewing an access-control design:
 
-- Design during the **early requirements phase**
-- Model as **subjects, objects, permissions**
-- Use an **appropriate policy model** (DAC, RBAC, ABAC, etc.)
-- Use **middleware / framework** if available
-- If not, create your own! **Do NOT copy-paste duplicate code!**
-- Implement **resource limits / quotas**
-- **Sanitize/normalize user input!!!**
-
-</v-clicks>
-
-::right::
-
-<div v-click style="margin-top: 14em; font-size: 0.8em;">
-
-## Path Traversal example
-
-```python
-requested_file.startswith("/home/user/share/")
-# requested_file (user input) could be:
-#   "/home/user/share/../../../etc/shadow"
-```
-
-</div>
-
-<!--
-The classic path traversal: prefix checks are not normalization.
--->
+- **Least privilege** - only the rights needed, only as long as needed
+- **Fail-safe defaults** - deny by default; access needs an explicit grant
+  - one central `authorize(user, action, object)` decision
+- **Complete mediation** - *every* access is checked, with no bypass
+  - Use a good **middleware / framework** as app-level Reference Monitor!
+- **Separation of privilege** - two independent conditions (MFA, dual control)
+- **Economy of mechanism** - small, simple, reviewable designs
+- **Least common mechanism** - avoid shared resources between subjects
+- **Open design** - no security through obscurity
+- **Psychological acceptability** - unusable security gets bypassed
 
 ---
 layout: section
@@ -821,6 +912,22 @@ layout: section
   - Humans can still write their **passwords on post-it notes**
   - Humans can still **give their passwords** to anyone they trust
   - Humans can still open **tempting attachments** …
+
+---
+
+# Security fatigue
+
+- **Alert fatigue** — hundreds of warnings train users to dismiss all of them
+- **Habituation** — repeated false positives ("just click OK") destroy the signal
+- **Consent-dialog blindness** — OAuth scopes and cookie banners become "accept all"
+  - → users grant *more* access than the task needs; least privilege breaks down
+- **Banner blindness** — security warnings compete with ads and get tuned out
+- Design fixes: fewer prompts, **safe defaults**, just-in-time consent,
+  concrete consequences ("this app can read all your mail")
+
+<!--
+Ask: how many browser extensions have you given "read all data on all sites"?
+-->
 
 ---
 
@@ -858,7 +965,23 @@ layout: section
 
 ---
 
-# Resources
+# Policy friction and shadow IT
+
+- **Friction** — if access is slow or hard, users route around it
+  - personal Dropbox / WhatsApp for work files, shared logins, unapproved SaaS
+- **Shadow IT** — accounts and data outside the IdP → no revocation, no audit
+- **Privilege creep** — rights accumulate across role changes
+- **Orphaned accounts** — leavers keep access (contractors, service accounts, API keys)
+- Controls: **access reviews**, joiner-mover-leaver process, expiry/TTL, audit logs
+- Authorization is only as good as the **identity lifecycle** behind it
+
+<!--
+Links back to Lecture 3: authentication without lifecycle management is theatre.
+-->
+
+---
+
+# References
 
 - [1] [PEI Framework](https://profsandhu.com/confrnc/misconf/collabcom09_pei_pre.pdf)
 - [Cornell CS5430 — Non-Logical Access Control](https://www.cs.cornell.edu/courses/cs5430/2011sp/NL.accessControl.html)
