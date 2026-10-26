@@ -16,7 +16,7 @@ src: ../_shared/intro.md#1
 ---
 layout: cover
 title: "Lecture 4: Authorization & Access Control"
-subtitle: "Access control models, DAC vs MAC, RBAC, OS security and the human factor"
+subtitle: "Access control models, DAC vs MAC, RBAC, implementations and the human factor"
 ---
 
 ::default::
@@ -119,7 +119,7 @@ Ask: where would you draw the principal/subject line inside a container?
 layout: section
 ---
 
-# Access control models
+# Access control models, DAC
 
 ---
 
@@ -127,7 +127,8 @@ layout: section
 
 - **DAC** (Discretionary Access Control) — access rights can be **propagated** from one subject to another; possession of a right is sufficient to allow access
 - **MAC** (Mandatory Access Control) — access based on **system-wide policies** (security labels), changeable only by the administrator
-- **RBAC** (Role-Based Access Control) — can be configured as both MAC or DAC; access based on **roles**
+- **RBAC** (Role-Based Access Control) — more flexible, access based on **roles**
+- **ReBAC** (Relationship-Based Access Control) — Google's model for collaboration on shared resources (e.g., GDocs)
 
 ---
 
@@ -275,12 +276,13 @@ class: cols-55-45
 
 ::right::
 
-<div v-click style="margin-top: 2em;">
+<div v-click="4" style="margin-top: 2em;">
 
 # Trojan Horse / buggy software
 
 - When a subject (e.g., buggy software) is exploited, it executes **the attacker's code**, while using **the privileges of the user who started it**
-- → **DAC-only systems cannot be trusted with classified information!**
+
+  → **DAC-only systems cannot be trusted with classified information!**
 
 </div>
 
@@ -289,31 +291,21 @@ The horse carries the attacker's payload with the victim's keys.
 -->
 
 ---
+layout: section
+---
 
-# Principle of Least Privilege
-
-- Each subject should have **only the necessary privileges**
-- Privilege elevation / dropping:
-  - **Unix:** `setuid()` / `setgid()` system calls
-- **Example POSIX scenario:**
-  - Only root can open ports < 1024
-  - Web server (e.g., `apache2`) starts as **root**
-  - Opens log files, sockets, etc. — then **drops root** (user → `www-data`)
-- Modern alternative: **Linux capabilities** (`CAP_NET_BIND_SERVICE`)
-- Better yet: **DAC + MAC!**
+# MAC
 
 ---
 
 # Mandatory Access Control (MAC)
 
 - Access rights assigned based on **regulations by a central authority**
-- Implemented using a **'reference monitor'**
-- Small **Trusted Computing Base (TCB)** [John Rushby, 1981]
+- Historically, closely associated with Multi-level Security (Biba / BLP)
+- Implemented using a **'Reference Monitor'**
+- Part of the **Trusted Computing Base (TCB)** [John Rushby, 1981]
   - Kernel < Hypervisor < Hardware
-- **TOCTTOU** (Time Of Check To Time of Use) problem:
-  - Authority checks access to an object
-  - Attacker **replaces the object** in the meantime
-  - Privileged subject operates on an **attacker-controlled object**
+  - a vulnerability in here compromises the entire system!
 
 ---
 
@@ -332,10 +324,6 @@ The horse carries the attacker's payload with the victim's keys.
 # ps -aZ
 gigel:user_r:passwd_t  16532 pts/0 00:00:00 passwd
 ```
-
-<!--
-Contrast with DAC: MAC rules take precedence — no DAC fallback.
--->
 
 ---
 layout: section
@@ -361,13 +349,15 @@ layout: section
 
 # Bell-LaPadula (BLP) Model
 
-- Captures **confidentiality** requirements only.
+- **Confidentiality**-centric
 - Modelled as **transitions through a set of states**, from an initial state
 - **State** = current access set, access matrix, level function
-- State transition rules describe how the system goes from one state to another
 - Each object has a **classification level**
 - Each subject $s$ has a **security clearance**
 
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # BLP Model — security properties
@@ -379,9 +369,23 @@ A state is **secure** if:
 
 > A system is secure **if and only if** every reachable state is secure.
 
-<!--
-Mnemonic: read up blocked, write down blocked.
--->
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.68}
+flowchart BT
+  U["Unclassified"] --- C["Confidential"] --- S["Secret"] --- T["Top Secret"]
+  C -.->|"read ✔"| U
+  S -.->|"read ✔"| C
+  T -.->|"read ✔"| S
+  U -.->|"write ✔"| C
+  C -.->|"write ✔"| S
+  S -.->|"write ✔"| T
+```
+
+</div>
+
 
 ---
 
@@ -402,13 +406,34 @@ Mnemonic: read up blocked, write down blocked.
 - **Covert channels** cannot be blocked by the star-property
 
 ---
+layout: two-cols
+class: cols-60-40
+---
 
 # Biba Model
 
-Integrity is also very important:
+The **Integrity**-oriented counterpart of BLP:
 
-- Each subject (process) has an **integrity level**; each object has an **integrity level**; levels are **ordered**
+- Subjects (processes) and objects carry an **integrity level**; levels are **ordered**
 - **NO read down; NO write up** — BLP **upside down**
+- Same lattice, **opposite arrows**: read up, write down
+
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.68}
+flowchart BT
+  L["Low"] --- M["Medium"] --- H["High"] --- X["System"]
+  L -.->|"read ✔"| M
+  M -.->|"read ✔"| H
+  H -.->|"read ✔"| X
+  M -.->|"write ✔"| L
+  H -.->|"write ✔"| M
+  X -.->|"write ✔"| H
+```
+
+</div>
 
 ---
 
@@ -437,65 +462,100 @@ Biba protects integrity (from untrusted low), BLP protects confidentiality (from
 - $S$ can read $O$ by the simple security rule, **and**
 - no object can be read that is in a **different company dataset** than the one being written
 
-<!--
-Motivating example: auditors must not mix data of competing companies.
--->
+<div style="width: 95%; margin: 0 auto; margin-top: 1em; text-align: center;">
+
+<v-switch>
+<template #1>
+
+```mermaid {theme: 'isc-cartoon', scale: 0.85}
+flowchart LR
+  B(["<b>COI · Banks</b><br/>Citibank ✔<br/>HSBC ✘"])
+  O(["<b>COI · Oil</b><br/>Shell ✔<br/>BP ✘"])
+  A(["<b>COI · Airlines</b><br/>Lufthansa ○<br/>WizAir ○"])
+  B ~~~ O ~~~ A
+```
+
+</template>
+<template #2>
+
+```mermaid {theme: 'isc-cartoon', scale: 0.85}
+flowchart LR
+  B(["<b>COI · Banks</b><br/>Citibank ✔<br/>HSBC ✘"])
+  O(["<b>COI · Oil</b><br/>Shell ✔<br/>BP ✘"])
+  A(["<b>COI · Airlines</b><br/>Lufthansa ✘<br/>WizAir ✔"])
+  B ~~~ O ~~~ A
+```
+
+</template>
+</v-switch>
+
+</div>
 
 ---
 layout: section
 ---
 
-# RBAC
+# AuthZ Implementation
 
 ---
 
-# Group-based access control
+# Policy architectures
 
-- Real-world security policies are **dynamic**
-- E.g., a user is promoted → their rights must change (deleted, added, etc.)
-- **RBACs are more flexible: can simulate MAC & DAC!**
+- **Policy Enforcement Point** - where the request is checked (kernel, gateway, app)
+- **Policy Decision Point** - evaluates policy; centralized and testable
+- **Policy Information Point** - database for attributes about the request (dynamic constraints etc.)
+- **Policy Administration Point** - where policy is changed
+
+<div style="width: 95%; margin: 0 auto; margin-top: 1em; text-align: center;">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.55}
+flowchart LR
+  S["Subject"] -->|"1 request"| PEP["PEP<br/>enforcement point"]
+  PEP -->|"4 access"| O["Object"]
+  PEP -->|"2 decision?"| PDP["PDP<br/>decision point"]
+  PAP["PAP<br/>administration"] -->|"policy"| PDP
+  PIP[("PIP<br/>attributes")] -->|"context"| PDP
+  PDP -->|"3 permit / deny"| PEP
+```
+
+</div>
+
+--- 
+
+# Linux/Unix Privileges
+
+- Privilege elevation:
+  - **su/sudo/gosu** etc.: special `SUID` + `SGID` permission bits 
+- Privilege dropping:
+  - **Unix:** `setuid()` / `setgid()` system calls
+- Enforcing **principle of least privilege** (server scenario):
+  - Only root can open ports < 1024
+  - Web server (e.g., `apache2`) starts as **root**
+  - Opens log files, sockets, etc. — then **drops root** (user → `www-data`)
+  - *Modern alternative*: **Linux capabilities** (`CAP_NET_BIND_SERVICE`)
 
 ---
 
-# Roles as policy
+# Linux Sandboxing: Seccomp & Capabilities
 
-A role brings together:
+- Least privilege is **layered**: capabilities + seccomp + namespaces + LSM
+- Docker keeps ~14 of ~40 Linux capabilities; drop the rest:
 
-- a collection of **users**
-- a collection of **permissions**
+```bash
+docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE nginx
+capsh --print    # capability sets of the current shell
+getcap /usr/bin/ping
+```
 
-- These collections can be **modified independently**
-- A user can be a member of **many roles**
-- Each role can have **many users** as members
-- Roles may be **hierarchical**
+- **seccomp** filters syscalls; e.g., default-deny profile:
 
----
+```json
+{ "defaultAction": "SCMP_ACT_ERRNO",
+  "syscalls": [{ "names": ["read", "write", "openat", "exit_group"],
+                 "action": "SCMP_ACT_ALLOW" }] }
+```
 
-# RBAC shortcomings
-
-- Role granularity may lead to **role explosion**
-- Role design and engineering is **difficult and expensive**
-- Assignment of users/permissions to roles is **cumbersome**
-- Adjustment based on local/global **situational factors** is difficult
-
----
-layout: section
----
-
-# Auth Implementations
-
----
-
-# OAuth
-
-- Open **Authorization**, not **Authentication**!
-- Users **delegate API access** to third-party services **without giving their password**
-  - E.g., give Google Calendar API access to a task management app
-- **JSON Web Token (JWT)** — may contain subject IDs + capability lists
-- Authorization flow: client-side / server-side
-- **OpenID Connect:** popular extension for **SSO Authentication**
-  - Identity Provider authorizes access to `/userinfo` endpoint via token
-    → third-party service **identifies you**
+- Namespaces limit *what you can see*; seccomp limits *what you can call*
 
 ---
 
@@ -509,6 +569,8 @@ if is_admin or (can_read(obj.parent) and can_write(obj)): ...
 
 **Solution:** use language features & authorization frameworks:
 
+<div class="authz-code">
+
 ```python
 @authorize.create(Article)
 def create_article(name):
@@ -518,6 +580,28 @@ def create_article(name):
 def read_article(article):
     # implementation here
 ```
+
+</div>
+
+<style>
+.authz-code { --slidev-code-font-size: 15px; --slidev-code-line-height: 1.3; }
+</style>
+
+- Real options: **Casbin**, **Oso**, **OPA/Rego**, Spring Security, Django rules
+- One tested decision point — not duplicated `if`s in every view
+
+---
+
+# OAuth 2.0 - delegated authorization
+
+- OAuth is **authorization**, not authentication: it grants a client **access**, not identity
+- **Roles:** resource owner · client · authorization server · resource server
+- The client gets an **access token** with **scopes** - a delegated, time-limited capability
+  - e.g., a task app may read your Google Calendar, but nothing else
+  - Access tokens are usually **bearer** tokens: possession *is* the right
+  (e.g., access fields inside the JWT)
+- **Refresh tokens** without bothering the user
+- Recall: **OIDC** = identity layer on top of OAuth2 for authentication (ID token, `/userinfo`)
 
 ---
 layout: two-cols
@@ -613,6 +697,10 @@ layout: section
 - [Cornell CS5430 — Non-Logical Access Control](https://www.cs.cornell.edu/courses/cs5430/2011sp/NL.accessControl.html)
 - [CS526 — Access Control slides](https://cnitarot.github.io/courses/cs526_Spring_2015/s2014_526_ac.pdf)
 - [Rutgers CS419 — Access Control notes](https://pk.org/rutgers/419/notes/access.html)
+- [Saltzer & Schroeder — The Protection of Information in Computer Systems](https://web.mit.edu/Saltzer/www/publications/protection/)
+- [OWASP Top 10 — A01: Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
+- [Kubernetes — RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+- [Open Policy Agent — Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/)
 
 ---
 class: text-center
