@@ -416,6 +416,86 @@ sequenceDiagram
 layout: section
 ---
 
+# RBAC
+
+---
+
+# Group-based access control
+
+- Real-world security policies are **dynamic**
+- E.g., a user is promoted → their rights must change (deleted, added, etc.)
+- **RBACs are more flexible: can simulate MAC & DAC!**
+
+---
+
+# Role (group) based access control
+
+- Real-world security policies are **dynamic**
+- E.g., a user is promoted → their rights must change (deleted, added, etc.)
+- **RBACs are more flexible: can simulate MAC & DAC!**
+
+- A role brings together **users** and **permissions**:
+- A user can be a member of **many roles**
+- Each role can have **many users** as members
+- Roles may be **hierarchical**
+
+---
+
+# RBAC reference model
+
+<div style="width: 100%;">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.55}
+flowchart LR
+  subgraph US["Users"]
+    alice
+    bob
+    mihai
+  end
+  subgraph RO["Roles"]
+    student
+    ta
+    instructor
+    admin
+  end
+  subgraph PE["Permissions"]
+    readc["read:course"]
+    submit["submit:assignment"]
+    grade["grade:assignment"]
+    write["write:grades"]
+    manage["manage:users"]
+  end
+  alice --> student
+  bob --> student
+  bob --> ta
+  mihai --> instructor
+  mihai --> admin
+  ta -. "inherits" .-> student
+  instructor -. "inherits" .-> ta
+  student --> readc
+  student --> submit
+  ta --> grade
+  instructor --> write
+  admin --> manage
+```
+
+</div>
+
+- A role **inherits** its parents' permissions (**ta** → **student**)
+
+---
+
+# RBAC shortcomings
+
+- Role granularity may lead to **role explosion**
+- Role design and engineering is **difficult and expensive**
+- Assignment of users/permissions to roles is **cumbersome**
+- Adjustment based on local/global **situational factors** is difficult
+
+---
+layout: section
+---
+
 # Formal security models
 
 ---
