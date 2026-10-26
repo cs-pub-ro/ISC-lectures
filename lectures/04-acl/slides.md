@@ -309,6 +309,26 @@ layout: section
 
 ---
 
+# The reference monitor
+
+The privileged **Reference Monitor** mediates every access request against a policy before
+allowing an action. It must be:
+
+- **Always invoked** - every access to every object goes through it
+- **Tamper-proof** - untrusted code cannot modify or bypass it
+- **Verifiable** - small enough to be analyzed and tested (small TCB)
+
+Examples:
+
+- Application-level: authorization middlewares (e.g., Casbin), browsers sandboxing
+  JS...
+- OS/Kernels: [Linux Security Modules](https://en.wikipedia.org/wiki/Linux_Security_Modules)
+  (used by AppArmor & SELinux) + seccomp-bpf, Windows Security Reference Monitor
+  (kernel's [SeAccessCheck](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-seaccesscheck))
+- Hypervisors & Hardware (ARM TrustZone, IOMMUs etc.), Firewalls, authz in remote APIs etc.
+
+---
+
 # MAC implementations — Type Enforcement
 
 - E.g.: **SELinux**
@@ -324,6 +344,73 @@ layout: section
 # ps -aZ
 gigel:user_r:passwd_t  16532 pts/0 00:00:00 passwd
 ```
+
+---
+layout: two-cols
+---
+
+# TOCTTOU — a race through the check
+
+- **TOCTTOU** = *Time Of Check To Time Of Use*: the object can **change between the decision and the use**
+- The attacker swaps it in that window (symbolic/hard link / rename / re-create file)
+  - _since the owner retains write access over the parent path_
+- The privileged subject then acts on a **different object** -> breaks *complete mediation*
+
+::right::
+
+<div style="width: 95%; margin: 0 auto; margin-top: 5em; text-align: center;">
+
+<v-switch>
+<template #0>
+
+```mermaid {theme: 'isc-cartoon', scale: 0.58}
+%%{init: { 'sequence': {'mirrorActors':false} } }%%
+sequenceDiagram
+    autonumber
+    participant A as Attacker
+    participant P as setuid-root tool
+    participant FS as /tmp
+
+    P->>FS: stat("/tmp/out") → owner is OK ✓
+```
+
+</template>
+<template #1>
+
+```mermaid {theme: 'isc-cartoon', scale: 0.58}
+%%{init: { 'sequence': {'mirrorActors':false} } }%%
+sequenceDiagram
+    autonumber
+    participant A as Attacker
+    participant P as setuid-root tool
+    participant FS as /tmp
+
+    P->>FS: stat("/tmp/out") → owner is OK ✓
+    A->>FS: unlink + symlink → /etc/shadow
+    Note over A,FS: TOCTTOU window — object is swapped
+```
+
+</template>
+<template #2>
+
+```mermaid {theme: 'isc-cartoon', scale: 0.58}
+sequenceDiagram
+    autonumber
+    participant A as Attacker
+    participant P as setuid-root tool
+    participant FS as /tmp
+
+    P->>FS: stat("/tmp/out") → owner is OK ✓
+    A->>FS: unlink + symlink → /etc/shadow
+    P->>FS: open("/tmp/out", O_WRONLY)
+    FS-->>P: fd = /etc/shadow, as root
+    P->>FS: write(fd, buf) ⇒ file overwritten
+```
+
+</template>
+</v-switch>
+
+</div>
 
 ---
 layout: section
