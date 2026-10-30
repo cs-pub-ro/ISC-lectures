@@ -67,7 +67,7 @@ Access control = **P**olicy – **E**nforcement – **I**mplementation:
 Basic abstractions:
 
 - **Subject** — the entity requesting access; usually a **process** acting for a user
-- **Object** — the resource being accessed: file, directory, socket, memory segment
+- **Object** — the resource being accessed: file, directory, socket, memory segment, another process
 - **Right** / **permission** — a permitted operation: read, write, execute, `kill`
 
 The same entity can be both:
@@ -129,7 +129,7 @@ layout: section
 
 # Access control enforcement — more
 
-- **ABAC** (Attribute-Based Access Control) — **properties of a subject/object/action** are used when access decisions are made
+- **ABAC** (Attribute-Based Access Control) — **properties of a subject/object/action/context** are used when access decisions are made
 - **UCON** (Usage Control) — generalization of access control to include:
   - authorization, **obligations**, **conditions** (e.g., quotas)
   - continuity and mutability of attributes
@@ -233,12 +233,11 @@ int fd = open("/etc/passwd", O_RDWR);
 
 <div class="" style="float: right; margin: 0 2em; padding: 0; width: 45%;">
 
-![SID architecture](./images/windows_sid_architecture.png)
-*[Microsoft Learn - Understand Security Identifiers](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers)*
+*[Access tokens (https://learn.microsoft.com/en-us/windows/win32/secauthz/access-tokens)]*
 
 </div>
 
-- **Windows:** Security Identifier (**SID**) with subauthorities in an Active Directory
+- **Windows Access Tokens**
 
 ---
 
@@ -330,7 +329,7 @@ Examples:
 - Subjects → grouped in **domains** (labels)
 - Objects → grouped in **types** (another/same kind of labels)
 - **Domain-Domain + Domain-Type permissions**
-- If a MAC rule fails → **DAC not checked, access denied!**
+- "Checked after DAC: even if DAC allows access (e.g., root), if a MAC rule fails → access denied!"
 
 ```text
 # TE rule: allow passwd_t shadow_t : file {read, write …}
@@ -408,18 +407,106 @@ sequenceDiagram
 </div>
 
 ---
+layout: two-cols
+class: cols-55-45
+---
+
+# TOCTTOU Deep Dive: `/tmp` & the Sticky Bit
+
+- **POSIX quirk:** `unlink()` (delete) and `rename()` modify the **directory**, not the file!
+  - Write + execute (`wx`) on the parent folder is enough to delete *any* file inside it
+- **The Sticky Bit (`t`, octal `1000`):** set on shared directories like `/tmp` (`1777`):
+  - Only the **file owner**, **directory owner**, or **`root`** may delete/rename a file inside `/tmp`
+- **So why does the `/tmp/out` attack work?**
+  - The attacker creates `/tmp/out` *first* (`owner == attacker`)
+  - The buggy `setuid-root` tool checks `stat("/tmp/out")` → sees `owner == RUID` ✓
+  - Because the attacker owns `/tmp/out`, the Sticky Bit **allows** them to `unlink()` and replace it with a symlink!
+
+::right::
+
+<div style="margin-top: 2.5em;">
+
+```bash
+# Sticky bit 't' at the end (octal 1777)
+➜ ls -ld /tmp
+drwxrwxrwt 18 root root 4096 Jan 18 08:05 /tmp
+```
+
+<div style="width: 95%; margin: 1.5em auto; text-align: center;">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.62}
+flowchart TD
+  A["1. Attacker creates /tmp/out<br/><em>(owner = attacker)</em>"]
+  B["2. setuid-root checks stat()<br/><em>owner == RUID ✓</em>"]
+  C["3. Sticky bit allows owner to unlink!<br/><em>/tmp/out → /etc/shadow</em>"]
+  D["4. setuid-root opens symlink<br/><em>with EUID = root 💥</em>"]
+  A --> B --> C --> D
+```
+
+</div>
+</div>
+
+<!--
+Ask students: If root owns /tmp/secret (0400) inside a normal 0777 folder without sticky bit, can an unprivileged user delete it? Yes! Because deletion is a directory operation.
+-->
+
+---
+layout: two-cols
+class: cols-52-48
+---
+
+# Mitigating TOCTTOU: Code & Kernel Fixes
+
+- **1. Atomic file creation (`O_CREAT | O_EXCL`):**
+  - Never pair `stat()` / `access()` with `open()`
+  - `O_CREAT | O_EXCL` fails with `EEXIST` if the file or symlink already exists (or use `mkstemp()`)
+- **2. Refuse symlinks (`O_NOFOLLOW`):**
+  - Causes `open()` to fail with `ELOOP` if the target is a symbolic link
+- **3. Check the capability (`fd`), not the path:**
+  - `open()` first → validate with **`fstat(fd)`** on the descriptor
+- **4. Linux Kernel protection (`fs.protected_symlinks = 1`):**
+  - Blocks following symlinks inside world-writable sticky directories (`1777`) when `symlink_owner != follower_EUID` and `symlink_owner != dir_owner`
+
+::right::
+
+<div style="margin-top: 2em;">
+
+```c
+// ❌ VULNERABLE: check-then-use on a path string
+struct stat st;
+if (stat("/tmp/out", &st) == 0 && st.st_uid == getuid()) {
+    // ⚡ Race window here!
+    int fd = open("/tmp/out", O_WRONLY);
+}
+
+// ✅ SAFE 1: Atomic exclusive create (no race window)
+int fd = open("/tmp/out",
+              O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW,
+              0600);
+
+// ✅ SAFE 2: Open first (with O_NOFOLLOW), then fstat(fd)
+int fd = open("/tmp/out", O_WRONLY | O_NOFOLLOW);
+if (fd >= 0 && fstat(fd, &st) == 0 && st.st_uid == getuid()) {
+    write(fd, buf, len); // operates on the exact inode!
+}
+```
+
+```bash
+# Modern Linux VFS mitigation (enabled by default)
+➜ sysctl fs.protected_symlinks
+fs.protected_symlinks = 1
+```
+
+</div>
+
+<!--
+Point out how fstat(fd) ties back to our earlier slide on Capabilities: once you hold the file descriptor (points directly to the open file description / inode), renaming the path in /tmp cannot swap the underlying object!
+-->
+---
 layout: section
 ---
 
 # RBAC
-
----
-
-# Group-based access control
-
-- Real-world security policies are **dynamic**
-- E.g., a user is promoted → their rights must change (deleted, added, etc.)
-- **RBACs are more flexible: can simulate MAC & DAC!**
 
 ---
 
@@ -479,6 +566,28 @@ flowchart LR
 </div>
 
 - A role **inherits** its parents' permissions (**ta** → **student**)
+
+---
+layout: two-cols
+class: cols-60-40
+---
+
+# NIST RBAC Family ($RBAC_0$ – $RBAC_3$)
+
+- **$RBAC_0$ (Core / Flat RBAC)** — the baseline:
+  - Many-to-many **User–Role** and **Role–Permission** assignments + **Sessions**
+- **$RBAC_1$ (Hierarchical RBAC)** — adds **role inheritance**:
+  - Partial order ($\ge$): senior roles inherit permissions of junior roles (e.g., `instructor ≥ ta ≥ student`)
+- **$RBAC_2$ (Constrained RBAC)** — enforces **Separation of Duty (SoD)**:
+  - **Static SoD:** mutually exclusive role assignment (cannot *hold* both `requester` & `approver`)
+  - **Dynamic SoD:** mutually exclusive activation in the *same session* (e.g., a `ta` cannot grade a course where they are also an active `student`)
+- **$RBAC_3$ (Consolidated)** — combines **$RBAC_1 + RBAC_2$**
+
+::right::
+
+<div style="width: 100%; margin-top: 3.5em; text-align: center;">
+
+http://googleusercontent.com/immersive_entry_chip/0
 
 ---
 
@@ -635,7 +744,7 @@ Biba protects integrity (from untrusted low), BLP protects confidentiality (from
 flowchart LR
   B(["<b>COI · Banks</b><br/>Citibank ✔<br/>HSBC ✘"])
   O(["<b>COI · Oil</b><br/>Shell ✔<br/>BP ✘"])
-  A(["<b>COI · Airlines</b><br/>Lufthansa ○<br/>WizAir ○"])
+  A(["<b>COI · Airlines</b><br/>Lufthansa ○<br/>Wizz Air ○"])
   B ~~~ O ~~~ A
 ```
 
@@ -961,7 +1070,7 @@ Ask: how many browser extensions have you given "read all data on all sites"?
 
 **By target:**
 
-- **Watering Hole** phishing (people visiting a certain website)
+- **Watering Hole** (people visiting a certain website)
 - **Spear phishing** (a specific organization)
 - **Whaling** (C-level of a specific organization)
 
