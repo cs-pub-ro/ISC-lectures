@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" role="img" aria-label="animated x86_64 (amd64) stack frame before and after a buffer overflow">
+<title>x86_64 (amd64): the frame of greet() before, during and after a buffer overflow</title>
+<style>
+    @keyframes bar {
+      0%, 33%   { width: 0px; }
+      47%       { width: 320px; }
+      55%       { width: 320px; }
+      63%       { width: 406px; }
+      71%, 100% { width: 506px; }
+    }
+    @keyframes ptext { 0%, 33% { opacity: 0; } 36%, 100% { opacity: 1; } }
+    @keyframes caret {
+      0%, 33%   { opacity: 0; transform: translateX(0px); }
+      34%, 70%  { opacity: 1; }
+      47%       { transform: translateX(320px); }
+      63%       { transform: translateX(406px); }
+      71%       { transform: translateX(506px); }
+      72%, 100% { opacity: 0; transform: translateX(506px); }
+    }
+    @keyframes ret_normal { 0%, 68% { opacity: 1; } 72%, 100% { opacity: 0; } }
+    @keyframes ret_pwned  { 0%, 68% { opacity: 0; } 72%, 100% { opacity: 1; } }
+    @keyframes ret_fill   { 0%, 70% { fill: #ffffff; } 72%, 100% { fill: #ffe3e0; } }
+    @keyframes c1 { 0%, 32% { opacity: 1; } 34%, 100% { opacity: 0; } }
+    @keyframes c2 { 0%, 33% { opacity: 0; } 35%, 65% { opacity: 1; } 67%, 100% { opacity: 0; } }
+    @keyframes c3 { 0%, 66% { opacity: 0; } 68%, 96% { opacity: 1; } 99%, 100% { opacity: 0; } }
+    @keyframes arrow {
+      0%, 70% { stroke-dashoffset: 240; opacity: 0; }
+      74%     { opacity: 1; }
+      88%, 100% { stroke-dashoffset: 0; opacity: 1; }
+    }
+    @keyframes target { 0%, 71% { opacity: 0; } 76%, 100% { opacity: 1; } }
+    .bar    { animation: bar 12s linear infinite; }
+    .ptext  { animation: ptext 12s infinite; }
+    .caret  { animation: caret 12s infinite; }
+    .retn   { animation: ret_normal 12s infinite; }
+    .retp   { animation: ret_pwned 12s infinite; }
+    .retfill{ animation: ret_fill 12s steps(1, end) infinite; }
+    .c1     { animation: c1 12s steps(1, end) infinite; }
+    .c2     { animation: c2 12s steps(1, end) infinite; }
+    .c3     { animation: c3 12s steps(1, end) infinite; }
+    .arrow  { animation: arrow 12s infinite; }
+    .target { animation: target 12s steps(1, end) infinite; }
+    text{font-family:ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;fill:#141414}.hdr{font-size:15px;font-weight:700}.cap{font-size:14.5px}.cell{font-size:14px;font-weight:600}.sm{font-size:12px;fill:#6b7280}.mono{font-family:ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;font-size:12.5px}</style>
+<rect x="0" y="0" width="900" height="300" fill="#ffffff"/>
+<text class="hdr" x="36" y="26">x86_64 (amd64) — the frame of greet()</text>
+<text class="cap c1" x="36" y="52">&#9312; untouched: buf[64], then the saved rbp, then the saved return address</text>
+<text class="cap c2" x="36" y="52">&#9313; gets(buf) keeps writing: the padding runs over <tspan font-weight="700">saved rbp</tspan> and the <tspan font-weight="700">return address</tspan></text>
+<text class="cap c3" x="36" y="52">&#9314; ret pops the attacker value: the CPU jumps where we say</text>
+<rect x="36" y="76" width="320" height="100" fill="#ffffff" stroke="#141414" stroke-width="2.5"/>
+<rect x="356" y="76" width="86" height="100" fill="#ffffff" stroke="#141414" stroke-width="2.5"/>
+<rect x="442" y="76" width="100" height="100" fill="#ffffff" stroke="#141414" stroke-width="2.5" class="retfill"/>
+<rect x="542" y="76" width="170" height="100" fill="#f4f4f4" stroke="#141414" stroke-width="2.5"/>
+<rect class="bar" x="36" y="76" width="0" height="100" fill="#ffe3e0" fill-opacity="0.95" stroke="none"/>
+<rect class="bar" x="36" y="150" width="0" height="26" fill="#c92a2a" fill-opacity="0.9" stroke="none"/>
+<text class="ptext mono" x="46" y="168" fill="#ffffff" font-size="12" font-weight="700">"AAAA…AAAA" + p64(…)</text>
+<g class="caret"><path d="M 36 70 l 7 -11 l -14 0 z" fill="#c92a2a"/></g>
+<text class="cell" x="46" y="98">buf[64]</text>
+<text class="sm" x="346" y="98" text-anchor="end">64 bytes of stack memory</text>
+<text class="cell" x="399.0" y="98" text-anchor="middle">saved</text><text class="cell" x="399.0" y="118" text-anchor="middle">rbp</text>
+<text class="cell" x="492.0" y="98" text-anchor="middle" font-size="13">return addr</text><text class="retn mono" x="492.0" y="126" text-anchor="middle" fill="#6b7280">0x4011a4</text><text class="retp mono" x="492.0" y="126" text-anchor="middle" fill="#c92a2a" font-weight="700">0x401156</text>
+<text class="cell" x="554" y="98">caller frame</text><text class="sm" x="554" y="164">main()</text>
+<line x1="36" y1="179" x2="36" y2="188" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="356" y1="179" x2="356" y2="188" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="442" y1="179" x2="442" y2="188" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="4 3"/>
+<line x1="542" y1="179" x2="542" y2="188" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="mono" x="36" y="200" fill="#1f6feb">buf = rbp - 0x40</text>
+<text class="mono" x="360" y="200" fill="#1f6feb">rbp</text>
+<text class="mono" x="446" y="200" fill="#1f6feb">rbp + 8 &#8592; offset 72</text>
+<g class="target"><rect x="212" y="216" width="330" height="54" rx="12" fill="#e7f6ec" stroke="#1a7f37" stroke-width="2.5"/><text class="cell" x="377.0" y="239" text-anchor="middle" fill="#1a7f37" font-size="13.5">attacker-chosen target</text><text class="mono" x="377.0" y="258" text-anchor="middle" fill="#1a7f37">win() · system("/bin/sh") · a ROP gadget</text></g>
+<path class="arrow" d="M 536 176 C 536 202, 482 196, 482 213" fill="none" stroke="#1a7f37" stroke-width="3" stroke-dasharray="240" stroke-dashoffset="240" marker-end="url(#head)"/><defs><marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a7f37"/></marker></defs>
+<text class="sm" x="36" y="290">offset to the return address = 64 (buffer) + 8 (saved rbp) = <tspan font-weight="700">72</tspan> bytes &#183; the first argument travels in rdi → ret2libc needs a gadget</text>
+</svg>
