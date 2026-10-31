@@ -37,6 +37,7 @@ class: text-center
 'You're holding it wrong!'
 
 'Only one more bug left'
+
 ---
 
 # Contents
@@ -62,7 +63,7 @@ layout: section
 
 - Access control and crypto are the bricks for building secure blocks
 - Protocols/algorithms used to design useful blocks
-- Software & hardware implements all of the above
+- Software & hardware implement all of the above
 - **Vulnerabilities** — flaws allowing unintended access in a system
 
 ---
@@ -157,7 +158,7 @@ int f(int x) {
 }
 
 int main() {
-  f(); // asm: call f() <-- saves PC
+  f(x); // asm: call f() <-- saves PC
 }
 ```
 
@@ -300,7 +301,7 @@ layout: two-cols
 - Non-executable buffers? No problem!
 - Reuse existing functions
 - Example: jump to `execve()` / `system()` etc.
-- Reminder: call args from `%EBP - 0x08`!
+- Reminder: call args from `%EBP + 0x08`!
 
 ---
 layout: two-cols
@@ -341,7 +342,7 @@ int main() {
   // initialize modules…
   for (i = 0; i < n; i++) {
     struct message *msg = &all_messages[i];
-    msg->funcs.init(msg);
+    msg->funcs->init(msg);
     gets(msg->text);
   }
 }
@@ -487,7 +488,7 @@ Microsoft (BlueHatIL): trends, challenges, and shifts in software vulnerability 
 - **#3: type confusion**
 - **#4: uninitialized use**
 
-- Stack corruptions are essentially dead; UAF spiked 2013–2015 (web browsers), mitigated by Mem GC
+- Stack corruptions are essentially dead; UAF spiked 2013–2015 (web browsers), mitigated by MemGC
 - Heap out-of-bounds read, type confusion, & uninitialized use have generally increased
 - Spatial safety remains the most common vulnerability category
 
@@ -510,7 +511,7 @@ bool lt(int x, int y) { return x < y; }
 
 bool gt(int x, int y) { return x > y; }
 
-sort2(int a[], int b[], int len) {
+void sort2(int a[], int b[], int len) {
   sort(a, len, lt);
   sort(b, len, gt);
 }
@@ -538,7 +539,7 @@ Enforce that control flow only takes architecturally valid paths.
 ```c
 int authenticated = 0;
 struct user_info *user_ptr = auth_users[last_idx];
-int username[100];
+char username[100];
 gets(username);
 // meanwhile: check name & password
 if (authenticated) {
@@ -553,7 +554,7 @@ if (authenticated) {
 # Data integrity
 
 - Easy: check bounds after each read/write of any variable!
-- **Softbounds + CETS** — compile-time transformations enforcing spatial & temporal safety for C
+- **SoftBound + CETS** — compile-time transformations enforcing spatial & temporal safety for C
   - Huge overhead!
 - **Write Integrity Tracking / Data Flow Integrity / Data Space Randomization**
 
@@ -563,7 +564,7 @@ if (authenticated) {
 
 | Protection | Policy | Technique | Weakness | Perf. | Comp. |
 |------------|--------|-----------|----------|-------|-------|
-| Hijack | W⊕R | Page flags | JIT | 1x | good |
+| Hijack | W⊕X | Page flags | JIT | 1x | good |
 | Hijack | Return integrity | Stack cookies | Direct overwrite | 1x | good |
 | Hijack | Address space rand. | ASLR | Info-leak. | 1.1x | good |
 | Hijack | Control-flow integ. | CFI | Over-approx. | 1.4x | Libraries |
@@ -582,7 +583,7 @@ Table is partially reconstructed from the OCR'd notes (row labels "WIT/DSR/DFI",
 
 **Yep! qmail** [6]
 
-- Mail Transfer Agent by David Bernstein, 1995 (last version: 1.03, 1998)
+- Mail Transfer Agent by Daniel J. Bernstein, 1995 (last version: 1.03, 1998)
 - **Zero security vulnerabilities so far!**
 - Security practices:
   - Keep It Simple, Stupid (KISS)
