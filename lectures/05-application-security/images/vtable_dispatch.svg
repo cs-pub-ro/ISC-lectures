@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 520" width="660" height="520" role="img" aria-label="Virtual method tables: each object holds a vptr to a per-class table of function pointers; derived classes override entries.">
+<title>C++ virtual method table dispatch</title>
+<style>
+  .cls{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .vt{fill:#f4f6f7;stroke:#7d8890;stroke-width:1.8}
+  .hd{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#0f4a5e;text-anchor:middle}
+  .row{font:13px ui-monospace,Menlo,Consolas,monospace;fill:#1a1a1a}
+  .vtl{font:13px ui-monospace,Menlo,Consolas,monospace;fill:#1a1a1a}
+  .sep{stroke:#c6cfd4;stroke-width:1.4}
+  .vp{font:12px ui-monospace,Menlo,Consolas,monospace;fill:#b3261e;font-weight:600}
+  .note{font:13px Inter,ui-sans-serif,system-ui,sans-serif;fill:#b3261e}
+  .lg{font:12px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+</style>
+<defs>
+  <marker id="v" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <marker id="vr" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+</defs>
+
+<!-- Base -->
+<rect class="cls" x="30" y="40" width="170" height="108" rx="4"/>
+<text class="hd" x="115" y="62">Base</text>
+<line class="sep" x1="30" y1="72" x2="200" y2="72"/>
+<text class="row" x="42" y="94" fill="#b3261e" style="font-weight:600">__vptr</text>
+<text class="row" x="42" y="118">virtual f1()</text>
+<text class="row" x="42" y="140">virtual f2()</text>
+
+<rect class="vt" x="330" y="40" width="250" height="108" rx="4"/>
+<text class="hd" x="455" y="62" fill="#3f4b52">Base VTable</text>
+<line class="sep" x1="330" y1="72" x2="580" y2="72"/>
+<text class="vtl" x="342" y="94">f1  →  Base::f1</text>
+<text class="vtl" x="342" y="118">f2  →  Base::f2</text>
+<path d="M200,94 L326,94" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#v)"/>
+
+<!-- D1 -->
+<rect class="cls" x="30" y="196" width="170" height="108" rx="4"/>
+<text class="hd" x="115" y="218">D1 : public Base</text>
+<line class="sep" x1="30" y1="228" x2="200" y2="228"/>
+<text class="row" x="42" y="250" fill="#b3261e" style="font-weight:600">__vptr</text>
+<text class="row" x="42" y="274" style="font-weight:700;fill:#b26b00">virtual f1()</text>
+<text class="row" x="42" y="296" style="fill:#8a949b">virtual f2()</text>
+
+<rect class="vt" x="330" y="196" width="250" height="108" rx="4"/>
+<text class="hd" x="455" y="218" fill="#3f4b52">D1 VTable</text>
+<line class="sep" x1="330" y1="228" x2="580" y2="228"/>
+<text class="vtl" x="342" y="250" fill="#b26b00">f1  →  D1::f1</text>
+<text class="vtl" x="342" y="274">f2  →  Base::f2</text>
+<path d="M200,250 L326,250" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#v)"/>
+
+<!-- D2 -->
+<rect class="cls" x="30" y="352" width="170" height="108" rx="4"/>
+<text class="hd" x="115" y="374">D2 : public Base</text>
+<line class="sep" x1="30" y1="384" x2="200" y2="384"/>
+<text class="row" x="42" y="406" fill="#b3261e" style="font-weight:600">__vptr</text>
+<text class="row" x="42" y="430" style="fill:#8a949b">virtual f1()</text>
+<text class="row" x="42" y="452" style="font-weight:700;fill:#b26b00">virtual f2()</text>
+
+<rect class="vt" x="330" y="352" width="250" height="108" rx="4"/>
+<text class="hd" x="455" y="374" fill="#3f4b52">D2 VTable</text>
+<line class="sep" x1="330" y1="384" x2="580" y2="384"/>
+<text class="vtl" x="342" y="406">f1  →  Base::f1</text>
+<text class="vtl" x="342" y="430" fill="#b26b00">f2  →  D2::f2</text>
+<path d="M200,406 L326,406" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#v)"/>
+
+<!-- attack -->
+<path d="M6,250 L40,250" stroke="#b3261e" stroke-width="2.5" fill="none" stroke-dasharray="6 4" marker-end="url(#vr)"/>
+<text class="note" x="30" y="497">an out-of-bounds write on the object replaces __vptr</text>
+<text class="lg" x="30" y="514" style="fill:#b3261e">→ the next virtual call jumps into attacker-chosen memory</text>
+</svg>

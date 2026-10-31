@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 540" width="520" height="540" role="img" aria-label="Linux process address space from high to low addresses: arguments and environment, stack, shared libraries, heap, .bss, .data and .text.">
+<title>Linux process address space layout</title>
+<style>
+  .cell{fill:#fff;stroke:#9aa6ae;stroke-width:1.8}
+  .env{fill:#eff1f3;stroke:#7d8890;stroke-width:1.8}
+  .stack{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .mmap{fill:#f4f6f7;stroke:#7d8890;stroke-width:1.8}
+  .heap{fill:#fdf1dc;stroke:#b26b00;stroke-width:2}
+  .t{font:18px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .ti{font:italic 16px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:middle;dominant-baseline:central}
+  .n{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .nend{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:end}
+  .mono{font:600 14px ui-monospace,Menlo,Consolas,monospace;fill:#5b6670;text-anchor:middle;dominant-baseline:central}
+  .region{fill:none;stroke:#5b6670;stroke-width:1.6;rx:5}
+</style>
+<defs>
+  <marker id="d" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <marker id="u" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+</defs>
+
+<text class="nend" x="400" y="16" style="text-anchor:end">high addresses</text>
+
+<!-- address space frame: continues through the library gap -->
+<rect class="region" x="102" y="22" width="306" height="482" rx="5"/>
+
+<rect class="env" x="110" y="28" width="290" height="44"/>
+<text class="t" x="255" y="50">command-line args &amp; environment</text>
+<rect class="env" x="110" y="72" width="290" height="40"/>
+<text class="ti" x="255" y="92">argv[] / envp[]</text>
+
+<rect class="stack" x="110" y="112" width="290" height="104"/>
+<text class="t" x="255" y="140">stack</text>
+<line x1="185" y1="160" x2="185" y2="200" stroke="#176b87" stroke-width="2.5" marker-end="url(#d)"/>
+<text class="mono" x="205" y="182" style="fill:#176b87;text-anchor:start">grows down</text>
+
+<rect class="mmap" x="110" y="240" width="290" height="42"/>
+<text class="t" x="255" y="253">shared libraries / mmap</text>
+<text class="mono" x="255" y="272" style="fill:#5b6670">libc, ld.so …</text>
+
+<rect class="heap" x="110" y="292" width="290" height="92"/>
+<text class="t" x="255" y="318">heap</text>
+<line x1="185" y1="370" x2="185" y2="330" stroke="#b26b00" stroke-width="2.5" marker-end="url(#u)"/>
+<text class="mono" x="205" y="352" style="fill:#8a5a00;text-anchor:start">grows up</text>
+
+<rect class="cell" x="110" y="384" width="290" height="38"/><text class="t" x="255" y="403">.bss <tspan style="font:14px ui-monospace,Menlo,monospace;fill:#5b6670">(zero-initialized data)</tspan></text>
+<rect class="cell" x="110" y="422" width="290" height="38"/><text class="t" x="255" y="441">.data <tspan style="font:14px ui-monospace,Menlo,monospace;fill:#5b6670">(initialized data)</tspan></text>
+<rect class="cell" x="110" y="460" width="290" height="38"/><text class="t" x="255" y="479">.text <tspan style="font:14px ui-monospace,Menlo,monospace;fill:#5b6670">(code, read-only + execute)</tspan></text>
+
+<text class="nend" x="400" y="524" style="text-anchor:end">low addresses</text>
+</svg>

@@ -109,17 +109,21 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-40-60
 ---
 
 # Memory safety
 
 - Microsoft: **70% of all high severity security bugs are memory safety issues** [1]
 
-[zdnet.com](https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/)
+[1] [zdnet.com (2019)](https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/)
 ::right::
 
 <div class="img-col">
-<img src="./images/memory_safety_root_causes_pie.png" />
+
+![](./images/memory_safety_root_causes_pie.svg)
+*https://www.microsoft.com/en-us/msrc/blog/2019/07/a-proactive-approach-to-more-secure-code*
+
 </div>
 
 ---
@@ -141,7 +145,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/address_space_layout.png" />
+<img src="./images/address_space_layout.svg" />
 </div>
 
 ---
@@ -169,7 +173,7 @@ Walk through how `call` saves the return address on the stack — the key to sta
 ::right::
 
 <div class="img-col">
-<img src="./images/stack_frame_layout.png" />
+<img src="./images/stack_frame_layout.svg" />
 </div>
 
 ---
@@ -188,16 +192,16 @@ Happens when a buffer is written after its allocated size:
 
 ```c
 char buf[10];
-char *input = "This text is larger than expected";
+char *input = "AAAAAAAAAAAA<many times>";
 strcpy(buf, input);
 ```
 
-[security-summer-school.github.io/binary](https://security-summer-school.github.io/binary/)
+[https://security.cs.pub.ro/summer-school](https://security.cs.pub.ro/summer-school)
 
 ::right::
 
 <div class="img-col">
-<img src="./images/stack_buffer_overflow_direction.png" />
+<img src="./images/stack_buffer_overflow_direction.svg" />
 </div>
 
 ---
@@ -212,8 +216,8 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/stack_overflow_injected_code.png" class="img-sm" />
-<img src="./images/nop_sled_bytes.png" class="img-sm" />
+<img src="./images/stack_overflow_injected_code.png" style="max-height:280px" />
+<img src="./images/nop_sled_bytes.svg" style="max-height:120px" />
 </div>
 
 ---
@@ -237,7 +241,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/attack_tree_exploit_path.png" />
+<img src="./images/sok_stack_smashing.svg" />
 </div>
 
 ---
@@ -246,6 +250,8 @@ layout: section
 
 # Defenses & mitigations
 
+---
+layout: two-cols
 ---
 
 # Stack exploit mitigations
@@ -258,8 +264,15 @@ layout: section
   - defeated by memory leaks, side channels, data overwrites
 - **Shadow Stack**
 
+::right::
+
+<div class="img-col">
+<img src="./images/svg_attack_mitigations.svg" />
+</div>
+
 ---
 layout: two-cols
+class: cols-45-55
 ---
 
 # Address Space Layout Randomization (ASLR)
@@ -272,7 +285,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/aslr_rerandomization.png" />
+<img src="./images/aslr_rerandomization.svg" class="img-tall" />
 </div>
 
 ---
@@ -291,7 +304,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/stack_canary_layout.png" />
+<img src="./images/stack_canary_layout.svg" />
 </div>
 
 ---
@@ -305,6 +318,7 @@ layout: two-cols
 
 ---
 layout: two-cols
+class: cols-40-60
 ---
 
 # Return oriented programming
@@ -314,7 +328,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/rop_gadget_chain.png" />
+<img src="./images/rop_gadget_chain.svg" />
 </div>
 
 ---
@@ -350,6 +364,7 @@ int main() {
 
 ---
 layout: two-cols
+class: cols-45-55
 ---
 
 # Object Oriented Security
@@ -361,11 +376,12 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/vtable_dispatch.png" />
+<img src="./images/vtable_dispatch.svg" />
 </div>
 
 ---
 layout: two-cols
+class: cols-40-60
 ---
 
 # The Heap
@@ -381,7 +397,7 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/glibc_thread_arena.png" />
+<img src="./images/glibc_thread_arena.svg" />
 </div>
 
 ---
@@ -477,27 +493,27 @@ VAL = (VAL + 0xA8909090)|0;
 
 ---
 layout: two-cols
+class: cols-45-55
 ---
 
 # Drilling down into root causes
 
-Microsoft (BlueHatIL): trends, challenges, and shifts in software vulnerability mitigation. Top root causes since 2016:
+Microsoft (BlueHatIL 2019). Top root causes since 2016:
 
 - **#1: heap out-of-bounds**
 - **#2: use after free**
 - **#3: type confusion**
 - **#4: uninitialized use**
 
-- Stack corruptions are essentially dead; UAF spiked 2013–2015 (web browsers), mitigated by MemGC
-- Heap out-of-bounds read, type confusion, & uninitialized use have generally increased
-- Spatial safety remains the most common vulnerability category
+- Stack corruptions: essentially dead
+- UAF: spiked 2013–15, killed by MemGC
+- Spatial safety is still #1: heap OOB reads
 
-*CVEs may have multiple root causes, so they can be counted in multiple categories.*
 
 ::right::
 
 <div class="img-col">
-<img src="./images/bluehatil_cve_root_causes.png" />
+<img src="./images/bluehatil_cve_root_causes.jpg" />
 </div>
 
 ---
@@ -507,11 +523,15 @@ layout: two-cols
 # Control Flow Integrity
 
 ```c
-bool lt(int x, int y) { return x < y; }
+bool lt(int x, int y) {
+  return x < y;
+}
 
-bool gt(int x, int y) { return x > y; }
+bool gt(int x, int y) {
+  return x > y;
+}
 
-void sort2(int a[], int b[], int len) {
+sort2(int a[], int b[], int len) {
   sort(a, len, lt);
   sort(b, len, gt);
 }
@@ -524,7 +544,7 @@ Enforce that control flow only takes architecturally valid paths.
 ::right::
 
 <div class="img-col">
-<img src="./images/cfi_call_graph.png" />
+<img src="./images/cfi_call_graph.svg" />
 </div>
 
 ---

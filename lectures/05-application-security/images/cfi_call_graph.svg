@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 456" width="620" height="456" role="img" aria-label="Control-flow graph of the lt / gt / sort2 example with the CFI instrumentation: label 17 at the indirect call targets, label 23 at the return sites, label 55 at sort2's return site.">
+<title>Control-flow graph with CFI labels</title>
+<style>
+  .n{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .ins{font:600 15px ui-monospace,Menlo,Consolas,monospace;fill:#0f4a5e;text-anchor:middle;dominant-baseline:central}
+  .fn{font:600 14px ui-monospace,Menlo,Consolas,monospace;fill:#5b6670;text-anchor:middle}
+  .lbl{font:600 14px ui-monospace,Menlo,Consolas,monospace;fill:#b26b00;text-anchor:middle;dominant-baseline:central}
+  .h{font:600 16px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .lg{font:15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#3f4b52;dominant-baseline:central}
+  .lg2{font:15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .dir{stroke:#176b87;stroke-width:2;fill:none}
+  .ind{stroke:#b26b00;stroke-width:2.4;fill:none;stroke-dasharray:8 5}
+</style>
+<defs>
+  <marker id="d1" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <marker id="i1" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+</defs>
+
+<text class="h" x="20" y="26">control-flow graph + CFI labels</text>
+<text class="fn" x="90" y="44">sort2()</text>
+<text class="fn" x="295" y="44">sort()</text>
+<text class="fn" x="500" y="44">lt() / gt()</text>
+
+<!-- sort2 call sites -->
+<rect class="n" x="20" y="54" width="140" height="44" rx="4"/>
+<text class="ins" x="90" y="76">call sort</text>
+<rect class="n" x="20" y="124" width="140" height="44" rx="4"/>
+<text class="ins" x="90" y="146">call sort</text>
+<rect class="n" x="20" y="306" width="140" height="66" rx="4"/>
+<text class="lbl" x="90" y="326">label 55</text>
+<text class="ins" x="90" y="354">ret …</text>
+
+<!-- sort() -->
+<rect class="n" x="220" y="54" width="150" height="66" rx="4"/>
+<text class="ins" x="295" y="74">call 17,R</text>
+<text class="lbl" x="295" y="102">indirect call</text>
+<rect class="n" x="220" y="188" width="150" height="66" rx="4"/>
+<text class="lbl" x="295" y="208">label 23</text>
+<text class="ins" x="295" y="236">ret 55</text>
+
+<!-- lt() / gt() -->
+<rect class="n" x="420" y="54" width="160" height="66" rx="4"/>
+<text class="ins" x="500" y="70">lt()</text>
+<text class="lbl" x="500" y="90">label 17</text>
+<text class="ins" x="500" y="110">ret 23</text>
+<rect class="n" x="420" y="288" width="160" height="66" rx="4"/>
+<text class="ins" x="500" y="304">gt()</text>
+<text class="lbl" x="500" y="324">label 17</text>
+<text class="ins" x="500" y="344">ret 23</text>
+
+<!-- calls into sort() -->
+<path class="dir" d="M160,76 L216,76" marker-end="url(#d1)"/>
+<path class="dir" d="M160,146 C194,146 194,102 216,96" marker-end="url(#d1)"/>
+
+<!-- indirect call through the function pointer R -->
+<path class="ind" d="M370,78 L416,78" marker-end="url(#i1)"/>
+<path class="ind" d="M372,108 C410,148 400,232 472,284" marker-end="url(#i1)"/>
+
+<!-- returns -->
+<path class="dir" d="M478,120 C478,164 408,170 372,194" marker-end="url(#d1)"/>
+<path class="dir" d="M420,322 C400,288 388,248 374,222" marker-end="url(#d1)"/>
+<path class="dir" d="M295,254 C295,300 180,304 94,316" marker-end="url(#d1)"/>
+
+<!-- legend, below the diagram -->
+<line x1="20" y1="392" x2="600" y2="392" stroke="#e2e7ea" stroke-width="1.5"/>
+<line class="dir" x1="20" y1="414" x2="80" y2="414"/>
+<text class="lg" x="92" y="414">direct call / return</text>
+<line class="ind" x1="290" y1="414" x2="350" y2="414"/>
+<text class="lg" x="362" y="414">indirect <tspan style="font-family:ui-monospace,monospace;font-weight:600">call 17,R</tspan> → label 17</text>
+<text class="lg2" x="20" y="444">every indirect transfer must land on an address holding the expected label</text>
+</svg>

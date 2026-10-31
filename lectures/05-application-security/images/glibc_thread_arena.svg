@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 420" width="740" height="420" role="img" aria-label="glibc heap: chunks in a heap segment with metadata headers, one free chunk linked into a bin list, and the top chunk.">
+<title>glibc heap chunk layout and bin lists</title>
+<style>
+  .used{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .free{fill:#fdf1dc;stroke:#b26b00;stroke-width:2.4}
+  .top{fill:#e6efe7;stroke:#2f6b34;stroke-width:2}
+  .hdr{fill:#eef1f3;stroke:#7d8890;stroke-width:1.4}
+  .t{font:16px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .h{font:600 16px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .m{font:15px ui-monospace,Menlo,Consolas,monospace;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .ml{font:15px ui-monospace,Menlo,Consolas,monospace;fill:#1a1a1a;dominant-baseline:central}
+  .n{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .nb{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#b3261e}
+  .bin{fill:#f4f6f7;stroke:#7d8890;stroke-width:1.8;stroke-dasharray:6 4}
+  .dash{stroke:#b26b00;stroke-width:2;fill:none;stroke-dasharray:5 4}
+  .flow{stroke:#b26b00;stroke-width:2.2;fill:none}
+</style>
+<defs>
+  <marker id="o" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+</defs>
+
+<text class="h" x="50" y="26">heap segment</text>
+<text class="n" x="290" y="26" style="text-anchor:end">higher addresses ↑</text>
+
+<rect class="used" x="50" y="40" width="220" height="52"/>
+<text class="t" x="160" y="66">chunk in use</text>
+<text class="n" x="282" y="66" style="font-size:12px">prev_size · size · payload</text>
+
+<rect class="free" x="50" y="92" width="220" height="52"/>
+<text class="t" x="160" y="118" style="font-weight:600">chunk free</text>
+
+<rect class="used" x="50" y="144" width="220" height="52"/>
+<text class="t" x="160" y="170">chunk in use</text>
+
+<rect class="top" x="50" y="196" width="220" height="66"/>
+<text class="t" x="160" y="220">top chunk</text>
+<text class="t" x="160" y="242" style="font-size:12px;fill:#2f6b34">the rest of the heap</text>
+
+<text class="n" x="160" y="290" style="text-anchor:middle">grows towards higher addresses</text>
+
+<!-- zoom -->
+<path class="dash" d="M270,118 C330,118 340,150 376,170"/>
+<text class="n" x="300" y="108" style="fill:#8a5a00">zoom</text>
+
+<text class="h" x="386" y="140">a free chunk in memory</text>
+<rect class="hdr" x="386" y="152" width="150" height="34"/>
+<text class="ml" x="396" y="169">prev_size</text>
+<rect class="hdr" x="536" y="152" width="170" height="34"/>
+<text class="ml" x="546" y="169">size <tspan style="fill:#b26b00;font-weight:600">| FREE</tspan></text>
+
+<rect class="free" x="386" y="186" width="150" height="34"/>
+<text class="ml" x="396" y="203" style="fill:#8a5a00;font-weight:600">fd</text>
+<rect class="free" x="536" y="186" width="170" height="34"/>
+<text class="ml" x="546" y="203" style="fill:#8a5a00;font-weight:600">bk</text>
+
+<rect class="hdr" x="386" y="220" width="320" height="34"/>
+<text class="ml" x="396" y="237" style="fill:#8a949b">rest of the payload (unused while free)</text>
+
+<rect class="bin" x="386" y="288" width="320" height="52" rx="4"/>
+<text class="t" x="546" y="314">bin: doubly-linked free list</text>
+<path class="flow" d="M552,186 C600,236 620,262 610,284" marker-end="url(#o)"/>
+
+<text class="nb" x="50" y="384">an overflow of one chunk overwrites the next chunk’s header</text>
+<text class="nb" x="50" y="404">a corrupted fd/bk pointer gives a write-what-where primitive</text>
+
+</svg>

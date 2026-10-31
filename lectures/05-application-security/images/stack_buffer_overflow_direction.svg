@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 520" width="620" height="520" role="img" aria-label="A stack buffer written past its end grows towards higher addresses and overwrites the saved frame pointer and the return address.">
+<title>Stack buffer overflow direction</title>
+<style>
+  .cell{fill:#fff;stroke:#9aa6ae;stroke-width:1.8}
+  .ghost{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.8;stroke-dasharray:7 5}
+  .ret{fill:#fbe6e3;stroke:#b3261e;stroke-width:2}
+  .sav{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .t{font:20px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .m{font:600 16px ui-monospace,Menlo,Consolas,monospace;fill:#b3261e;text-anchor:middle;dominant-baseline:central}
+  .mg{font:600 15px ui-monospace,Menlo,Consolas,monospace;fill:#5b6670;text-anchor:middle;dominant-baseline:central}
+  .n{font:15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:middle}
+</style>
+<defs>
+  <pattern id="hatch" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <rect width="10" height="10" fill="#fdeeeb"/><line x1="0" y1="0" x2="0" y2="10" stroke="#f0bdb5" stroke-width="5"/>
+  </pattern>
+  <marker id="big" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/>
+  </marker>
+</defs>
+
+<text class="n" x="270" y="18">higher addresses</text>
+
+<rect class="ret" x="120" y="30" width="300" height="48"/>
+<text class="t" x="270" y="54">saved return address</text>
+<rect class="sav" x="120" y="78" width="300" height="48"/>
+<text class="t" x="270" y="102">saved frame pointer</text>
+
+<rect x="120" y="126" width="300" height="210" fill="url(#hatch)" stroke="#b3261e" stroke-width="2"/>
+<text class="t" x="270" y="188" style="font-weight:600">buffer[16]</text>
+<text class="m" x="270" y="222">'A' × 16</text>
+<text class="m" x="270" y="252" style="font-size:14px;fill:#8a5a00">then kept writing →</text>
+<text class="m" x="270" y="286" style="font-size:14px;fill:#8a5a00">beyond the end of the buffer</text>
+
+<rect class="ghost" x="120" y="336" width="300" height="76"/>
+<text class="t" x="270" y="374" fill="#5b6670">other local variables</text>
+
+<path d="M470,336 L470,60" stroke="#b3261e" stroke-width="12" fill="none" marker-end="url(#big)" opacity="0.85"/>
+<text class="m" x="505" y="200" text-anchor="middle" transform="rotate(-90 505 200)" style="font-size:16px">overflow writes</text>
+
+<text class="mg" x="310" y="452">'A'×16 &#9135; saved FP &#9135; ret addr → &amp;shellcode</text>
+<text class="n" x="270" y="356" style="fill:#5b6670"></text>
+</svg>

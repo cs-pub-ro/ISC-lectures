@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" width="720" height="410" role="img" aria-label="Two executions of the same binary: each region (stack, libraries, heap, program code) is placed at an independent random base, shown as arrows with random offsets; without PIE the code stays fixed.">
+<title>ASLR: every region gets its own random base at exec time</title>
+<style>
+  .box{fill:#fff;stroke-width:2}
+  .st{fill:#e4eff1;stroke:#176b87}
+  .lb{fill:#eff1f3;stroke:#7d8890}
+  .hp{fill:#fdf1dc;stroke:#b26b00}
+  .px{fill:#f4f6f7;stroke:#7d8890}
+  .t{font:17px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .h{font:600 16px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle}
+  .off{font:600 14px ui-monospace,Menlo,Consolas,monospace;fill:#b3261e;text-anchor:middle}
+  .offg{font:600 14px ui-monospace,Menlo,Consolas,monospace;fill:#2f6b34;text-anchor:middle}
+  .n{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .ax{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b;text-anchor:middle}
+  .mv{stroke:#b3261e;stroke-width:2.2;fill:none}
+  .fx{stroke:#2f6b34;stroke-width:2;fill:none;stroke-dasharray:6 5}
+</style>
+<defs>
+  <marker id="r" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f6b34"/></marker>
+  <marker id="a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a949b"/></marker>
+</defs>
+
+<!-- address axis -->
+<line x1="52" y1="360" x2="52" y2="52" stroke="#b6c0c6" stroke-width="1.6" marker-end="url(#a)"/>
+<text class="ax" x="30" y="206" transform="rotate(-90 30 206)">higher addresses</text>
+
+<text class="h" x="205" y="30">exec #1</text>
+<text class="h" x="565" y="30">exec #2</text>
+<text class="ax" x="385" y="30" style="font-size:13px">same binary</text>
+
+<!-- exec #1 -->
+<rect class="box st" x="110" y="52"  width="190" height="44" rx="3"/><text class="t" x="205" y="74">stack</text>
+<rect class="box lb" x="110" y="124" width="190" height="44" rx="3"/><text class="t" x="205" y="146">library code</text>
+<rect class="box hp" x="110" y="196" width="190" height="44" rx="3"/><text class="t" x="205" y="218">heap</text>
+<rect class="box px" x="110" y="268" width="190" height="44" rx="3"/><text class="t" x="205" y="290">program code</text>
+
+<!-- exec #2 -->
+<rect class="box st" x="470" y="36"  width="190" height="44" rx="3"/><text class="t" x="565" y="58">stack</text>
+<rect class="box lb" x="470" y="140" width="190" height="44" rx="3"/><text class="t" x="565" y="162">library code</text>
+<rect class="box hp" x="470" y="204" width="190" height="44" rx="3"/><text class="t" x="565" y="226">heap</text>
+<rect class="box px" x="470" y="280" width="190" height="44" rx="3"/><text class="t" x="565" y="302">program code</text>
+
+<!-- per-region randomization arrows + offsets -->
+<path class="mv" d="M300,74 C350,74 350,58 466,58" marker-end="url(#r)"/>
+<text class="off" x="385" y="48">+ 0x1f2a0000</text>
+
+<path class="mv" d="M300,146 C350,146 350,162 466,162" marker-end="url(#r)"/>
+<text class="off" x="385" y="138">+ 0x7f3c0000</text>
+
+<path class="mv" d="M300,218 C350,218 350,226 466,226" marker-end="url(#r)"/>
+<text class="off" x="385" y="210">+ 0x0a110000</text>
+
+<path class="mv" d="M300,290 C350,290 350,294 466,294" marker-end="url(#r)"/>
+<text class="off" x="385" y="278">+ 0x0005a000 <tspan style="fill:#2f6b34;font-size:13px">(PIE)</tspan></text>
+
+<!-- exec markers -->
+<line x1="205" y1="336" x2="205" y2="344" stroke="#8a949b" stroke-width="1.6"/>
+<line x1="565" y1="336" x2="565" y2="344" stroke="#8a949b" stroke-width="1.6"/>
+<line x1="110" y1="340" x2="692" y2="340" stroke="#b6c0c6" stroke-width="1.6" marker-end="url(#a)"/>
+<text class="ax" x="205" y="360">exec()</text>
+<text class="ax" x="565" y="360">exec()</text>
+<text class="ax" x="692" y="360" style="text-anchor:end">time</text>
+
+<text class="n" x="110" y="392">one random base per region, assigned once per exec — one leak defeats ASLR</text>
+</svg>

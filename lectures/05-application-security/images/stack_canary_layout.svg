@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Stack canary placed between the local variables and the saved RBP and return address of a function frame.">
+<title>Stack canary placement in a stack frame</title>
+<style>
+  .cell{fill:#fff;stroke:#9aa6ae;stroke-width:1.8}
+  .ghost{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.8;stroke-dasharray:7 5}
+  .can{fill:#fdf1dc;stroke:#b26b00;stroke-width:2.5}
+  .t{font:20px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a;text-anchor:middle;dominant-baseline:central}
+  .gi{font:italic 19px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b;text-anchor:middle;dominant-baseline:central}
+  .mono{font:600 15px ui-monospace,Menlo,Consolas,monospace;fill:#176b87;text-anchor:middle;dominant-baseline:central}
+  .br{stroke:#176b87;stroke-width:2;fill:none}
+</style>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker></defs>
+
+<rect class="ghost" x="140" y="24" width="320" height="40"/>
+<text class="gi" x="300" y="44">func2()'s local variables</text>
+
+<rect class="cell" x="140" y="64" width="320" height="44"/><text class="t" x="300" y="86">return address</text>
+<rect class="cell" x="140" y="108" width="320" height="44"/><text class="t" x="300" y="130">saved RBP</text>
+<rect class="can"  x="140" y="152" width="320" height="46"/><text class="t" x="300" y="175" style="font-weight:600">canary <tspan style="font-weight:400;fill:#8a5a00">(random value)</tspan></text>
+<rect class="cell" x="140" y="198" width="320" height="130"/>
+<text class="t" x="300" y="263">local variables</text>
+
+<rect class="cell" x="486" y="108" width="98" height="44" rx="3"/>
+<text class="mono" x="535" y="130" style="font-size:18px">RBP</text>
+<line class="br" x1="486" y1="130" x2="464" y2="130" marker-end="url(#ar)"/>
+<rect class="cell" x="486" y="284" width="98" height="44" rx="3"/>
+<text class="mono" x="535" y="306" style="font-size:18px">RSP</text>
+<line class="br" x1="486" y1="306" x2="464" y2="306" marker-end="url(#ar)"/>
+
+<text class="mono" x="300" y="356" text-anchor="middle" style="fill:#5b6670">checked right before ret — mismatch ⇒ abort</text>
+</svg>
