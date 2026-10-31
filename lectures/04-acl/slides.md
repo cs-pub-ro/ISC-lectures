@@ -343,11 +343,11 @@ gigel:user_r:passwd_t  16532 pts/0 00:00:00 passwd
 layout: two-cols
 ---
 
-# TOCTTOU — a race through the check
+# TOCTOU — a race through the check
 
-- **TOCTTOU** = *Time Of Check To Time Of Use*: the object can **change between the decision and the use**
-- The attacker swaps it in that window (symbolic/hard link / rename / re-create file)
-  - _since the owner retains write access over the parent path_
+- **TOCTOU** = *Time Of Check To Time Of Use*: the object can **change between the decision and the use**
+- The attacker swaps it in that window
+  * E.g., POSIX quirk: `unlink()` / `rename()` act on the **directory**!
 - The privileged subject then acts on a **different object** -> breaks *complete mediation*
 
 ::right::
@@ -381,7 +381,7 @@ sequenceDiagram
 
     P->>FS: stat("/tmp/out") → owner is OK ✓
     A->>FS: unlink + symlink → /etc/shadow
-    Note over A,FS: TOCTTOU window — object is swapped
+    Note over A,FS: TOCTOU window — object is swapped
 ```
 
 </template>
@@ -396,6 +396,7 @@ sequenceDiagram
 
     P->>FS: stat("/tmp/out") → owner is OK ✓
     A->>FS: unlink + symlink → /etc/shadow
+    Note over A,FS: TOCTOU window — object is swapped
     P->>FS: open("/tmp/out", O_WRONLY)
     FS-->>P: fd = /etc/shadow, as root
     P->>FS: write(fd, buf) ⇒ file overwritten
@@ -411,90 +412,38 @@ layout: two-cols
 class: cols-55-45
 ---
 
-# TOCTTOU Deep Dive: `/tmp` & the Sticky Bit
+# Mitigating POSIX TOCTOU
 
-- **POSIX quirk:** `unlink()` (delete) and `rename()` modify the **directory**, not the file!
-  - Write + execute (`wx`) on the parent folder is enough to delete *any* file inside it
-- **The Sticky Bit (`t`, octal `1000`):** set on shared directories like `/tmp` (`1777`):
-  - Only the **file owner**, **directory owner**, or **`root`** may delete/rename a file inside `/tmp`
-- **So why does the `/tmp/out` attack work?**
-  - The attacker creates `/tmp/out` *first* (`owner == attacker`)
-  - The buggy `setuid-root` tool checks `stat("/tmp/out")` → sees `owner == RUID` ✓
-  - Because the attacker owns `/tmp/out`, the Sticky Bit **allows** them to `unlink()` and replace it with a symlink!
-
-::right::
-
-<div style="margin-top: 2.5em;">
-
-```bash
-# Sticky bit 't' at the end (octal 1777)
-➜ ls -ld /tmp
-drwxrwxrwt 18 root root 4096 Jan 18 08:05 /tmp
-```
-
-<div style="width: 95%; margin: 1.5em auto; text-align: center;">
-
-```mermaid {theme: 'isc-cartoon', scale: 0.62}
-flowchart TD
-  A["1. Attacker creates /tmp/out<br/><em>(owner = attacker)</em>"]
-  B["2. setuid-root checks stat()<br/><em>owner == RUID ✓</em>"]
-  C["3. Sticky bit allows owner to unlink!<br/><em>/tmp/out → /etc/shadow</em>"]
-  D["4. setuid-root opens symlink<br/><em>with EUID = root 💥</em>"]
-  A --> B --> C --> D
-```
-
-</div>
-</div>
-
-<!--
-Ask students: If root owns /tmp/secret (0400) inside a normal 0777 folder without sticky bit, can an unprivileged user delete it? Yes! Because deletion is a directory operation.
--->
-
----
-layout: two-cols
-class: cols-52-48
----
-
-# Mitigating TOCTTOU: Code & Kernel Fixes
-
-- **1. Atomic file creation (`O_CREAT | O_EXCL`):**
-  - Never pair `stat()` / `access()` with `open()`
-  - `O_CREAT | O_EXCL` fails with `EEXIST` if the file or symlink already exists (or use `mkstemp()`)
+- **1. Use atomic file transactions:**
+  - `O_CREAT | O_EXCL` fails with `EEXIST` if the object already exists
 - **2. Refuse symlinks (`O_NOFOLLOW`):**
-  - Causes `open()` to fail with `ELOOP` if the target is a symbolic link
+  - `open()` fails with `ELOOP` if the target is a symlink
 - **3. Check the capability (`fd`), not the path:**
-  - `open()` first → validate with **`fstat(fd)`** on the descriptor
-- **4. Linux Kernel protection (`fs.protected_symlinks = 1`):**
-  - Blocks following symlinks inside world-writable sticky directories (`1777`) when `symlink_owner != follower_EUID` and `symlink_owner != dir_owner`
+  - validate with **`fstat(fd)`** on the descriptor
+- **4. Linux Kernel protection (`fs.protected_symlinks`):**
+  - Blocks following symlinks inside world-writable sticky directories (e.g., `/tmp`) during owner mismatches
 
 ::right::
 
-<div style="margin-top: 2em;">
+<div style="margin-top: 2em; font-size: 0.8em; padding-left: 0.7em;">
 
 ```c
-// ❌ VULNERABLE: check-then-use on a path string
+// ❌ UNSAFE: check-then-use on a path string
 struct stat st;
-if (stat("/tmp/out", &st) == 0 && st.st_uid == getuid()) {
-    // ⚡ Race window here!
-    int fd = open("/tmp/out", O_WRONLY);
+if (stat("/tmp/out", &st)==0 && 
+    st.st_uid==getuid()) {
+  int fd = open("/tmp/out", O_WRONLY);
+  // Race window here!
 }
-
-// ✅ SAFE 1: Atomic exclusive create (no race window)
-int fd = open("/tmp/out",
-              O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW,
-              0600);
-
-// ✅ SAFE 2: Open first (with O_NOFOLLOW), then fstat(fd)
+// ✅ OK 1: Atomic exclusive create
+int fd = open("/tmp/out", O_WRONLY | O_CREAT |
+              O_EXCL | O_NOFOLLOW, 0600);
+// ✅ OK 2: Open first, then fstat(fd)
 int fd = open("/tmp/out", O_WRONLY | O_NOFOLLOW);
-if (fd >= 0 && fstat(fd, &st) == 0 && st.st_uid == getuid()) {
-    write(fd, buf, len); // operates on the exact inode!
+if (fd >= 0 && fstat(fd, &st) == 0 && 
+    st.st_uid == getuid()) {
+  write(fd, buf, len);
 }
-```
-
-```bash
-# Modern Linux VFS mitigation (enabled by default)
-➜ sysctl fs.protected_symlinks
-fs.protected_symlinks = 1
 ```
 
 </div>
@@ -587,7 +536,7 @@ class: cols-60-40
 
 <div style="width: 100%; margin-top: 3.5em; text-align: center;">
 
-http://googleusercontent.com/immersive_entry_chip/0
+</div>
 
 ---
 
