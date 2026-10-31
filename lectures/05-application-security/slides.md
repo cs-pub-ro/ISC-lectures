@@ -228,8 +228,8 @@ layout: two-cols
 
 <v-clicks>
 
-1. Find vulnerable input buffer (e.g., stack overflow)
-2. Find overwritable code pointer offset (e.g., saved EIP)
+1. Find vulnerable input buffer (e.g., stack / heap / data)
+2. Find overwritable code pointer offset (e.g., saved EIP, VTable / GOT / function pointer)
 3. Inject/reuse shell code (attacker-defined)
 4. Corrupt code pointer with attacker value!
 5. … **all your base are belong to us!** (CPU executes malicious instructions)
@@ -332,8 +332,12 @@ class: cols-40-60
 </div>
 
 ---
+layout: two-cols
+---
 
 # What about exploiting `.data`?
+
+<div style="padding: 1em; font-size: 0.9em;">
 
 ```c
 struct msg_funcs {
@@ -349,6 +353,12 @@ struct message {
 };
 ```
 
+</div>
+
+::right::
+
+<div style="padding: 1em; margin-top: 3em; font-size: 0.9em;">
+
 ```c
 struct message all_messages[10]; // ...
 
@@ -361,6 +371,8 @@ int main() {
   }
 }
 ```
+
+</div>
 
 ---
 layout: two-cols
@@ -401,6 +413,8 @@ class: cols-40-60
 </div>
 
 ---
+layout: two-cols
+---
 
 # Dangling Pointer
 
@@ -408,6 +422,10 @@ class: cols-40-60
 - The pointer still points to valid memory!
 - Example: returning stack-local pointers (frame becomes invalid after return)
 - Dangerous, especially in OOP languages (e.g., C++) → attacker can override objects' VTable!
+
+::right::
+
+<div style="padding: 1em; font-size: 0.9em; margin-top: 2em;">
 
 ```c
 char *parse_name(char *input) {
@@ -423,6 +441,8 @@ int main(...) {
 }
 ```
 
+</div>
+
 ---
 
 # Use After Free
@@ -431,6 +451,8 @@ int main(...) {
 - Next, application allocates a new object with **attacker-controlled data**
 - Another section of the application uses the released object (still has an old pointer stored in a variable)
 - Are scripting languages safe? Nope!
+
+<div class="font-size: 0.9em;">
 
 ```js
 // Adobe Flash exploit (ActionScript)
@@ -443,7 +465,9 @@ try {
 }
 ```
 
-[infosecwriteups.com/use-after-free](https://infosecwriteups.com/use-after-free-13544be5a921)
+</div>
+
+*[infosecwriteups.com/use-after-free](https://infosecwriteups.com/use-after-free-13544be5a921)*
 
 ---
 
