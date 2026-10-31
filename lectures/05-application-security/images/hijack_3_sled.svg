@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 382" width="700" height="382" role="img" aria-label="Stack buffer overflow hijack, step 3 of 5: EIP lands in the NOP sled and slides up into the shellcode">
+<title>shellcode hijack — step 3</title>
+<style>
+  .sr{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .sc{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .off{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8a949b;text-anchor:end}
+  .pl{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8c1d18;dominant-baseline:central}
+  .sl{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;dominant-baseline:central}
+  .pay{fill:#fbe6e3;stroke:#b3261e;stroke-width:1.8}
+  .pay2{fill:#fdeeeb;stroke:#d98b84;stroke-width:1.4;stroke-dasharray:5 4}
+  .orig{fill:#e4eff1;stroke:#176b87;stroke-width:1.8}
+  .neutral{fill:#ffffff;stroke:#9aa6ae;stroke-width:1.8}
+  .ghost{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.6;stroke-dasharray:6 4}
+  .hi{stroke:#b26b00;stroke-width:3}
+  .conn{stroke:#c6cfd4;stroke-width:1.6;fill:none;stroke-dasharray:5 4}
+  .jump{stroke:#b3261e;stroke-width:2.2;fill:none}
+  .tag{fill:#fff6e6;stroke:#b26b00;stroke-width:2;rx:4}
+  .tagt{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00;text-anchor:middle;dominant-baseline:central}
+  .cap{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+</style>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b6c0c6"/></marker>
+  <marker id="amber" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+  <pattern id="hatch" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <rect width="9" height="9" fill="#fdeeeb"/><line x1="0" y1="0" x2="0" y2="9" stroke="#f3c9c2" stroke-width="4"/>
+  </pattern>
+</defs>
+
+<text class="off" x="38" y="116">0x30</text>
+<text class="off" x="38" y="184">0x18</text>
+<text class="off" x="38" y="216">0x14</text>
+<text class="off" x="38" y="248">0x10</text>
+<text class="off" x="38" y="344">0x00</text>
+<path class="conn" d="M290,78.0 L346,78.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,146.0 L346,146.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,196.0 L346,196.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,228.0 L346,228.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,292.0 L346,292.0" marker-end="url(#g)"/>
+<text class="cap" x="46" y="30">attacker input (as it lands)</text>
+<rect class="pay" x="46" y="44" width="244" height="68" rx="3"/>
+<text class="pl" x="58" y="78.0">shellcode</text>
+<rect class="pay" x="46" y="112" width="244" height="68" rx="3"/>
+<text class="pl" x="58" y="146.0">\x90 NOP sled</text>
+<rect class="pay" x="46" y="180" width="244" height="32" rx="3"/>
+<text class="pl" x="58" y="196.0">0xffffd6a0</text>
+<rect class="pay" x="46" y="212" width="244" height="32" rx="3"/>
+<text class="pl" x="58" y="228.0">"AAAA"</text>
+<rect class="pay" x="46" y="244" width="244" height="96" rx="3"/>
+<text class="sl" x="58" y="292.0">"A" &#215; 16</text>
+<text class="cap" x="360" y="30">stack</text>
+<text class="sc" x="604" y="30" style="text-anchor:end">higher addresses on top</text>
+<rect class="pay" x="360" y="44" width="244" height="68" rx="3"/>
+<text class="pl" x="372" y="78.0">shellcode</text>
+<rect class="pay" x="360" y="112" width="244" height="68" rx="3"/>
+<text class="pl" x="372" y="146.0">\x90 NOP sled</text>
+<rect class="pay" x="360" y="180" width="244" height="32" rx="3"/>
+<text class="pl" x="372" y="196.0">ret addr = 0xffffd6a0</text>
+<rect class="pay" x="360" y="212" width="244" height="32" rx="3"/>
+<text class="pl" x="372" y="228.0">saved EBP = 0x41414141</text>
+<rect class="pay2" x="360" y="244" width="244" height="96" rx="3"/>
+<text class="pl" x="372" y="292.0">"A" &#215; 16  (buf[16])</text>
+<path d="M360,146.0 L335,146.0 Q326,146.0 326,137.0 L326,87.0 Q326,78.0 335,78.0 L358,78.0" stroke="#b26b00" stroke-width="2.4" fill="none" stroke-linejoin="round" marker-end="url(#amber)"/>
+<rect class="hi" x="358" y="110" width="248" height="72" rx="5" fill="none"/>
+<rect class="tag" x="618" y="133.0" width="72" height="26"/><text class="tagt" x="654.0" y="146.0">EIP</text>
+<path d="M618,146.0 L607,146.0" stroke="#b26b00" stroke-width="2" fill="none" marker-end="url(#amber)"/>
+</svg>

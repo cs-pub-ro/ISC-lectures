@@ -158,7 +158,7 @@ Stack holds function arguments, saved CPU state (saved program counter, previous
 
 ```c
 int f(int x) {
-  int n; int buf[10]; // ...
+  char buf[10]; int n; // ...
 }
 
 int main() {
@@ -229,8 +229,8 @@ layout: two-cols
 Happens when a buffer is written after its allocated size:
 
 ```c
-char buf[10];
-char *input = "AAAAAAAAAAAA<many times>";
+char buf[16];
+char *input = "AAAAAAAAAAAAAAAA<many times>";
 strcpy(buf, input);
 ```
 
@@ -244,19 +244,96 @@ strcpy(buf, input);
 
 ---
 layout: two-cols
+class: cols-50-50
 ---
 
-# Stack overflow → hijack
+# Hijack using shellcode
 
-- The `ret` instruction pops the return address from the stack, then jumps to it
-- CPU executes the injected code (**shellcode**)
+When **input** can have sufficient size:
+
+<div class="hj-code">
+
+```c
+void f(char *in) {
+  char buf[16];
+  strcpy(buf, in);  // no bounds check
+  return;
+}
+```
+
+</div>
+
+<div v-click="2">
+
+Note: `ret` is the one instruction that turns a data corruption into code execution:
+
+<div class="hj-code">
+
+```asm
+    leave    ; esp = ebp ; pop ebp
+    ret      ; eip = [esp]
+```
+
+</div>
+
+_Spoilers: code injection won't work on a modern system (:_
+
+</div>
 
 ::right::
 
-<div class="img-col">
-<img src="./images/stack_overflow_injected_code.png" style="max-height:280px" />
-<img src="./images/nop_sled_bytes.svg" style="max-height:120px" />
+<div class="hj-switch">
+
+<v-switch transition="fade" unmount>
+<template #0>
+<img src="./images/hijack_0_payload.svg" />
+<p class="hj-cap">
+  The input overwrites the stack frame: 16 bytes fill <code>buf</code>, 
+  the next <code>8B</code> land on the saved <code>EBP</code> and replace
+  <b>return address</b>, while the final part contains attacker-injected
+  <b>machine code</b>.
+</p>
+</template>
+<template #1>
+<img src="./images/hijack_1_overwritten.svg" />
+<p class="hj-cap">
+  The return address now says <code>0xffffd6a0</code> — an address
+  <b>inside the buffer</b>, where the NOP sled and the shellcode sit.
+</p>
+</template>
+<template #2>
+<img src="./images/hijack_2_ret_pops.svg" />
+<p class="hj-cap">
+  <code>leave</code> brings <code>ESP</code> back to the frame, 
+  <code>ret</code> pops our word into <code>EIP</code>:
+  the CPU thinks it is a normal return and proceeds to execute 
+  the injected code -> PROFIT!
+</p>
+</template>
+<template #3>
+<img src="./images/hijack_3_sled.svg" />
+<p class="hj-cap">
+  The landing address does not have to be exact — 
+  <code>0x90</code> is <code>nop</code>, so execution
+  slides up into the payload.</p>
+</template>
+<template #4>
+<img src="./images/hijack_4_exec.svg" />
+<p class="hj-cap">
+  The stack is decoded as code and, for example, 
+  <code>execve("/bin/sh")</code> runs.</p>
+<p><b>Note: this needs an executable stack!</b></p>
+</template>
+</v-switch>
+
 </div>
+
+<style>
+.slidev-layout .hj-switch img { display: block; width: 100%; max-height: none; }
+.hj-switch { position: relative; padding-left: 1.4em; }
+.hj-cap { margin-top: 0.4em; min-height: 3.2em; font-size: 0.85em; line-height: 1.35; color: #3f4b52; text-align: left; }
+.hj-code { --slidev-code-font-size: 13px; --slidev-code-line-height: 1.4; }
+</style>
 
 ---
 layout: two-cols
