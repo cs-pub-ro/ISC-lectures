@@ -152,7 +152,7 @@ layout: two-cols
 layout: two-cols
 ---
 
-# Intro: stack frame
+# The Stack
 
 Stack holds function arguments, saved CPU state (saved program counter, previous frame, registers), and local variables:
 
@@ -166,14 +166,52 @@ int main() {
 }
 ```
 
-<!--
-Walk through how `call` saves the return address on the stack — the key to stack exploits.
--->
-
 ::right::
 
-<div class="img-col">
+<div style="padding: 1em;">
 <img src="./images/stack_frame_layout.svg" />
+</div>
+
+---
+
+# Intro: stack frame
+
+The frame is not declared — it is built, one instruction at a time, by the x86 call convention:
+
+<div class="cf-switch">
+
+<v-switch transition="fade" :unmount="true">
+
+<template #0>
+<img src="./images/call_frame_01_push_arg.svg" alt="push the argument" />
+</template>
+
+<template #1>
+<img src="./images/call_frame_02_call.svg" alt="call saves EIP" />
+</template>
+
+<template #2>
+<img src="./images/call_frame_03_push_ebp.svg" alt="save the old EBP" />
+</template>
+
+<template #3>
+<img src="./images/call_frame_04_mov_ebp.svg" alt="EBP := ESP" />
+</template>
+
+<template #4>
+<img src="./images/call_frame_05_sub_esp.svg" alt="allocate the locals" />
+</template>
+
+<template #5>
+<img src="./images/call_frame_06_leave.svg" alt="leave — tear down" />
+</template>
+
+<template #6>
+<img src="./images/call_frame_07_ret.svg" alt="ret — back to the caller" />
+</template>
+
+</v-switch>
+
 </div>
 
 ---

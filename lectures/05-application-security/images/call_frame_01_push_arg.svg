@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 322" width="880" height="322" role="img" aria-label="x86 call flow step {step} of 7: {alt}">
+<title>x86 call flow — step {step}</title>
+<style>
+  .panel{fill:#f6f8fa;stroke:#e2e7ea;stroke-width:1.4}
+  .hl{fill:#fdf1dc;stroke:#b26b00;stroke-width:1.2}
+  .ln{font:15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a;dominant-baseline:central}
+  .lnp{font:15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#3f4b52;dominant-baseline:central}
+  .lnf{font:15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#b9c2c8;dominant-baseline:central}
+  .lnh{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00;dominant-baseline:central}
+  .cm{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8a949b;dominant-baseline:central}
+  .cell{stroke-width:2;rx:3}
+  .ghost{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.6;stroke-dasharray:6 4}
+  .empty{fill:#ffffff;stroke:#dfe5e8;stroke-width:1.4;stroke-dasharray:4 4}
+  .ct{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;dominant-baseline:central}
+  .cap{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .sub{font:13px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b}
+  .mk{fill:#e4eff1;stroke:#176b87;stroke-width:2;rx:4}
+  .mkt{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;text-anchor:middle;dominant-baseline:central}
+  .ar{stroke:#176b87;stroke-width:2;fill:none}
+  .note{font:15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#0f4a5e}
+</style>
+<defs>
+  <marker id="m" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <pattern id="hatch" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <rect width="9" height="9" fill="#eaf2ea"/><line x1="0" y1="0" x2="0" y2="9" stroke="#c9dfc9" stroke-width="4"/>
+  </pattern>
+</defs>
+
+<text class="cap" x="14" y="26">x86 call convention</text>
+<rect class="panel" x="14" y="38" width="412" height="238" rx="5"/>
+<rect class="hl" x="18" y="44" width="404" height="24" rx="4"/>
+<text class="lnh" x="28" y="56" xml:space="preserve">  push  0x1c</text>
+<text class="cm" x="204" y="56" xml:space="preserve">   ; argument x</text>
+<text class="lnf" x="28" y="84" xml:space="preserve">  call  f</text>
+<text class="lnf" x="28" y="112" xml:space="preserve">f: push  ebp</text>
+<text class="cm" x="204" y="112" xml:space="preserve">   ; save the caller's EBP</text>
+<text class="lnf" x="28" y="140" xml:space="preserve">   mov   ebp, esp</text>
+<text class="lnf" x="28" y="168" xml:space="preserve">   sub   esp, 0x20</text>
+<text class="cm" x="204" y="168" xml:space="preserve">   ; 32 bytes for the locals</text>
+<text class="lnf" x="28" y="196" xml:space="preserve">   ...</text>
+<text class="cm" x="204" y="196" xml:space="preserve">   ; f() body: n, buf[10]</text>
+<text class="lnf" x="28" y="224" xml:space="preserve">   leave</text>
+<text class="cm" x="204" y="224" xml:space="preserve">   ; mov esp, ebp ; pop ebp</text>
+<text class="lnf" x="28" y="252" xml:space="preserve">   ret</text>
+<text class="cm" x="204" y="252" xml:space="preserve">   ; EIP = [ESP] ; ESP += 4</text>
+<text class="cap" x="500" y="26">stack</text>
+<text class="sub" x="740" y="26" style="text-anchor:end">higher addresses on top</text>
+<rect class="ghost" x="500" y="52" width="240" height="40" rx="3"/>
+<text class="ct" x="512" y="72.0" fill="#5b6670" style="font-family:Inter,sans-serif;font-weight:400">caller's frame</text>
+<rect class="cell" x="500" y="92" width="240" height="36" rx="3" fill="#ffffff" stroke="#9aa6ae"/>
+<text class="ct" x="512" y="110.0" fill="#1a1a1a">x = 0x0000001c</text>
+<rect class="empty" x="500" y="128" width="240" height="36" rx="3"/>
+<rect class="empty" x="500" y="164" width="240" height="36" rx="3"/>
+<rect class="empty" x="500" y="200" width="240" height="60" rx="3"/>
+<rect class="mk" x="770" y="113.0" width="100" height="30"/>
+<text class="mkt" x="820.0" y="128" style="font-size:14px">ESP</text>
+<path class="ar" d="M770,128 L743,128" marker-end="url(#m)"/>
+<text class="note" x="14" y="306">push 0x1c &#8594; ESP &#8722;= 4, then [ESP] = x &#8212; the caller pushes arguments right-to-left</text>
+</svg>
