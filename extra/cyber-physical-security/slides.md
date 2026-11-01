@@ -6,14 +6,11 @@ colorSchema: light
 selectable: false
 touying:
   preset: isc
-title: Extra — Cyber-Physical Security
 info: |
-  ## ISC — Cyber-Physical Security (IT vs OT)
+  ## Cyber-Physical Security (IT vs OT)
   [ocw.cs.pub.ro/courses/isc](https://ocw.cs.pub.ro/courses/isc)
 transition: slide-left
-src: ../../lectures/_shared/intro.md#1
----
----
+
 layout: cover
 title: "Cyber-Physical Security"
 subtitle: "ICS/OT security — when bits move the physical world"
@@ -21,10 +18,11 @@ subtitle: "ICS/OT security — when bits move the physical world"
 
 ::default::
 
-<!--
-Welcome. Extra lecture: what changes when the "hacked computer" is a centrifuge,
-a pipeline, a pump station or a pager. Every concept gets a real incident.
--->
+<style>
+/* Mermaid inside a two-cols column: fit the column instead of overflowing the slide */
+.slidev-layout .mermaid svg { max-width: 100% !important; height: auto !important; }
+.slidev-layout .img-col .mermaid { width: 100%; }
+</style>
 
 ---
 layout: section
@@ -90,8 +88,8 @@ layout: two-cols
 
 - Software + network + **physical process**
 - Examples: power grid, autonomous vehicles, **ICS/SCADA**, smart buildings, medical devices, manufacturing lines
-- Security concerns are **CIA + safety, reliability, resilience**
-- An attack is no longer only "data leaked" — it can **cause harm / disruption**
+- Main security concerns are **Availability + Integrity**
+- An attack is no longer only "data leaked" - it can **cause harm / disruption**
 
 <br/>
 
@@ -105,16 +103,27 @@ CPS: safety, reliability, and resilience in addition to CIA.
 
 # Anatomy of an ICS — the Purdue model
 
-```mermaid {theme: 'isc-cartoon', scale: 0.6}
+```mermaid {theme: 'isc-cartoon', scale: 0.62}
 flowchart LR
-  A["L4/5 · Enterprise<br/><em>ERP, mail, cloud</em>"] --> B["L3.5 · DMZ<br/><em>historian, jump host</em>"]
-  B --> C["L3 · Site ops<br/><em>MES, backups</em>"]
-  C --> D["L2 · Supervisory<br/><em>SCADA / HMI</em>"]
-  D --> E["L1 · Basic control<br/><em>PLC / RTU / SIS</em>"]
-  E --> F["L0 · Process<br/><em>sensors, actuators</em>"]
+  subgraph ITZ["IT · corporate"]
+    A["L4/5 Enterprise<br/><em>ERP, mail, cloud</em>"]
+  end
+  subgraph DMZZ["DMZ · L3.5"]
+    B["Historian<br/>jump host"]
+  end
+  subgraph OTZ["OT · plant floor"]
+    C["L3 Site ops<br/><em>MES</em>"] --> D["L2 Supervisory<br/><em>SCADA / HMI</em>"]
+    D --> E["L1 Basic control<br/><em>PLC / RTU / SIS</em>"]
+    E --> F["L0 Process<br/><em>sensors / actuators</em>"]
+  end
+  A --> B --> C
 ```
 
-- **L2/L1/L0** are the OT world; **L4/L5** are ordinary IT
+- **L1**: Intelligent Devices zone: Programmable Logic Controllers, Remote Terminal Units, 
+  Safety Instrumented Systems;
+- **L2**: Control Systems zone: SCADA, DCS (Distributed Control), Human-Machine
+  Interfaces;
+- **L3**: Manufacturing Operations: management / execution / data historians;
 - **L3.5 DMZ** is an industry convention, **not** part of the original PERA model
 - Every level is a target: steal credentials (IT), rewrite logic (PLC), lie to the operator (HMI)
 
@@ -125,7 +134,7 @@ flowchart LR
 - The plant runs **24/7** — a reboot is a production stop, sometimes a safety event
 - Equipment lives **20–40 years**; firmware is frozen and **vendor-certified**
 - Any change may require **re-certification / re-validation** of the process
-- Old OS on HMIs (XP / 7); **no AV agent on a PLC** (real-time, no resources)
+- Old OS on HMIs (Win XP / 7); **no AV agent on a PLC** (real-time, no resources)
 - One maintenance window per year, negotiated with production
 
 <v-click>
@@ -142,19 +151,28 @@ flowchart LR
 
 # Motivation — 25 years of ICS incidents
 
-<v-clicks>
+<div class="cps-tl">
+  <div><b>2000</b>Maroochy<br/>insider, sewage</div>
+  <div><b>2007</b>Łódź trams<br/>4 derailed</div>
+  <div><b>2010</b>Stuxnet<br/>≈1,000 centrifuges</div>
+  <div><b>2015</b>Ukraine grid<br/>~225,000 dark</div>
+  <div><b>2017</b>Triton<br/>SIS attacked</div>
+  <div><b>2021</b>Colonial<br/>OT untouched</div>
+  <div><b>2023</b>Unitronics<br/>password <code>1111</code></div>
+  <div><b>2024</b>Lebanon<br/>pagers</div>
+  <div><b>2025</b>Jaguar Land Rover<br/>5 weeks idle</div>
+  <div><b>2026</b>French Supermarket Refrigerators</div>
+</div>
 
-- **2000** — Maroochy Shire: 800,000 L of sewage into parks (insider)
-- **2007** — Łódź: 14-year-old derails **4 trams, 12 injured** (TV remote)
-- **2010** — **Stuxnet** ☢️: ≈1,000 centrifuges, ~1–2 years delay
-- **2015** — Ukraine: **~225,000** customers dark, 3 utilities
-- **2017** — **Triton**: malware that attacks the *safety* system
-- **2021** — **Colonial Pipeline**: OT untouched, fuel shortages anyway
-- **2023** — Unitronics PLCs: factory password `1111` on the Internet
-- **2024** — Lebanon: exploding pagers, **≈37 dead, 3,000+ injured**
-- **2025** — Jaguar Land Rover: **5 weeks** of production lost to IT ransomware
+<div class="text-sm opacity-70" style="margin-top: 1.5em">
+We'll have some slides about these, stand by... ;)
+</div>
 
-</v-clicks>
+<style>
+.cps-tl { display: flex; gap: .55em; margin-top: 3.2em; }
+.cps-tl > div { flex: 1; border-top: 3px solid #000; padding-top: .55em; font-size: .62em; line-height: 1.4; }
+.cps-tl b { display: block; font-size: 1.6em; margin-bottom: .25em; }
+</style>
 
 ---
 layout: section
@@ -177,6 +195,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-60-40
 ---
 
 # Attacker model & economics
@@ -188,7 +207,7 @@ layout: two-cols
 
 ::right::
 
-<div class="img-col">
+<div class="img-col" style="margin-top: 5em;">
 <img src="./images/xkcd_security_538.png" />
 <em>https://xkcd.com/538/</em>
 </div>
@@ -283,35 +302,11 @@ From pranksters to professionals:
 
 ---
 
-# Malware
-
-<v-clicks>
-
-- **Virus** — infects files, spreads when opening them
-- **Worm** — automatically infects other systems!
-- **Trojan horse** — user must explicitly open the file
-- **Logic bomb** — e.g. from insiders / supply chain
-- **Rootkits**
-- **Remote Access Trojan / backdoors**
-- **Ransomware** ₿💸🤑💰
-- **Spyware** ;)
-- **Adware** — the entire WWW :(
-
-</v-clicks>
-
-<v-click>
-
-*Details in Lecture 6 — Malicious Software.*
-
-</v-click>
-
----
-
 # The intrusion kill chain
 
 <div class="img-col">
-<img src="./images/intrusion_kill_chain.png" style="max-height: 330px; max-width: 100%;" />
-<em>Lockheed Martin, 2011 — https://en.wikipedia.org/wiki/File:Intrusion_Kill_Chain_-_v2.png</em>
+<img src="./images/intrusion_kill_chain.png" style="max-height: 300px; max-width: 100%;" />
+<em><a href="https://en.wikipedia.org/wiki/Cyber_kill_chain">Lockheed Martin, 2011 (Wikipedia)</a></em>
 </div>
 
 ---
@@ -324,9 +319,28 @@ From pranksters to professionals:
   - **Inhibit Response Function** — blind or disable safety, protection, alarms, operator response
   - **Impair Process Control** — manipulate or damage the control loop
   - **Impact** — interrupt, manipulate or destroy the process
-- Every incident in this lecture maps to one of them
 
 [attack.mitre.org/matrices/ics](https://attack.mitre.org/matrices/ics/)
+
+---
+
+# Two maps, one attack
+
+<div style="width: 90%; margin: 0.2em auto; font-size: 0.9em;">
+
+| Kill chain (Lockheed, 2011) | ATT&CK for ICS                   |
+| --------------------------- | -------------------------------- |
+| Reconnaissance              | Discovery · Collection           |
+| Weaponization               | *(enterprise-only: Resource Development)* |
+| Delivery                    | Initial Access · Lateral Movement |
+| Exploitation                | Execution · Privilege Escalation |
+| Installation                | Persistence · Evasion            |
+| Command & Control           | Command and Control              |
+| Actions on objective        | **Impair Process Control** · **Inhibit Response Function** · **Impact** |
+
+</div>
+
+The kill chain tells a **story**; ATT&CK gives you **detections**. The last row is where ICS/OT differs from IT.
 
 ---
 
@@ -353,14 +367,14 @@ layout: section
 # OT protocols were not built for security
 
 - **Modbus/TCP** (TCP 502) — no authentication, no integrity, no encryption
-- **DNP3** (IEEE 1815) — base protocol unauthenticated; **SAv2** added in IEEE 1815-2012, **SAv5** later
+- **DNP3** (IEEE 1815) — base protocol unauthenticated; Secure Authentication (**SAv2**) added in IEEE 1815-2012, **SAv5** later
 - **PROFINET** (RT/IRT, DCP), **EtherNet/IP + CIP** — unauthenticated by default
 - Security came as **add-ons**: Modbus/TCP Security over TLS (2018), **CIP Security**, **DNP3 SA**, **IEC 62351** for power protocols
 - **OPC UA** (IEC 62541) is the exception — X.509, Sign / SignAndEncrypt by design
 
 <div class="text-sm opacity-70">
 
-These protocols were designed for determinism and field-bus efficiency on isolated networks. "No auth" is a feature, not a bug — until someone reaches the network.
+These protocols were designed for determinism and field-bus efficiency on isolated networks!
 
 </div>
 
@@ -368,14 +382,26 @@ These protocols were designed for determinism and field-bus efficiency on isolat
 
 # Attack surface in OT
 
-- **Internet-exposed** HMIs / PLCs (Shodan says hello), UPnP port forwards
-- **Default / shared credentials** (`1111`, `admin/admin`, one TeamViewer password)
-- **Remote vendor access** — VPN, cellular modems, TeamViewer/AnyDesk
-- **USB and removable media** (Stuxnet's delivery vehicle)
-- **The IT→OT pivot** — office mail → engineering workstation → process
-- **Supply chain** — vendor laptops, firmware updates, the devices themselves
-- **No logging** — most field devices keep no audit trail at all
+- **Internet-exposed** HMIs / PLCs · **default / shared credentials** · **remote vendor access**
+- **USB** and removable media · **IT→OT pivot** · **supply chain** · no logging
 
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.8}
+flowchart LR
+  I(["Internet"]) -->|Shodan| H["HMI"]
+  I -->|VPN / AnyDesk| E["Eng. workstation"]
+  U["USB ·<br/>vendor laptop"] --> E
+  H --> P["PLC / RTU"]
+  E --> P
+  P --> X["physical process"]
+```
+
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Maroochy Shire (2000)
@@ -389,7 +415,20 @@ These protocols were designed for determinism and field-bus efficiency on isolat
 <br/>
 
 **Lesson:** no authentication on field comms + insider knowledge + nobody watching the alarms.
-The first famous ICS attack had no zero-day — just command packets anyone could send.
+
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.72}
+flowchart TD
+  A["laptop +<br/>radio"] --> B["pump controllers<br/><em>no auth</em>"]
+  B --> C["sewage<br/>pumps"]
+  C --> D["parks, canals"]
+```
+
+<em>one insider, a laptop and a radio</em>
+</div>
 
 <!--
 The first famous ICS attack was an insider with a radio. No zero-day, no exploit,
@@ -397,19 +436,39 @@ just unauthenticated commands and no monitoring.
 -->
 
 ---
+layout: two-cols
+class: cols-60-40
+---
 
-# Example: Oldsmar water plant (2021)
+# Example: Oldsmar plant (2021)
 
 - **Where:** water treatment plant, Oldsmar, Florida
 - **How:** remote access via **TeamViewer** — one shared password for all users, unsupported version, **no firewall**
-- **What:** intruder took the HMI twice, moved the **sodium hydroxide (lye)** setpoint from **100 ppm → 11,100 ppm**
-- **Saved by:** an operator watching the screen saw the cursor move and set it back; no water reached the public
+- **What:** intruder took the HMI twice and moved the **lye** setpoint **100 ppm → 11,100 ppm**
+- **Saved by:** an operator watching the screen saw the cursor move and set it back
 - **Never charged** — the suspect was never publicly identified
 
 <br/>
 
-**Lesson:** remote access **is** an OT control. Shared passwords and unsupported remote tools are not "IT details".
+**Lesson:** remote access **is** an OT control. Shared passwords are not "IT details".
 
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.85}
+flowchart TD
+  I(["Internet"]) --> T["TeamViewer<br/><em>shared password</em>"]
+  T --> H["HMI"]
+  H --> L["lye dosing<br/><em>100 → 11,100 ppm</em>"]
+```
+
+<em>the human in the loop is the control</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Unitronics PLCs (2023)
@@ -422,54 +481,101 @@ just unauthenticated commands and no monitoring.
 
 <br/>
 
-**Lesson:** the default password **is** the vulnerability. Know what your field devices expose.
+**Lesson:** the default password **is** the vulnerability.
 
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.85}
+flowchart TD
+  I(["Internet"]) --> H["Unitronics HMI<br/><em>1111 · :20256</em>"]
+  H --> P["PLC"]
+  P --> B["booster pumps"]
+```
+
+<em>three words of config away from a plant</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Industroyer (2016)
 
-- **Where:** Pivnichna 330 kV substation, Ukraine, 17 Dec 2016
+- **Where:** Pivnichna 330 kV substation, Ukraine
 - **How:** malware modules that **speak the grid's own protocols** — IEC 60870-5-101/104, IEC 61850, OPC DA — straight to the RTUs
 - **Impact:** ~⅕ of Kyiv without power (~200 MW) for about an hour; wiper alongside
-- **2022 — Industroyer2:** IEC-104 with hard-coded breaker commands against a Ukrainian transmission operator; **blocked** by CERT-UA / ESET before it ran
+- **2022 — Industroyer2:** IEC-104 with hard-coded breaker commands; **blocked** by CERT-UA / ESET
 
 <br/>
 
-<v-click>
+**Lesson:** no exploit needed — **the protocol is the weapon**.
 
-**Lesson:** no memory-corruption exploit needed. **The protocol is the weapon** — and the payload is plant-specific, so it can be rebuilt for yours.
+::right::
 
-</v-click>
+<div class="img-col">
 
+```mermaid {theme: 'isc-cartoon', scale: 0.85}
+flowchart TD
+  A["Industroyer<br/><em>IEC-104 · 61850 · OPC</em>"] --> R["RTU /<br/>bay controller"]
+  R --> B["breakers"]
+  B --> G["330 kV<br/>substation"]
+```
+
+<em>industrial malware without a single exploit</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Stuxnet (2010)
 
-- **Target:** Iranian uranium enrichment facility (Natanz)
-- **Motivation:** sabotage by a national state adversary (*ahem*)
-- **How**
-  - **Infection** — Windows networks and USB devices
-  - **Escalation** — **4 Windows zero-days** + hard-coded WinCC password (CVE-2010-2772)
-  - **PLC compromise** — rewrote the centrifuge speed-control logic (S7-315)
-  - **Deception** — recorded **21 s of normal telemetry** and replayed it to the HMI, while blocking alarms
-- **Impact:** ≈**1,000 of ~8,700 IR-1** centrifuges replaced (ISIS estimate, range 1–2k); delay ≈**1–2 years** (contested)
+- **Target:** Natanz enrichment plant, Iran
+- **Motivation:** sabotage by a nation-state (*ahem*)
+- **How:** USB + **4 Windows zero-days** → Windows hosts → **rewrote the S7-315 PLC logic** (+ CVE-2010-2772)
+- **Deception:** replayed **21 s** of normal telemetry to the HMI and blocked alarms
+- **Impact:** ≈**1,000 of ~8,700** IR-1 centrifuges (ISIS estimate, range 1–2k); ≈**1–2 years** delay (contested)
 
+::right::
+
+<div class="img-col">
+<img src="./images/stuxnet_centrifuge_cascade.jpg" style="max-height: 300px" />
+<em>Gas centrifuge cascade — U.S. Department of Energy (public domain)</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Aurora (2007)
 
 - **What:** a controlled test at **Idaho National Laboratory**, not an incident
 - **How:** spoofed control traffic opened and closed a breaker **out of phase**
-- **Result:** a 2.25 MW / 27-ton diesel generator fought itself, jumped off its mounts and threw debris — **destroyed**
+- **Result:** the generator fought itself, jumped off its mounts and threw debris — **destroyed**
 - **No malware, no exploit** — just the right packets at the right moment
 
 <br/>
 
-<v-click>
+**Lesson:** the worst case in CPS is not data loss, it is **physical destruction** — and it needs no vulnerability at all.
 
-**Lesson:** the worst case in CPS is not data loss, it is **physical destruction**. And it needs no vulnerability at all.
+::right::
 
-</v-click>
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.78}
+flowchart TD
+  A["spoofed packets"] --> B["breaker"]
+  B -->|out of phase| C["generator<br/><em>2.25 MW · 27 t</em>"]
+  C --> D["destroyed<br/>+ debris"]
+```
+
+<em>two commands, one dead generator</em>
+</div>
 
 ---
 
@@ -489,6 +595,9 @@ just unauthenticated commands and no monitoring.
 </v-click>
 
 ---
+layout: two-cols
+class: cols-60-40
+---
 
 # Example: Lebanon pagers (2024)
 
@@ -498,11 +607,14 @@ just unauthenticated commands and no monitoring.
 
 <br/>
 
-<v-click>
+**Lesson:** the **supply chain is an attack surface** for every connected device. Physical access to a device is a cyber capability.
 
-**Lesson:** the **supply chain is an attack surface** for every connected device. And physical access to a device is a cyber capability.
+::right::
 
-</v-click>
+<div class="img-col">
+<img src="./images/pager_ar924.png" style="max-height: 170px" />
+<em>Gold Apollo AR-924 — photo: TobiToaster, CC BY-SA 4.0</em>
+</div>
 
 ---
 layout: section
@@ -524,22 +636,40 @@ layout: section
 - Security controls must **never break the safety case** (no AV on the SIS, no aggressive scanning)
 
 ---
+layout: two-cols
+class: cols-60-40
+---
 
 # Example: Triton (2017)
 
 - **Where:** petrochemical plant, Saudi Arabia — **Triconex SIS**
-- **How:** IT → **engineering workstation** → **TriStation** protocol (proprietary, unauthenticated, TCP 1502) → attempted to reprogram the safety controllers
-- **Impact:** a safety trip shut the plant down; the apparent intent was to **disable the safety layer** — the risk was a catastrophic release
-- **Note:** the attackers built custom tooling for one specific SIS model
+- **How:** IT → **engineering workstation** → **TriStation** protocol (unauthenticated, TCP 1502) → reprogram the safety controllers
+- **Impact:** a safety trip shut the plant down; the intent was to **disable the safety layer** → risk of catastrophic release
+- **Note:** custom tooling built for one specific SIS model
 
 <br/>
 
-<v-click>
-
 **Lesson:** the safety layer is a target. An SIS that nobody monitors, patches or audits is the softest spot in the plant — and the most valuable one.
 
-</v-click>
+::right::
 
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.6}
+flowchart TD
+  A["corporate IT"] --> B["engineering<br/>workstation"]
+  B --> C["TriStation<br/><em>:1502, no auth</em>"]
+  C --> D["Triconex SIS"]
+  D --> E["process"]
+  D -.->|trip| F["plant<br/>shutdown"]
+```
+
+<em>the layer that is supposed to save you</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Ukraine grid (2015)
@@ -551,26 +681,57 @@ layout: section
 
 <br/>
 
-<v-click>
+**Lesson:** you do not need automation — an operator console is enough. **Blinding the response** is part of the attack.
 
-**Lesson:** you do not need automation — an operator console is enough. And **blinding the response** (phones, logs, backups) is part of the attack.
+::right::
 
-</v-click>
+<div class="img-col">
 
+```mermaid {theme: 'isc-cartoon', scale: 0.8}
+flowchart TD
+  P["spear-phish"] --> I["IT"]
+  I --> S["SCADA"]
+  S --> H["HMIs<br/><em>by hand</em>"]
+  H --> B["breakers<br/><em>~225k dark</em>"]
+  S -.->|KillDisk| W["logs wiped"]
+```
+
+<em>no automation needed</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Colonial Pipeline (2021)
 
 - **When:** 7 May 2021 — DarkSide ransomware
-- **How:** **legacy VPN account**, password reused and leaked, **no MFA**; ~100 GB exfiltrated
-- **What was hit:** **IT / billing systems only — OT was never compromised**
-- **Impact:** pipeline **shut down for ~6 days by decision** (unknown blast radius) → fuel shortages, panic buying; 75 BTC ≈ **$4.4M** paid; FBI recovered ≈**$2.3M**
-- **Lesson:** in cyber-physical systems, **IT downtime becomes a physical supply-chain event**. MFA and account hygiene are OT controls.
+- **How:** **legacy VPN account**, reused leaked password, **no MFA**; ~100 GB exfiltrated
+- **Hit:** **IT / billing only — OT was never compromised**
+- **Impact:** pipeline **shut ~6 days by decision** → fuel shortages; 75 BTC ≈ **$4.4M** paid, FBI recovered ≈**$2.3M**
 
 <br/>
 
-**And:** the shutdown, not the malware, caused the shortage.
+**Lesson:** IT downtime becomes a **physical supply-chain event**. MFA and account hygiene are OT controls — and the shutdown, not the malware, caused the shortage.
 
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.72}
+flowchart TD
+  A["IT / billing<br/><em>ransomware</em>"] --> B{"shut<br/>down?"}
+  B -->|yes, 6 days| C["pipeline stopped<br/><em>OT never compromised</em>"]
+  C --> D["fuel shortage"]
+```
+
+<em>the seam between IT and OT</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
 ---
 
 # Example: Norsk Hydro (2019)
@@ -579,51 +740,90 @@ layout: section
 - **How:** Windows IT / Active Directory; no OT compromise reported
 - **Impact:** ~22,000 machines affected; extrusion plants switched to **pen and paper** within hours; output partly maintained
 - **Cost:** tens of millions USD (quarterly report), plus reputation
-- **Lesson:** a **tested manual-operation mode** is a security control — and "IT-only" can still stop physical production.
+
+<br/>
+
+**Lesson:** a **tested manual-operation mode** is a security control — and "IT-only" can still stop physical production.
+
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.9}
+flowchart TD
+  A["Windows IT<br/><em>LockerGoga</em>"] --> B["AD + files<br/>encrypted"]
+  B --> C["plants switch to<br/><em>pen & paper</em>"]
+  C --> D["output partly<br/>maintained"]
+```
+
+<em>degraded mode, on purpose</em>
+</div>
 
 ---
+layout: two-cols
+---
 
-# Example: Jaguar Land Rover (2025)
+# Example: Jaguar Land Rover
 
 - **When:** 31 Aug 2025 — Qilin ransomware
 - **How:** corporate IT; plants depend on ERP/MES for scheduling and parts
 - **Impact:** production **halted ~5 weeks** (resumed 8 Oct 2025), supplier cash crisis, thousands of workers idled
-- **Cost:** UK-wide economic impact modelled at ≈**£1.9bn** — reported as the costliest cyber incident in UK history (estimate, not audited)
+- **Cost:** UK-wide impact modelled at ≈**£1.9bn** — reported as the costliest UK cyber incident (estimate, not audited)
 
 <br/>
 
-<v-click>
-
 **Lesson:** a modern factory **is** a cyber-physical system. If the planning systems die, the robots stop.
 
-</v-click>
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.9}
+flowchart TD
+  A["corporate IT<br/><em>Qilin</em>"] --> B["ERP / MES"]
+  B --> C["no schedule,<br/>no parts"]
+  C --> D["lines stop<br/><em>~5 weeks</em>"]
+```
+
+<em>a factory runs on planning systems</em>
+</div>
+
+---
+layout: two-cols
+class: cols-60-40
+---
+
+# Example: Supermarket fridges (2026)
+
+- **When:** night of 11–12 Oct 2026 — up to **~700** French supermarkets (Intermarché, Carrefour, U, Monoprix, Leclerc, Netto)
+- **How:** internet-exposed **Danfoss AK-SM800 / AK-SC355** fridge controllers — web login `admin` + a hidden "code of the day" bypass: **the device date is the password**
+- **Known:** Claroty, 2025 → patched in **R4.3.1** (Aug 2025), only on the SM800A; older units **end-of-life** (2016 / 2021), never updated
+- **Impact:** driven into a **continuous defrost** with the food inside → **+50 °C** after 6 h (80 °C reported), melted units, fires; tens of millions € discarded
+
+<br/>
+
+**Lesson:** the cold chain **is** a cyber-physical process. A legacy internet-facing controller with a default password is the OT equivalent of an unlocked door — and a fridge is food **critical infrastructure**.
+
+::right::
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.82}
+flowchart TD
+  I(["Internet"]) --> D["Danfoss AK-SM800<br/><em>admin / date · EOL</em>"]
+  D -->|defrost| F["+50 °C<br/><em>6 h, food inside</em>"]
+  F --> G["melted units,<br/>fires"]
+  F --> H["cold chain gone<br/><em>till emptied</em>"]
+```
+
+<em>a fridge is an actuator too</em>
+</div>
 
 ---
 layout: section
 ---
 
 # Defense
-
----
-layout: two-cols
----
-
-# Attack vs. defense
-
-- Anti-viruses + firewalls?
-- In general, it's **easier to destroy than to create** 😿
-- Malware's toolbox (case study [1]):
-  - **Persistence** — surviving reboots
-  - **Stealth** — conceal in user / kernel space
-  - **Communication** with Command & Control (C2) services
-  - **Firewall evasion** — traffic concealment, data exfiltration
-
-::right::
-
-<div class="img-col">
-<img src="./images/antivirus_vendors.png" style="max-height: 320px" />
-<em>≈ the whole AV industry</em>
-</div>
 
 ---
 
@@ -643,15 +843,44 @@ layout: two-cols
 # Detection in OT
 
 - **No agents** on controllers; no EDR on a PLC
-- **No active scanning** — brittle devices, and a scan can trip a protection
+  - **No heuristics-based AV detection**: false-positives may stop the processes!
+- **No active scanning**: brittle devices, and a scan can trip a protection
 - **Passive monitoring** via SPAN / TAP: protocol-aware baselining of Modbus, DNP3, S7, EtherNet/IP
-- Sources: engineering workstations, HMIs, switches, firewalls, **physical access control**
-- Correlate in a SIEM; map detections to **ATT&CK for ICS**
+  - Sources: engineering workstations, HMIs, switches, firewalls, **physical access control**
+  - Correlate in a SIEM; map detections to **ATT&CK for ICS**
 - Exercises: tabletop incident response where **safety comes before containment**
 
 <div class="img-col">
 <img src="./images/siem_dashboard.png" style="max-height: 130px" />
-<em>telemetry, not an agent</em>
+</div>
+
+---
+
+# Segmentation: zones & conduits
+
+- A **zone** groups assets with the same security requirement (**SL1–SL4**)
+- A **conduit** is the *only* allowed path between two zones — firewall, proxy, data diode
+- Default **deny** between zones; allow only what the process needs
+- Same idea as the DMZ, applied **per process area**: not one wall, but many small ones
+
+<div class="img-col">
+
+```mermaid {theme: 'isc-cartoon', scale: 0.62}
+flowchart LR
+  subgraph Z1["Zone 1 · enterprise · SL1"]
+    A["ERP / mail"]
+  end
+  subgraph Z2["Zone 2 · supervisory · SL2"]
+    B["SCADA / HMI"]
+  end
+  subgraph Z3["Zone 3 · control · SL3"]
+    C["PLC"]
+  end
+  A -->|conduit: firewall + proxy| B
+  B -->|conduit: no routing| C
+```
+
+<em>IEC 62443-3-2 zones & conduits</em>
 </div>
 
 ---
@@ -669,28 +898,6 @@ layout: two-cols
 | Backup       | images, tested restores       | PLC logic / HMI configs **+ tested manual mode**           |
 | IR & testing | isolate, reimage, pentest     | **safety first**, then isolate; testbed, not production    |
 
-</div>
-
----
-layout: two-cols
-class: cols-60-40
----
-
-# NIST Cybersecurity Framework 2.0
-
-- **Govern** — strategy, roles, policy, supply-chain risk *(new in CSF 2.0, 2024)*
-- **Identify** — know your assets and risks
-- **Protect** — pro-active protection
-- **Detect** — detect attacks (IoC)
-- **Respond** — incident response plan ready, analyze & mitigate
-- **Recover** — you have backups, right?
-  - Wipe clean anything the attacker touched — **but not on the PLC**
-
-::right::
-
-<div class="img-col">
-<img src="./images/nist_csf_cycle.png" style="max-height: 260px" />
-<em>CSF v1.1 graphic — v2.0 adds GOVERN</em>
 </div>
 
 ---
@@ -770,6 +977,8 @@ class: cols-60-40
 - [CISA ICS advisories](https://www.cisa.gov/news-events/ics-advisories)
 - **Further reading:** *Industrial Network Security* — Eric D. Knapp & Joel Thomas Langill (Syngress)
 - *Computer Security and the Internet: Tools and Jewels* — Paul C. van Oorschot (Springer, 2021)
+
+**Image credits:** centrifuge cascade — U.S. Department of Energy (PD) · AR-924 pager — TobiToaster, CC BY-SA 4.0 · kill chain — Wikipedia (CC BY-SA) · IT/OT convergence, CSF cycle, AV logos, Datadog dashboard, *Hackers* still — from the original course deck
 
 </small>
 
