@@ -283,9 +283,9 @@ _Spoilers: code injection won't work on a modern system (:_
 <template #0>
 <img src="./images/hijack_0_payload.svg" />
 <p class="hj-cap">
-  The input overwrites the stack frame: 16 bytes fill <code>buf</code>, 
-  the next <code>8B</code> land on the saved <code>EBP</code> and replace
-  <b>return address</b>, while the final part contains attacker-injected
+  The input overwrites the frame: 16 bytes fill <code>buf</code>, then
+  4 bytes replace the saved <code>EBP</code> and 4 more the <b>return
+  address</b>; everything after that is the NOP sled and the attacker's
   <b>machine code</b>.
 </p>
 </template>
@@ -548,22 +548,26 @@ layout: section
 # Beyond the stack
 
 ---
+layout: two-cols
+---
 
 # What about exploiting `.data`?
 
 <div style="padding: 1em; font-size: 0.9em;">
 
 ```c
+/* the "vtable": per-module function pointers */
 struct msg_funcs {
   void (*init)(struct message *msg);
   void (*print)(struct message *msg);
   void (*clear)(struct message *msg);
 };
 
+/* each message = vtable pointer + payload */
 struct message {
-  const struct msg_funcs *funcs;
-  int len;
-  char text[255];
+  const struct msg_funcs *funcs; // 4B — who to call
+  int len;                       // 4B
+  char text[255];                // 255B — attacker input
 };
 ```
 
@@ -571,52 +575,51 @@ struct message {
 
 ::right::
 
-<div style="padding: 1em; margin-top: 3em; font-size: 0.9em;">
+<div style="margin-top: 2.7em; padding: 1em; font-size: 0.9em;">
 
 ```c
-struct message all_messages[10]; // ...
+struct message all_messages[10]; // .data / .bss, not the stack
 
 int main() {
   // initialize modules…
   for (i = 0; i < n; i++) {
     struct message *msg = &all_messages[i];
-    msg->funcs->init(msg);
-    gets(msg->text);
+    msg->funcs->init(msg);  // call through the vtable…
+    gets(msg->text);        // …then read 255+ bytes, unchecked
   }
 }
 ```
 
+<p style="font-size: 0.85em; line-height: 1.35; color: #3f4b52;">
+  <code>text</code> is the last field of the element, so an over-long
+  input keeps writing into <b>the next element</b> and overwrites its
+  <code>funcs</code> pointer. That call happens on the <b>next iteration</b>:
+  the CPU jumps to the attacker's function!
+</p>
+
 </div>
 
----
-layout: two-cols
-class: cols-45-55
 ---
 
 # Object Oriented Security
 
-- C++ (and other OOP languages) use **virtual method tables** (VTable) for polymorphism
-- Attacker replaces VTable pointers with controlled memory
-- When an object method is called, the function pointer is loaded from the attacker's VTable
-
-::right::
-
-<div class="img-col">
-<img src="./images/vtable_dispatch.svg" />
+<div style="text-align: center;">
+Virtual Tables (<b>VTable</b>)!
+<img src="./images/vtable_polymorphism.svg" style="width: 700px; display: inline;" />
 </div>
 
 ---
 layout: two-cols
-class: cols-40-60
+class: cols-55-45
 ---
 
 # The Heap
 
 - Dynamic memory allocation: `malloc` / `new`
-- GLibC: one master arena, multiple heaps, connected by linked lists
-- Virtual memory allocated by OS (`mmap` or `sbrk`)
-- `malloc()` → returns a free chunk of contiguous memory, fills metadata
-- `free()` → clears/resets chunk + metadata
+- GLibC: one **main arena** + up to `8 × cores` thread arenas; each one allocates virt. mem. segments using `mmap` / `sbrk`
+- Memory is managed in **chunks**: header (`prev_size`, `size`) + payload; free chunks sit in **bins** (doubly linked free lists)
+- `malloc()` → cuts a free chunk, returns its payload
+- `free()` → marks the chunk free and writes `fd` / `bk` bin pointers **into the payload** - the data itself is *not* wiped
 
 [Source: GLibC Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals)
 
@@ -712,22 +715,38 @@ read_input_into_buffer(buffer, payload_len);
 [exploit-db.com format string exploitation](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
 
 ---
+layout: two-cols
+class: cols-40-60
+---
 
-# Just in Time + scripting → bytecode injection!
+# Just in Time + scripting 
 
-- Defeats W ⊕ X
-- **JIT Spraying**:
+=> shellcode injection!
+
+- Defeats W ⊕ X: a JIT produces **writable and executable** pages
+- **JIT spraying**: make the JIT emit data that is also valid machine code
+
+::right::
 
 ```
-VAL = (VAL + 0xA8909090)|0;
-VAL = (VAL + 0xA8909090)|0;
-// => just in time compiles it into:
-00: 05909090A8    ADD EAX, 0xA8909090
-05: 05909090A8    ADD EAX, 0xA8909090
-// offset pointer with +1 byte:
-03: 90            NOP
-04: A805          TEST AL, 05
+VAL = (VAL + 0xA8909090)|0; // JS code
+
+// JIT emits:
+00: 05 90 90 90 A8      ADD EAX, 0xA8909090
+05: 05 90 90 90 A8      ADD EAX, 0xA8909090
+
+// the immediate 0xA8909090 is stored in Little-Endian
+// and 0x90 is NOP, execution slides on...
+01: 90 90 90            NOP x 3
+04: A8 05               TEST AL, 0x05  ; harmless, 2 bytes
+06: 90 90 90            NOP x 3
+09: A8 05               TEST AL, 0x05
+=> a NOP sled made of data!
 ```
+
+<style>
+code {font-size: 0.9em;}
+</style>
 
 ---
 

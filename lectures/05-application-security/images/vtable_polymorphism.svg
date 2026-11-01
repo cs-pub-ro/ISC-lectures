@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 402" width="780" height="402" role="img" aria-label="How a C++ vtable makes polymorphism work: the call site s-&gt;area() loads the object's vptr, follows it to the per-class table of function pointers, and loads slot 0, which holds Circle::area or Square::area depending on the object's dynamic type.">
+<title>C++ vtable and polymorphism</title>
+<style>
+  .hdr{font:600 14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .tag{font:italic 12px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b}
+  .fld{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#5b6670}
+  .fldk{font:600 13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00}
+  .off{font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#a3adb3}
+  .fnp{font:600 13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e}
+  .fp{font:600 13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00}
+  .code{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a}
+  .note{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#3f4b52}
+  .box{fill:#ffffff;stroke:#9aa6ae;stroke-width:1.8}
+  .hot{fill:#fff6e6;stroke:#b26b00;stroke-width:2}
+  .cold{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.6}
+  .codebox{fill:#e4eff1;stroke:#176b87;stroke-width:1.8}
+  .codehot{fill:#fdf1dc;stroke:#b26b00;stroke-width:2}
+  .band{fill:#f4f6f7;stroke:#d8dee2;stroke-width:1.5}
+  .sep{stroke:#e2e7ea;stroke-width:1.4}
+  .vp{stroke:#b26b00;stroke-width:2.6;fill:none}
+  .slot{stroke:#9aa6ae;stroke-width:1.8;fill:none}
+  .slot0{stroke:#b26b00;stroke-width:2.2;fill:none}
+</style>
+<defs>
+  <marker id="amber" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+  <marker id="grey" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa6ae"/></marker>
+</defs>
+
+<!-- call site -->
+<rect class="band" x="14" y="12" width="752" height="56" rx="5"/>
+<text class="code" x="28" y="36">Shape *s = pick();            <tspan fill="#8a949b">// Circle and Square both derive from Shape</tspan></text>
+<text class="code" x="28" y="56">s-&gt;area();                    <tspan fill="#8a949b">// load vptr, load slot 0, call  →  decided at run time</tspan></text>
+
+<!-- column headers -->
+<text class="hdr" x="14" y="88">object <tspan class="tag">(heap)</tspan></text>
+<text class="hdr" x="300" y="88">vtable <tspan class="tag">(const · .rodata)</tspan></text>
+<text class="hdr" x="580" y="88">code <tspan class="tag">(.text)</tspan></text>
+
+<!-- ============ row A: Circle ============ -->
+<rect class="box" x="14" y="94" width="196" height="94" rx="4"/>
+<line class="sep" x1="14" y1="118" x2="210" y2="118"/>
+<text class="fld" x="26" y="110">Circle</text>
+<text class="tag" x="198" y="110" text-anchor="end">radius, id …</text>
+<text class="fldk" x="26" y="134">vptr</text>
+<text class="fld" x="198" y="134" text-anchor="end">0x55e0</text>
+<text class="fld" x="26" y="162">double radius</text>
+<text class="fld" x="26" y="184">int id</text>
+
+<rect class="box" x="300" y="94" width="210" height="94" rx="4"/>
+<line class="sep" x1="300" y1="118" x2="510" y2="118"/>
+<text class="fld" x="312" y="110">Circle vtable</text>
+<rect class="hot" x="300" y="118" width="210" height="26"/>
+<text class="off" x="308" y="135">+0</text>
+<text class="fp" x="334" y="135">&amp;Circle::area</text>
+<rect class="cold" x="300" y="144" width="210" height="22"/>
+<text class="off" x="308" y="159">+8</text>
+<text class="fnp" x="334" y="159">&amp;Circle::draw</text>
+<rect class="cold" x="300" y="166" width="210" height="22"/>
+<text class="off" x="308" y="181">+16</text>
+<text class="fnp" x="334" y="181">&amp;Circle::name</text>
+
+<rect class="codehot" x="580" y="119" width="186" height="24" rx="4"/>
+<text class="fp" x="590" y="135">Circle::area()</text>
+<rect class="codebox" x="580" y="145" width="186" height="24" rx="4"/>
+<text class="fnp" x="590" y="161">Circle::draw()</text>
+<rect class="codebox" x="580" y="171" width="186" height="24" rx="4"/>
+<text class="fnp" x="590" y="187">Circle::name()</text>
+
+<path class="vp" d="M210,131 L292,131" marker-end="url(#amber)"/>
+<text class="fldk" x="251" y="124" text-anchor="middle">vptr</text>
+<path class="slot0" d="M512,131 L572,131" marker-end="url(#amber)"/>
+<path class="slot" d="M512,155 L572,155" marker-end="url(#grey)"/>
+<path class="slot" d="M512,181 L572,181" marker-end="url(#grey)"/>
+
+<!-- ============ row B: Square ============ -->
+<rect class="box" x="14" y="216" width="196" height="94" rx="4"/>
+<line class="sep" x1="14" y1="240" x2="210" y2="240"/>
+<text class="fld" x="26" y="232">Square</text>
+<text class="tag" x="198" y="232" text-anchor="end">side, id …</text>
+<text class="fldk" x="26" y="256">vptr</text>
+<text class="fld" x="198" y="256" text-anchor="end">0x5620</text>
+<text class="fld" x="26" y="284">double side</text>
+<text class="fld" x="26" y="306">int id</text>
+
+<rect class="box" x="300" y="216" width="210" height="94" rx="4"/>
+<line class="sep" x1="300" y1="240" x2="510" y2="240"/>
+<text class="fld" x="312" y="232">Square vtable</text>
+<rect class="hot" x="300" y="240" width="210" height="26"/>
+<text class="off" x="308" y="257">+0</text>
+<text class="fp" x="334" y="257">&amp;Square::area</text>
+<rect class="cold" x="300" y="266" width="210" height="22"/>
+<text class="off" x="308" y="281">+8</text>
+<text class="fnp" x="334" y="281">&amp;Square::draw</text>
+<rect class="cold" x="300" y="288" width="210" height="22"/>
+<text class="off" x="308" y="303">+16</text>
+<text class="fnp" x="334" y="303">&amp;Square::name</text>
+
+<rect class="codehot" x="580" y="241" width="186" height="24" rx="4"/>
+<text class="fp" x="590" y="257">Square::area()</text>
+<rect class="codebox" x="580" y="267" width="186" height="24" rx="4"/>
+<text class="fnp" x="590" y="283">Square::draw()</text>
+<rect class="codebox" x="580" y="293" width="186" height="24" rx="4"/>
+<text class="fnp" x="590" y="309">Square::name()</text>
+
+<path class="vp" d="M210,253 L292,253" marker-end="url(#amber)"/>
+<text class="fldk" x="251" y="246" text-anchor="middle">vptr</text>
+<path class="slot0" d="M512,253 L572,253" marker-end="url(#amber)"/>
+<path class="slot" d="M512,277 L572,277" marker-end="url(#grey)"/>
+<path class="slot" d="M512,303 L572,303" marker-end="url(#grey)"/>
+
+<!-- takeaways -->
+<line class="sep" x1="14" y1="334" x2="766" y2="334"/>
+<text class="note" x="14" y="358">same call site, same slot index <tspan font-family="ui-monospace,monospace" font-weight="600">+0</tspan> → the <tspan font-weight="600">vptr</tspan> picks the table, the table picks the function: that <tspan font-weight="600">is</tspan> polymorphism</text>
+<text class="note" x="14" y="382">the <tspan font-family="ui-monospace,monospace">vptr</tspan> lives in <tspan font-weight="600">writable</tspan> memory → an overflow that overwrites it redirects every later virtual call</text>
+</svg>
