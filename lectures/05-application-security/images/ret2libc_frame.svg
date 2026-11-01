@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400" role="img" aria-label="ret2libc: the overwritten return address is the address of libc system(); the next stack slot &quot;returns&quot; to so the following slot is read as the first argument, a pointer to the /bin/sh string planted in the same payload.">
+<title>ret2libc — reuse libc instead of injecting code</title>
+<style>
+  .slot{fill:#fbe6e3;stroke:#b3261e;stroke-width:2}
+  .hit{fill:#fbe6e3;stroke:#b3261e;stroke-width:2.8}
+  .junk{fill:#fdeeeb;stroke:#d98b84;stroke-width:1.6;stroke-dasharray:5 4}
+  .str{fill:#fdeeeb;stroke:#b3261e;stroke-width:1.6;stroke-dasharray:5 4}
+  .name{font:10.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .val{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#1a1a1a}
+  .valr{font:600 15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8c1d18}
+  .addr{font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8a949b;text-anchor:end}
+  .hd{font:600 12.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .g{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .gt{font:600 19px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;text-anchor:middle;dominant-baseline:central}
+  .gs{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:middle}
+  .note{font:10.5px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .al{font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;text-anchor:middle}
+  .dn{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#7a4b00;text-anchor:middle}
+  .leg1{font:600 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#b3261e}
+  .leg2{font:600 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e}
+</style>
+<defs>
+  <marker id="fa" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <marker id="da" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+</defs>
+
+<!-- column headers -->
+<text class="hd" x="150" y="24">stack — the attacker's input, higher addresses on top</text>
+
+<!-- the string the payload plants further up the stack -->
+<rect class="str" x="150" y="44" width="170" height="30" rx="3"/>
+<text class="valr" x="235" y="63" text-anchor="middle">"/bin/sh\0"</text>
+<text class="addr" x="142" y="63">0xffffd6c0</text>
+
+<!-- arg0: read by system() from [esp+4] -->
+<rect class="slot" x="150" y="82" width="200" height="38" rx="3"/>
+<text class="name" x="160" y="95">arg0 — esp+4 (EBP+8 in the callee)</text>
+<text class="val" x="160" y="111">0xffffd6c0</text>
+<text class="addr" x="142" y="101">0xffffd6bc</text>
+<text class="note" x="358" y="105">pointer to the string above</text>
+
+<!-- fake return address: what system() will "return" to -->
+<rect class="junk" x="150" y="128" width="200" height="38" rx="3"/>
+<text class="name" x="160" y="141">fake return address</text>
+<text class="val" x="160" y="157">0xdeadbeef</text>
+<text class="addr" x="142" y="147">0xffffd6b8</text>
+
+<!-- the overwritten return address: it is now &system -->
+<rect class="hit" x="150" y="174" width="200" height="38" rx="3"/>
+<text class="name" x="160" y="187">return address — overwritten</text>
+<text class="valr" x="160" y="203">0x0804a011</text>
+<text class="addr" x="142" y="193">0xffffd6b4</text>
+
+<rect class="junk" x="150" y="220" width="200" height="38" rx="3"/>
+<text class="name" x="160" y="233">saved EBP</text>
+<text class="val" x="160" y="249">0x41414141</text>
+<text class="addr" x="142" y="239">0xffffd6b0</text>
+
+<rect class="junk" x="150" y="266" width="200" height="46" rx="3"/>
+<text class="name" x="160" y="283">buf[16]</text>
+<text class="val" x="160" y="300">'A' × 16</text>
+<text class="addr" x="142" y="289">0xffffd6a0</text>
+
+<!-- libc: the code we reuse -->
+<rect class="g" x="452" y="150" width="250" height="86" rx="5"/>
+<text class="gt" x="577" y="180">system()</text>
+<text class="gs" x="577" y="206">in libc · we never inject anything</text>
+
+<!-- ret -> EIP = &system -->
+<path d="M 356,193 L 444,193" stroke="#176b87" stroke-width="2.2" fill="none" marker-end="url(#fa)"/>
+<text class="al" x="400" y="183">ret → EIP</text>
+
+<!-- system() reads the pointer we planted, so it sees "/bin/sh" -->
+<path d="M 577,150 L 577,59 L 326,59" stroke="#b26b00" stroke-width="1.8" fill="none" stroke-dasharray="6 4" marker-end="url(#da)"/>
+<text class="dn" x="470" y="50">arg0 holds a pointer to attacker data</text>
+
+<!-- page permissions: why the injection from the previous slides is dead -->
+<text class="leg1" x="150" y="336">stack · rw-    injected code cannot execute</text>
+<text class="leg2" x="452" y="336">libc · r-x    reuse code that is already there</text>
+<text class="dn" x="360" y="370">Needs system()'s address — i.e. a leak. Otherwise ASLR wins.</text>
+</svg>

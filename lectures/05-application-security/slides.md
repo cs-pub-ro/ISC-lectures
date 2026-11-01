@@ -21,10 +21,6 @@ subtitle: "Software vulnerabilities, memory safety bugs, and defenses"
 
 ::default::
 
-<!--
-Welcome students; introduce the lecture. Content based on ISC material (© 2024 Mihai Chiroiu & Florin Stancu).
--->
-
 ---
 layout: quote
 class: text-center
@@ -48,10 +44,10 @@ _'Only one more bug left'_
 
 <v-clicks>
 
-1. Software Vulnerabilities
-2. Cause & classification
-3. Memory safety bugs + examples
-4. Defenses & mitigations
+1. Software Vulnerabilities. Cause & classification.
+2. Memory safety: stack overflow
+3. Defenses & Mitigations
+4. More on attacks: Beyond the stack
 
 </v-clicks>
 
@@ -334,7 +330,21 @@ _Spoilers: code injection won't work on a modern system (:_
 .hj-code { --slidev-code-font-size: 13px; --slidev-code-line-height: 1.4; }
 </style>
 
---- 
+---
+
+# No-execute (NX) / DEP
+
+- The page-table entry gets an **NX / XD bit**: the stack and the heap are no longer executable
+- Policy **W ⊕ X** — a page is either writable or executable, never both
+- The shellcode still lands on the stack; the CPU simply faults when `ret` jumps to it
+- On by default for stack/heap on x86-64 (AMD NX / Intel XD) and arm64, off for code pages
+- Weakness: just wait for it... (ret2libc, ROP)
+- Careful: JIT compilers keep their code pages **RWX** (cf. JIT spraying)
+
+---
+layout: two-cols
+class: cols-45-55
+---
 
 # Return to LibC
 
@@ -343,20 +353,53 @@ _Spoilers: code injection won't work on a modern system (:_
 - Example: jump to `execve()` / `system()` etc.
 - Reminder: call args from `%EBP + 0x08`!
 
+::right::
+
+<div class="img-col">
+<img src="./images/ret2libc_frame.svg" alt="ret2libc payload: buf, saved EBP, then a return address that is the address of libc system(), then a fake return address and a pointer to the /bin/sh string planted in the same input" />
+</div>
+
 ---
 layout: two-cols
-class: cols-40-60
+class: cols-35-65
 ---
 
 # Return oriented programming
 
-- Defeats DEP / No-execute (NX): instead of injecting new code, chain calls to existing code fragments on the stack
+- reuse **instructions** from exe/libs' code sections!
+- defeats **NX**
+- **Gadget**: short instruction sequence that ends in `ret`<br>
+  (e.g. `pop rdi ; ret`)
+- **Chain**: gadget addresses laid out on the stack<br>
+  => each `ret` feeds the next gadget
 
 ::right::
 
 <div class="img-col">
-<img src="./images/rop_gadget_chain.svg" />
+<img src="./images/rop_chain_x64.svg" alt="x86-64 ROP chain: return address replaced by a pop rdi ; ret gadget, the slot above it is the pointer to /bin/sh popped into RDI, then the address of libc system(), then the address of exit() as system's return address" />
 </div>
+
+---
+
+# Common ROP gadgets (x86-64)
+
+| Gadget | What it buys the attacker |
+|--------|---------------------------|
+| `ret` | skip a slot: fix 16-byte alignment (the `movaps` crash) |
+| `pop rdi ; ret` | 1st argument, e.g. `system("/bin/sh")` |
+| `pop rsi ; ret` / `pop rdx ; ret` | 2nd / 3rd argument (`execve`, `write`) |
+| `pop rax ; ret` + `syscall ; ret` | ret2syscall - no libc needed |
+| `leave ; ret` | stack pivot: `RSP := RBP`, move the chain somewhere else |
+| `add rsp, 0x?? ; ret` | jump over slots, dodge bad bytes |
+| `mov [rdi], rax ; ret` | write-what-where → overwrite a GOT entry / function pointer |
+
+- Finding them: `ropper`/`ROPgadget` / pwntools `ROP(...)`
+- Nothing useful in the binary? Look in **libc** / **ret2csu** (`__libc_csu_init`)
+
+<style>
+table { font-size: 0.85em; }
+table td, table th { padding: 0.3em 0.6em; }
+</style>
 
 ---
 layout: two-cols
@@ -383,6 +426,12 @@ layout: two-cols
 </div>
 
 ---
+layout: section
+---
+
+# Defenses & Mitigations
+
+---
 layout: two-cols
 ---
 
@@ -402,12 +451,6 @@ layout: two-cols
 <img src="./images/svg_attack_mitigations.svg" />
 </div>
 
-
----
-layout: section
----
-
-# Defenses & Mitigations
 
 ---
 layout: two-cols
@@ -502,7 +545,7 @@ sort2(int a[], int b[], int len) {
 layout: section
 ---
 
-# Modern Attacks
+# Beyond the stack
 
 ---
 
