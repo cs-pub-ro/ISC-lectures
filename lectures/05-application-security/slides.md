@@ -30,13 +30,17 @@ layout: quote
 class: text-center
 ---
 
-# Developer optimism, part 1
+<br>
+<br>
+<br>
 
-'My software never has bugs. It just develops random features.'
+# Developer optimism
 
-'You're holding it wrong!'
+_'My software never has bugs. It just develops random features.'_
 
-'Only one more bug left'
+_'You're holding it wrong!'_
+
+_'Only one more bug left'_
 
 ---
 
@@ -84,11 +88,12 @@ layout: section
 
 <v-clicks>
 
-- Access control / business logic bugs
-- Code injection
-- Input validation (format string attacks, path traversal …)
-- Memory safety: buffer overflow, dangling pointer, race condition, information leak, use after free etc.
-- Weak crypto, side channel attacks …
+- Broken authentication/authorization control / business logic bugs
+- Cryptography Fails
+- Misconfiguration
+- Injection (i.e., script / commands / code)
+- Input validation (e.g., format string, path traversal)
+- Memory safety (buffer overflow, race condition, leaks, use after free etc.)
 - UI confusion
 - And many more!
 
@@ -130,7 +135,7 @@ class: cols-40-60
 layout: section
 ---
 
-# Cause & classification
+# Memory safety: stack overflow
 
 ---
 layout: two-cols
@@ -138,7 +143,7 @@ layout: two-cols
 
 # Intro: address space
 
-- Userspace processes have **virtual memory**
+- Userspace processes use **virtual memory**
 - Compiler (linker) / OS decide where each segment goes
 - Address space layout has impact on application's security
 
@@ -213,12 +218,6 @@ The frame is not declared — it is built, one instruction at a time, by the x86
 </v-switch>
 
 </div>
-
----
-layout: section
----
-
-# Memory safety bugs & examples
 
 ---
 layout: two-cols
@@ -335,94 +334,7 @@ _Spoilers: code injection won't work on a modern system (:_
 .hj-code { --slidev-code-font-size: 13px; --slidev-code-line-height: 1.4; }
 </style>
 
----
-layout: two-cols
----
-
-# Generic exploit steps [7]
-
-<v-clicks>
-
-1. Find vulnerable input buffer (e.g., stack / heap / data)
-2. Find overwritable code pointer offset (e.g., saved EIP, VTable / GOT / function pointer)
-3. Inject/reuse shell code (attacker-defined)
-4. Corrupt code pointer with attacker value!
-5. … **all your base are belong to us!** (CPU executes malicious instructions)
-
-</v-clicks>
-
-[7] SoK: Eternal War in Memory — [ieee-security.org](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
-
-::right::
-
-<div class="img-col">
-<img src="./images/sok_stack_smashing.svg" />
-</div>
-
----
-layout: section
----
-
-# Defenses & mitigations
-
----
-layout: two-cols
----
-
-# Stack exploit mitigations
-
-- **DEP (data execution prevention) / No-execute (NX) bit**
-  - defeated by ROP (return oriented programming)
-- **Address space layout randomization**
-  - defeated by memory leaks
-- **Stack Canaries**
-  - defeated by memory leaks, side channels, data overwrites
-- **Shadow Stack**
-
-::right::
-
-<div class="img-col">
-<img src="./images/svg_attack_mitigations.svg" />
-</div>
-
----
-layout: two-cols
-class: cols-45-55
----
-
-# Address Space Layout Randomization (ASLR)
-
-- Implemented by most OSes
-- Requires programs be compiled as **Position-Independent Code**
-- Segments can only be randomized at startup!
-- **KASLR** — randomize kernel-space!
-
-::right::
-
-<div class="img-col">
-<img src="./images/aslr_rerandomization.svg" class="img-tall" />
-</div>
-
----
-layout: two-cols
----
-
-# Stack Canaries
-
-- Store random value between Saved EBP + Saved EIP
-- Before `ret`, check this random value
-- If modified, show error & exit
-- Weaknesses:
-  - memory leaks / side channels
-  - canary guessing
-
-::right::
-
-<div class="img-col">
-<img src="./images/stack_canary_layout.svg" />
-</div>
-
----
+--- 
 
 # Return to LibC
 
@@ -448,6 +360,150 @@ class: cols-40-60
 
 ---
 layout: two-cols
+---
+
+# Generalization of memory exploits [7]
+
+[7] SoK: Eternal War in Memory — [ieee-security.org](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
+
+<v-clicks>
+
+1. Find vulnerable input buffer (e.g., stack / heap / data)
+2. Find overwritable code pointer offset (e.g., saved EIP, VTable / GOT / function pointer)
+3. Inject/reuse shell code (attacker-defined)
+4. Corrupt code pointer with attacker value!
+5. … **all your base are belong to us!** (CPU executes malicious instructions)
+
+</v-clicks>
+
+::right::
+
+<div class="img-col">
+<img src="./images/sok_stack_smashing.svg" />
+</div>
+
+---
+layout: two-cols
+---
+
+# Memory Attack Mitigations
+
+- **DEP (data execution prevention) / No-execute (NX) bit**
+  - defeated by ROP (return oriented programming)
+- **Address space layout randomization**
+  - defeated by memory leaks
+- **Stack Canaries**
+  - defeated by memory leaks, side channels, data overwrites
+- **Shadow Stack**
+
+::right::
+
+<div class="img-col">
+<img src="./images/svg_attack_mitigations.svg" />
+</div>
+
+
+---
+layout: section
+---
+
+# Defenses & Mitigations
+
+---
+layout: two-cols
+class: cols-45-55
+---
+
+# Address Space Layout Randomization (ASLR)
+
+- Implemented by most OSes
+- Requires programs be compiled as **Position-Independent Code**
+- Segments can only be randomized at startup!
+- **KASLR** — randomize kernel-space!
+
+::right::
+
+<div class="img-col">
+<img src="./images/aslr_rerandomization.svg" class="img-tall" />
+</div>
+
+---
+layout: two-cols
+---
+
+# Stack Canaries
+
+- Store random value before Saved EBP / Saved EIP
+- Before returning from function, check this random value
+- If modified, show error & exit
+- Weaknesses:
+  - memory leaks / side channels
+  - canary guessing
+
+::right::
+
+<div class="img-col">
+<img src="./images/stack_canary_layout.svg" />
+</div>
+
+---
+layout: two-cols
+---
+
+# Control Flow Integrity
+
+```c
+bool lt(int x, int y) {
+  return x < y;
+}
+
+bool gt(int x, int y) {
+  return x > y;
+}
+
+sort2(int a[], int b[], int len) {
+  sort(a, len, lt);
+  sort(b, len, gt);
+}
+```
+
+::right::
+
+<div class="img-col">
+<img src="./images/cfi_call_graph.svg" />
+</div>
+
+---
+
+# Data integrity
+
+- Easy: check bounds after each read/write of any variable!
+- **SoftBound + CETS** — compile-time transformations enforcing spatial & temporal safety for C
+  - Huge overhead!
+- **Write Integrity Testing / Data Flow Integrity / Data Space Randomization**
+
+---
+
+# Protection mechanism summary
+
+| Protection | Policy | Technique | Weakness | Perf. | Comp. |
+|------------|--------|-----------|----------|-------|-------|
+| Hijack | W⊕X | Page flags | JIT | 1x | good |
+| Hijack | Return integrity | Stack cookies | Direct overwrite | 1x | good |
+| Hijack | Address space rand. | ASLR | Info-leak. | 1.1x | good |
+| Hijack | Control-flow integ. | CFI | Over-approx. | 1.4x | Libraries |
+| Generic | Memory safety | SB+CETS | None | 2-4x | good |
+| Generic | Data integrity | WIT | Over-approx. | 1.2x | Libraries |
+| Generic | Data space rand. | DSR | Over-approx. | 1.3x | Libraries |
+| Generic | Data-flow integrity | DFI | Over-approx. | 2-3x | Libraries |
+
+
+---
+layout: section
+---
+
+# Modern Attacks
+
 ---
 
 # What about exploiting `.data`?
@@ -596,7 +652,7 @@ uint8_t *buffer = malloc((uint16_t)(payload_len + HEADER_SIZE));
 // 65534 + 128 overflows!
 // => malloc allocates just 126 bytes...
 
-read_input_into_buffer(buffer, len);
+read_input_into_buffer(buffer, payload_len);
 ```
 
 ---
@@ -631,6 +687,28 @@ VAL = (VAL + 0xA8909090)|0;
 ```
 
 ---
+
+# Data oriented attacks
+
+- Memory overflows … non-control flow exploit?
+- Defeats W ⊕ X, stack canaries, CFI etc. (we don't alter code execution!)
+- **Data Oriented Programming Gadgets**
+- Pointer write access → write to **ANY** program variable!
+
+```c
+int authenticated = 0;
+struct user_info *user_ptr = auth_users[last_idx];
+char username[100];
+gets(username);
+// meanwhile: check name & password
+if (authenticated) {
+  user_ptr->valid = 1;
+  strcpy(user_ptr->name, username);
+  last_idx++;
+}
+```
+
+---
 layout: two-cols
 class: cols-45-55
 ---
@@ -656,94 +734,20 @@ Microsoft (BlueHatIL 2019). Top root causes since 2016:
 </div>
 
 ---
-layout: two-cols
+layout: section
 ---
 
-# Control Flow Integrity
-
-```c
-bool lt(int x, int y) {
-  return x < y;
-}
-
-bool gt(int x, int y) {
-  return x > y;
-}
-
-sort2(int a[], int b[], int len) {
-  sort(a, len, lt);
-  sort(b, len, gt);
-}
-```
-
-<!--
-Enforce that control flow only takes architecturally valid paths.
--->
-
-::right::
-
-<div class="img-col">
-<img src="./images/cfi_call_graph.svg" />
-</div>
+# Finishing thoughts
 
 ---
 
-# Data oriented attacks
+# Is zero-vulnerability software even possible?
 
-- Memory overflows … non-control flow exploit?
-- Defeats W ⊕ X, stack canaries, CFI etc. (we don't alter code execution!)
-- **Data Oriented Programming Gadgets**
-- Pointer write access → write to **ANY** program variable!
-
-```c
-int authenticated = 0;
-struct user_info *user_ptr = auth_users[last_idx];
-char username[100];
-gets(username);
-// meanwhile: check name & password
-if (authenticated) {
-  user_ptr->valid = 1;
-  strcpy(user_ptr->name, username);
-  last_idx++;
-}
-```
-
----
-
-# Data integrity
-
-- Easy: check bounds after each read/write of any variable!
-- **SoftBound + CETS** — compile-time transformations enforcing spatial & temporal safety for C
-  - Huge overhead!
-- **Write Integrity Tracking / Data Flow Integrity / Data Space Randomization**
-
----
-
-# Protection mechanism summary
-
-| Protection | Policy | Technique | Weakness | Perf. | Comp. |
-|------------|--------|-----------|----------|-------|-------|
-| Hijack | W⊕X | Page flags | JIT | 1x | good |
-| Hijack | Return integrity | Stack cookies | Direct overwrite | 1x | good |
-| Hijack | Address space rand. | ASLR | Info-leak. | 1.1x | good |
-| Hijack | Control-flow integ. | CFI | Over-approx. | 1.4x | Libraries |
-| Generic | Memory safety | SB+CETS | None | 2-4x | good |
-| Generic | Data integrity | WIT | Over-approx. | 1.2x | Libraries |
-| Generic | Data space rand. | DSR | Over-approx. | 1.3x | Libraries |
-| Generic | Data-flow integrity | DFI | Over-approx. | 2-3x | Libraries |
-
-<!--
-Table is partially reconstructed from the OCR'd notes (row labels "WIT/DSR/DFI", "pood" → "good"); verify against original slides before presenting.
--->
-
----
-
-# Is zero-vulnerability software possible?
-
-**Yep! qmail** [6]
+Though a disputed claim, **qmail** [6]
 
 - Mail Transfer Agent by Daniel J. Bernstein, 1995 (last version: 1.03, 1998)
-- **Zero security vulnerabilities so far!**
+- **Zero security vulnerabilities so far!** _in default configuration_
+  - _In 2005, security researcher Georgi Guninski found an integer overflow in qmail_
 - Security practices:
   - Keep It Simple, Stupid (KISS)
   - Unix Philosophy (modular development, each component KISS)
