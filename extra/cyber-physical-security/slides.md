@@ -67,23 +67,6 @@ layout: two-cols
 
 ---
 
-# Security priorities: IT vs OT
-
-<div style="width: 90%; margin: 1em auto;">
-
-|            | **IT security**                 | **OT / CPS security**                                 |
-| ---------- | ------------------------------- | ----------------------------------------------------- |
-| Priority   | **CIA** — confidentiality first | **Safety · Reliability · Resilience**                 |
-| Control    | cryptography                    | **physical fail-safe** mechanisms                     |
-| Worst case | data loss, downtime, fines      | **harm, environmental damage, disruption**            |
-| Threat     | malware, phishing, insiders     | all of the above **+ the physical world as actuator** |
-
-</div>
-
-> In OT, availability is not a number in a SLA — it is a pump that must keep running.
-
----
-
 # Cyber-physical systems (CPS)
 
 - Software + network + **physical process**
@@ -94,10 +77,6 @@ layout: two-cols
 <br/>
 
 **"Cyber" is not the target — the physical process is.**
-
-<!--
-CPS: safety, reliability, and resilience in addition to CIA.
--->
 
 ---
 
@@ -126,6 +105,23 @@ flowchart LR
 - **L3**: Manufacturing Operations: management / execution / data historians;
 - **L3.5 DMZ** is an industry convention, **not** part of the original PERA model
 - Every level is a target: steal credentials (IT), rewrite logic (PLC), lie to the operator (HMI)
+
+---
+
+# Security priorities: IT vs OT
+
+<div style="width: 90%; margin: 1em auto;">
+
+|            | **IT security**                 | **OT / CPS security**                                 |
+| ---------- | ------------------------------- | ----------------------------------------------------- |
+| Priority   | **CIA** - confidentiality first | **Safety · Reliability · Resilience**                 |
+| Control    | cryptography                    | **physical fail-safe** mechanisms                     |
+| Worst case | data loss, downtime, fines      | **harm, environmental damage, disruption**            |
+| Threat     | malware, phishing, insiders     | all of the above **+ the physical world as actuator** |
+
+</div>
+
+> In OT, availability is not a number in a SLA — it is a pump that must keep running.
 
 ---
 
@@ -795,14 +791,12 @@ class: cols-60-40
 
 # Example: Supermarket fridges (2026)
 
-- **When:** night of 11–12 Oct 2026 — up to **~700** French supermarkets (Intermarché, Carrefour, U, Monoprix, Leclerc, Netto)
-- **How:** internet-exposed **Danfoss AK-SM800 / AK-SC355** fridge controllers — web login `admin` + a hidden "code of the day" bypass: **the device date is the password**
-- **Known:** Claroty, 2025 → patched in **R4.3.1** (Aug 2025), only on the SM800A; older units **end-of-life** (2016 / 2021), never updated
-- **Impact:** driven into a **continuous defrost** with the food inside → **+50 °C** after 6 h (80 °C reported), melted units, fires; tens of millions € discarded
-
-<br/>
-
-**Lesson:** the cold chain **is** a cyber-physical process. A legacy internet-facing controller with a default password is the OT equivalent of an unlocked door — and a fridge is food **critical infrastructure**.
+- **When:** night of 11–12 Oct 2026, up to **~700** French supermarkets
+- **How:** internet-exposed **Danfoss AK-SM800 / AK-SC355** fridge controllers - web login `admin` + 
+  **the device date is the password**
+- **Known** vulnerability (Claroty), patched in Aug 2025, but only on SM800A
+  (newer models); older ones were **end-of-life** (2016-2021)!
+- **Impact:** **continuous defrost** → **+50 °C** after 6h, melted units, fires; 10s of mill. € food discarded
 
 ::right::
 
@@ -991,4 +985,3 @@ class: text-center
 
 **Questions?**
 
-*Next: bring one real ICS incident and map it to ATT&CK for ICS.*
