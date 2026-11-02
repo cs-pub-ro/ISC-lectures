@@ -64,4 +64,11 @@
     &:has(.col-left.cols-40-60) { grid-template-columns: 40% 60%; }
     &:has(.col-left.cols-35-65) { grid-template-columns: 35% 65%; }
   }
+
+  /* the final layout is black background => fix headings / strong colors etc. */
+  .slidev-layout.end {
+    b { color: #EEE; }
+    strong { color: #FFF; }
+    h1, h2, h3, h4, h5, h6 { color: #EEE; }
+  }
 }
