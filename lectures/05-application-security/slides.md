@@ -157,13 +157,16 @@ layout: two-cols
 
 Stack holds function arguments, saved CPU state (saved program counter, previous frame, registers), and local variables:
 
+ESP Extended Stack Pointer
+EBP Extended Base Pointer
+
 ```c
 int f(int x) {
   char buf[10]; int n; // ...
 }
 
 int main() {
-  f(x); // asm: call f() <-- saves PC
+  f(10); // asm: call f() <-- saves PC
 }
 ```
 
@@ -348,15 +351,147 @@ class: cols-45-55
 
 # Return to LibC
 
+When the stack is **not executable** (NX/DEP):
+
+<div class="hj-code">
+
+```c
+void f(char *in) {
+  char buf[16];
+  strcpy(buf, in);  // no bounds check
+  return;
+}
+```
+
+</div>
+
+<div v-click="2">
+
 - Non-executable buffers? No problem!
-- Reuse existing functions
-- Example: jump to `execve()` / `system()` etc.
-- Reminder: call args from `%EBP + 0x08`!
+- **Reuse** existing functions (`system()`, `execve()`)
+- x86 cdecl: args from `[ESP+4]` = `[EBP+0x08]`
+- Need `system()`'s address → a leak, or no-PIE
+
+</div>
 
 ::right::
 
-<div class="img-col">
-<img src="./images/ret2libc_frame.svg" alt="ret2libc payload: buf, saved EBP, then a return address that is the address of libc system(), then a fake return address and a pointer to the /bin/sh string planted in the same input" />
+<div class="hj-switch">
+
+<v-switch transition="fade" unmount>
+<template #0>
+<img src="./images/ret2libc_0_payload.svg" />
+<p class="hj-cap">
+  The input overwrites the frame: 16 bytes fill <code>buf</code>, then
+  4 bytes replace <b>saved EBP</b>; the next 4 become the
+  <b>return address</b> (<code>&system</code>), followed by a fake
+  return and a pointer to <code>"/bin/sh"</code>.
+</p>
+</template>
+<template #1>
+<img src="./images/ret2libc_1_overwritten.svg" />
+<p class="hj-cap">
+  <code>strcpy</code> writes the entire payload onto the stack.
+  The return address now says <code>0x0804a011</code> —
+  the address of <b>system()</b> in libc.
+</p>
+</template>
+<template #2>
+<img src="./images/ret2libc_2_ret_pops.svg" />
+<p class="hj-cap">
+  <code>leave</code> restores <code>ESP</code>;
+  <code>ret</code> pops <code>&system</code> into <code>EIP</code>.
+  The CPU jumps <b>into libc</b> — nothing is executed from the stack.
+</p>
+</template>
+<template #3>
+<img src="./images/ret2libc_3_arg0.svg" />
+<p class="hj-cap">
+  <code>system()</code> reads its first argument from
+  <code>[ESP+4]</code>: it finds the pointer to
+  <code>"/bin/sh"</code> that the attacker planted.
+</p>
+</template>
+<template #4>
+<img src="./images/ret2libc_4_shell.svg" />
+<p class="hj-cap">
+  <code>system("/bin/sh")</code> runs — <b>the attacker gets a shell</b> 🐚
+  <br/>NX is irrelevant: we only reused code that was already mapped <code>r-x</code>.
+</p>
+</template>
+</v-switch>
+
+</div>
+
+<style>
+.slidev-layout .hj-switch img { display: block; width: 100%; max-height: none; }
+.hj-switch { position: relative; padding-left: 1.4em; }
+.hj-cap { margin-top: 0.4em; min-height: 3.2em; font-size: 0.85em; line-height: 1.35; color: #3f4b52; text-align: left; }
+.hj-code { --slidev-code-font-size: 13px; --slidev-code-line-height: 1.4; }
+</style>
+
+---
+
+# ret2libc: x86 vs x86-64
+
+<v-clicks>
+
+- **x86 (32-bit)** — cdecl: arguments live **on the stack**
+  - `ret` pops `&system` → the CPU calls `system()`
+  - `system()` reads its argument from `[ESP+4]` — the next slot we control
+  - **No gadget needed**: the calling convention does the work
+
+</v-clicks>
+
+<div style="--slidev-code-font-size: 14px;">
+
+```c
+payload = "A" × 20 + p32(system) + p32(0xDEADBEEF) + p32(binsh)
+//        buf+EBP    ret addr       fake ret           arg0
+```
+
+</div>
+
+<v-clicks>
+
+- **x86-64** — System V ABI: first argument travels in **`RDI`**, not on the stack
+  - We must load `RDI` with `&"/bin/sh"` **before** calling `system()`
+  - Need a **gadget**: `pop rdi ; ret` — pops our value into `RDI`, then continues the chain
+  - Extra `ret` gadget may be needed for **16-byte stack alignment** (`movaps` crash)
+
+</v-clicks>
+
+<div style="--slidev-code-font-size: 14px;">
+
+```c
+payload = "A" × 72 + p64(pop_rdi) + p64(binsh) + p64(ret) + p64(system)
+//        buf+RBP    gadget          arg→RDI      alignment   call
+```
+
+</div>
+
+---
+
+# Dynamic linking: PLT & GOT
+
+Programs call libc functions (`printf`, `system`, …) without containing their code — the **dynamic linker** resolves them at runtime.
+
+<v-clicks>
+
+- **PLT** — *Procedure Linkage Table*: one tiny stub per imported function, at **fixed addresses inside the binary**
+  - `call printf` actually calls `printf@plt` — a trampoline
+- **GOT** — *Global Offset Table* (`.got.plt`): one **pointer** per import
+  - The PLT stub does `jmp *printf@got` — an indirect jump through the GOT entry
+- **Lazy binding** (default): on the **first call**, the GOT entry still points back into the PLT → the dynamic linker resolves the real address and **patches the GOT**; later calls go straight to libc
+- **`Partial RELRO`**: GOT stays writable → attacker can overwrite a GOT entry (**GOT hijack**)
+- **`Full RELRO`** (`-z now`): all symbols resolved at startup, GOT mapped **read-only**
+
+</v-clicks>
+
+<div style="font-size: 0.82em; margin-top: 0.5em; color: #5b6670;">
+
+The GOT is the bridge between **fixed** addresses (in a non-PIE binary) and **randomised** libc — a perfect leak target and a perfect hijack target.
+
 </div>
 
 ---
@@ -405,9 +540,9 @@ table td, table th { padding: 0.3em 0.6em; }
 layout: two-cols
 ---
 
-# Generalization of memory exploits [7]
+# Generalization of memory exploits [3]
 
-[7] SoK: Eternal War in Memory — [ieee-security.org](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
+[3] SoK: Eternal War in Memory — [ieee-security.org](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
 
 <v-clicks>
 
@@ -460,7 +595,8 @@ class: cols-45-55
 # Address Space Layout Randomization (ASLR)
 
 - Implemented by most OSes
-- Requires programs be compiled as **Position-Independent Code**
+- The OS randomizes the stack, heap, and shared libraries (libc) via ASLR
+- Compiling with -fPIE -pie is required to randomize the base address of the main executable itself (.text, .data, .bss). (**Position-Independent Code**)
 - Segments can only be randomized at startup!
 - **KASLR** — randomize kernel-space!
 
@@ -472,16 +608,24 @@ class: cols-45-55
 
 ---
 layout: two-cols
+class: cols-50-50
 ---
 
 # Stack Canaries
 
-- Store random value before Saved EBP / Saved EIP
-- Before returning from function, check this random value
-- If modified, show error & exit
+- Store random value between locals and saved EBP/EIP
+- Before returning, compiler inserts a check — if the canary changed → `__stack_chk_fail` → **abort**
+- **Null-byte prefix**: the canary's LSB is `\x00` — designed to stop `strcpy`/`gets` from copying past it (the `\x00` terminates the string)
+
+<v-clicks>
+
 - Weaknesses:
-  - memory leaks / side channels
-  - canary guessing
+  - **Format string leaks**: `%p` / `%lx` let the attacker read the canary (and ASLR bases) off the stack
+  - **OOB read**: an out-of-bounds read past a buffer can disclose the canary before the overflow
+  - **Canary brute-forcing**: only feasible in **fork-servers** (child inherits the parent's canary) — guess one byte at a time (256 × 7 tries on 64-bit, not 256⁷)
+  - Does **not** protect non-`ret` pointers (function pointers, VTable, GOT)
+
+</v-clicks>
 
 ::right::
 
@@ -565,7 +709,7 @@ struct msg_funcs {
 
 /* each message = vtable pointer + payload */
 struct message {
-  const struct msg_funcs *funcs; // 4B — who to call
+  const struct msg_funcs *funcs; // 4B/8B — who to call
   int len;                       // 4B
   char text[255];                // 255B — attacker input
 };
@@ -621,7 +765,7 @@ class: cols-55-45
 - `malloc()` → cuts a free chunk, returns its payload
 - `free()` → marks the chunk free and writes `fd` / `bk` bin pointers **into the payload** - the data itself is *not* wiped
 
-[Source: GLibC Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals)
+[4] [GLibC Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals)
 
 ::right::
 
@@ -669,7 +813,7 @@ int main(...) {
 - Another section of the application uses the released object (still has an old pointer stored in a variable)
 - Are scripting languages safe? Nope!
 
-<div class="font-size: 0.9em;">
+<div style="font-size: 0.9em;">
 
 ```js
 // Adobe Flash exploit (ActionScript)
@@ -684,7 +828,7 @@ try {
 
 </div>
 
-*[infosecwriteups.com/use-after-free](https://infosecwriteups.com/use-after-free-13544be5a921)*
+*[5] [infosecwriteups.com/use-after-free](https://infosecwriteups.com/use-after-free-13544be5a921)*
 
 ---
 
@@ -712,7 +856,7 @@ read_input_into_buffer(buffer, payload_len);
 - Read-only vulnerability? Nope …
 - `"%n"` — consume next argument as address (pointer) and store the number of bytes written so far into it
 
-[exploit-db.com format string exploitation](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
+[6] [exploit-db.com format string exploitation](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
 
 ---
 layout: two-cols
@@ -805,7 +949,7 @@ layout: section
 
 # Is zero-vulnerability software even possible?
 
-Though a disputed claim, **qmail** [6]
+Though a disputed claim, **qmail** [7]
 
 - Mail Transfer Agent by Daniel J. Bernstein, 1995 (last version: 1.03, 1998)
 - **Zero security vulnerabilities so far!** _in default configuration_
@@ -825,14 +969,14 @@ Though a disputed claim, **qmail** [6]
 
 - Scripting (Python, JS etc.) / Java / C#?
   - not if you need performance (e.g., games, system level stuff) …
-- Rust / Golang / Zig (etc.)
+- Rust / Golang (etc.)
   - still able to write 'unsafe' code (syscalls / hardware interfaces / optimizations)
 - Stronger typing systems:
   - Pure-functional programming (e.g., Haskell)
   - ATS (write both code + mathematical proofs!) → HARDEST
 - Backwards compatibility … no money to rewrite everything from scratch
 - Use secure coding practices, static analysis tools etc.
-- Hardware pointer/boundary checks (Intel MPX, ARM PAC)
+- Hardware pointer/boundary checks Intel CET (Control-flow Enforcement Technology — Shadow Stack & IBT) and ARM MTE (Memory Tagging Extension).
 
 ---
 
@@ -840,11 +984,11 @@ Though a disputed claim, **qmail** [6]
 
 - [1] [Microsoft: 70% of security bugs are memory safety issues](https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/)
 - [2] [security-summer-school.github.io/binary](https://security-summer-school.github.io/binary/)
-- [3] [Linux format string exploitation (PDF)](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
+- [3] [SoK: Eternal War in Memory (PDF)](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
 - [4] [GLibC: Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals)
 - [5] [Use After Free](https://infosecwriteups.com/use-after-free-13544be5a921)
-- [6] [Thoughts on security after ten years of qmail 1.0](https://blog.acolyer.org/2018/01/17/some-thoughts-on-security-after-ten-years-of-qmail-1-0/)
-- [7] [SoK: Eternal War in Memory (PDF)](https://www.ieee-security.org/TC/SP2013/papers/4977a048.pdf)
+- [6] [Linux format string exploitation (PDF)](https://www.exploit-db.com/docs/english/28476-linux-format-string-exploitation.pdf)
+- [7] [Thoughts on security after ten years of qmail 1.0](https://blog.acolyer.org/2018/01/17/some-thoughts-on-security-after-ten-years-of-qmail-1-0/)
 - [8] [toolsjewels.html](https://people.scs.carleton.ca/~paulv/toolsjewels.html)
 
 ---

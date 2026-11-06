@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400" role="img" aria-label="ret2libc hijack, step 3 of 5: system() reads arg0 from [esp+4] — a pointer to the /bin/sh string">
+<title>ret2libc — step 3</title>
+<style>
+  .sr{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .sc{font:14px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .off{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8a949b;text-anchor:end}
+  .pl{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#8c1d18;dominant-baseline:central}
+  .pl2{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8c1d18;dominant-baseline:central}
+  .sl{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;dominant-baseline:central}
+  .pay{fill:#fbe6e3;stroke:#b3261e;stroke-width:1.8}
+  .pay2{fill:#fdeeeb;stroke:#d98b84;stroke-width:1.4;stroke-dasharray:5 4}
+  .orig{fill:#e4eff1;stroke:#176b87;stroke-width:1.8}
+  .neutral{fill:#ffffff;stroke:#9aa6ae;stroke-width:1.8}
+  .ghost{fill:#f4f6f7;stroke:#b6c0c6;stroke-width:1.6;stroke-dasharray:6 4}
+  .hi{stroke:#b26b00;stroke-width:3}
+  .conn{stroke:#c6cfd4;stroke-width:1.6;fill:none;stroke-dasharray:5 4}
+  .jump{stroke:#b3261e;stroke-width:2.2;fill:none}
+  .tag{fill:#fff6e6;stroke:#b26b00;stroke-width:2;rx:4}
+  .tagt{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#7a4b00;text-anchor:middle;dominant-baseline:central}
+  .cap{font:600 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#1a1a1a}
+  .libc{fill:#e4eff1;stroke:#176b87;stroke-width:2}
+  .libct{font:600 18px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e;text-anchor:middle;dominant-baseline:central}
+  .libcs{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670;text-anchor:middle}
+  .note{font:11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5b6670}
+  .leg1{font:600 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#b3261e}
+  .leg2{font:600 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#0f4a5e}
+</style>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b6c0c6"/></marker>
+  <marker id="teal" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#176b87"/></marker>
+  <marker id="amber" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b26b00"/></marker>
+</defs>
+
+<text class="off" x="38" y="76">0x28</text>
+<text class="off" x="38" y="122">0x20</text>
+<text class="off" x="38" y="168">0x1c</text>
+<text class="off" x="38" y="214">0x18</text>
+<text class="off" x="38" y="256">0x14</text>
+<text class="off" x="38" y="344">0x00</text>
+<path class="conn" d="M290,56.0 L346,56.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,99.0 L346,99.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,145.0 L346,145.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,191.0 L346,191.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,235.0 L346,235.0" marker-end="url(#g)"/>
+<path class="conn" d="M290,300.0 L346,300.0" marker-end="url(#g)"/>
+<text class="cap" x="46" y="30">attacker input (as it lands)</text>
+<rect class="pay" x="46" y="40" width="244" height="32" rx="3"/>
+<text class="pl" x="58" y="56.0">"/bin/sh\0"</text>
+<rect class="pay" x="46" y="80" width="244" height="38" rx="3"/>
+<text class="pl" x="58" y="99.0">0xffffd6c0</text>
+<text class="pl2" x="58" y="113.0">ptr to string</text>
+<rect class="pay" x="46" y="126" width="244" height="38" rx="3"/>
+<text class="pl" x="58" y="145.0">0xDEADBEEF</text>
+<text class="pl2" x="58" y="159.0">fake return</text>
+<rect class="pay" x="46" y="172" width="244" height="38" rx="3"/>
+<text class="pl" x="58" y="191.0">0x0804a011</text>
+<text class="pl2" x="58" y="205.0">&amp;system()</text>
+<rect class="pay" x="46" y="218" width="244" height="34" rx="3"/>
+<text class="pl" x="58" y="235.0">"AAAA"</text>
+<text class="pl2" x="58" y="249.0">junk</text>
+<rect class="pay" x="46" y="260" width="244" height="80" rx="3"/>
+<text class="pl" x="58" y="300.0">"A" &#215; 16</text>
+<text class="cap" x="360" y="30">stack</text>
+<text class="sc" x="604" y="30" style="text-anchor:end">higher addresses on top</text>
+<rect class="pay" x="360" y="40" width="244" height="32" rx="3"/>
+<text class="pl" x="372" y="56.0">"/bin/sh\0"</text>
+<rect class="pay" x="360" y="80" width="244" height="38" rx="3"/>
+<text class="pl" x="372" y="99.0">0xffffd6c0  (arg0)</text>
+<rect class="pay2" x="360" y="126" width="244" height="38" rx="3"/>
+<text class="pl" x="372" y="145.0">0xDEADBEEF</text>
+<rect class="pay" x="360" y="172" width="244" height="38" rx="3"/>
+<text class="pl" x="372" y="191.0">&amp;system = 0x0804a011</text>
+<rect class="pay2" x="360" y="218" width="244" height="34" rx="3"/>
+<text class="pl" x="372" y="235.0">saved EBP = 0x41414141</text>
+<rect class="pay2" x="360" y="260" width="244" height="80" rx="3"/>
+<text class="pl" x="372" y="300.0">"A" &#215; 16  (buf[16])</text>
+<rect class="libc" x="452" y="158" width="250" height="70" rx="5"/><text class="libct" x="577" y="184">system()</text><text class="libcs" x="577" y="208">in libc · code we reuse</text>
+<path d="M608,191.0 L448,191" stroke="#176b87" stroke-width="2.2" fill="none" marker-end="url(#teal)"/>
+<text class="note" x="612" y="183.0">ret → EIP</text>
+<path d="M 577,158 L 577,56.0 L 608,56.0" stroke="#b26b00" stroke-width="1.8" fill="none" stroke-dasharray="6 4" marker-end="url(#amber)"/>
+<path d="M360,99.0 L335,99.0 Q326,99.0 326,90.0 L326,65.0 Q326,56.0 335,56.0 L358,56.0" stroke="#b26b00" stroke-width="2.4" fill="none" stroke-linejoin="round" marker-end="url(#amber)"/>
+<rect class="hi" x="358" y="78" width="248" height="42" rx="5" fill="none"/>
+<rect class="tag" x="618" y="113.0" width="72" height="26"/><text class="tagt" x="654.0" y="126">ESP</text>
+<path d="M618,126 L607,126" stroke="#b26b00" stroke-width="2" fill="none" marker-end="url(#amber)"/>
+
+</svg>
