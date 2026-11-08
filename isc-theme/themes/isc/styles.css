@@ -34,7 +34,7 @@
     font-size: 0.8em;
   }
 
-  .img-sm { max-height: 150px; }
+  .slidev-layout .img-sm { max-height: 150px; }
   .img-tall { max-height: 360px; }
 
   /* Centered image + caption column */
@@ -67,6 +67,7 @@
 
   /* the final layout is black background => fix headings / strong colors etc. */
   .slidev-layout.end {
+    a { color: #EEE; }
     b { color: #EEE; }
     strong { color: #FFF; }
     h1, h2, h3, h4, h5, h6 { color: #EEE; }

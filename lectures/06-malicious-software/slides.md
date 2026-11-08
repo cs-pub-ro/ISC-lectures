@@ -13,6 +13,7 @@ info: |
 transition: slide-left
 src: ../_shared/intro.md#1
 ---
+
 ---
 layout: cover
 title: "Lecture 6: Malicious Software"
@@ -78,7 +79,7 @@ piece of software is not automatically malware — it's a (bad) software quality
 
 
 <div class="img-col">
-<img src="./images/malware_monster_laptop.png" style="max-height: 340px; max-width: 50%; margin-top: 2em;'" />
+<img src="./images/malware_monster_laptop.png" style="max-height: 340px; max-width: 50%; margin-top: 2em;" />
 </div>
 
 ---
@@ -148,7 +149,7 @@ layout: two-cols
 
 # Virus pseudocode (example)
 
-```ts
+```text
 // infected program entrypoint:
 start_spreading_thread()
 call original_program_entrypoint()
@@ -209,7 +210,8 @@ layout: two-cols
 - **ILOVEYOU (2000)** — love letter with .vbs attachment
 - **Sobig (2003)**, **MyDoom (2004)**
 - DDoS trigger → SCO Group & Microsoft
-- Creators never caught, still active today (:
+- Creators never caught, [MyDoom still active in
+2019](https://unit42.paloaltonetworks.com/mydoom-still-active-in-2019/) (:
 - **Storm Worm (2007)** — '230 dead as storm batters Europe', spread via clickbaiting
 - **Koobface (2009–2013)** — infostealer spread via social apps
 - Win32.Antiman.A (2005) ☠
@@ -253,7 +255,7 @@ Code Red famously defaced sites, e.g. "Welcome to http://www.worm.com! Hacked By
   - Mainly attacked Iran's SCADA systems, destroyed nuclear centrifuges
   - 'most complicated and sophisticated malware at the time'
 - **Mirai (2016)** — routers & IoT devices
-- **Exploit kits:** Angler (2015), BlackHole (2010), Nuclear (2016)
+- Sometimes deployed with **Exploit kits:** Angler (2015), BlackHole (2010), Nuclear (2016)
 
 <!--
 Highlight Stuxnet as the canonical APT: state-sponsored, physical-world impact
@@ -315,8 +317,8 @@ layout: two-cols
 ::right::
 
 <div class="img-col">
-<img src="./images/sub7_editserver_gui.png" class="img-sm" />
-<img src="./images/sub7_client_gui.png" class="img-sm" />
+<img src="./images/sub7_editserver_gui.png" style="max-height: 200px;" />
+<img src="./images/sub7_client_gui.png"  style="max-height: 180px;" />
 </div>
 
 ---
@@ -328,7 +330,7 @@ layout: two-cols
   - Inserted via vulnerabilities in a system
   - They just 'keep the door open' for future payload execution
 - Examples:
-  - libXZ compile-time auth. bypass for OpenSSH server
+  - `xz` library compile-time auth. bypass for OpenSSH server
   - NIST Dual EC DRBG crypto RNG by NSA (speculated)
   - Master passwords in Cisco & Juniper routers/firewalls
   - Numerous NPM / Python packages, PC/Android/iOS apps (e.g., VLC) etc.
@@ -355,6 +357,7 @@ layout: section
 
 ---
 layout: two-cols
+class: exec-conceal
 ---
 
 # Execution concealment
@@ -381,6 +384,11 @@ layout: two-cols
 <img src="./images/detour_hooking_diagram.png" />
 </div>
 
+<style>
+.exec-conceal.col-left p,
+.exec-conceal.col-left li { font-size: 0.88em; }
+</style>
+
 ---
 layout: two-cols
 ---
@@ -389,9 +397,9 @@ layout: two-cols
 
 **Botnet: command & control**
 
-- Centralized → 'easy' to shutdown
+- Centralized → 'easy' to shut down
   - except for generated DNS
-- Peer-2-peer
+- Peer-to-peer
 - Encryption, D-H, asymmetric keys …
 
 **Stealth communication + data exfiltration:**
@@ -434,11 +442,13 @@ layout: section
 layout: two-cols
 ---
 
-# White-hat time! Malware defense?
+# Malware defense?
+
+**White-hat time!**
 
 **Endpoint protection:**
 
-- Realtime protection (AVs) / malware scanning tools
+- Real-time protection (AVs) / malware scanning tools
 - Cloud-based endpoint protection
 - Periodic updates & backups !
 
@@ -471,7 +481,7 @@ layout: two-cols
 
 # Endpoint security tools
 
-- **Historical:** Symantec Norton, McAfee, Kaspersky, ESET Nod32
+- **Historical:** Symantec Norton, McAfee, Kaspersky, ESET NOD32
   - 'Kaspersky deletes itself, installs UltraAV antivirus without warning'
 - **Microsoft:** buys [RO] GeCAD (2003), Windows Defender (2005)
   - Actually, Defender was based on prev. acquired GIANT AntiSpyware
@@ -479,10 +489,10 @@ layout: two-cols
 
 **Cloud / open source:**
 
-- **Cloud threat intelligence:** Crowdstrike, Sophos, Cisco AMP / Fortinet / Palo Alto / Check Point etc.
-  - mostly for Windows (& Mac OS X, probably 🤑)
+- **Cloud threat intelligence:** CrowdStrike, Sophos, Cisco AMP / Fortinet / Palo Alto / Check Point etc.
+  - mostly for Windows (& MacOS, probably 🤑)
 - **Open source:** ClamAV → Linux support!
-- **Linux rootkit detectors:** chkrootkit, rkhunter, clamav, LMD
+- **Linux rootkit detectors:** chkrootkit, rkhunter, LMD
 
 ---
 
@@ -490,7 +500,7 @@ layout: two-cols
 
 - **EICAR Anti-Virus Test File** — simple test files (not malware)
 - Many free malware databases:
-  - VirusShare, Malware Bazaar, Canadian Institute of Cybersecurity, SOREL-20M, BODMAS, VirusSign etc.
+  - VirusShare, MalwareBazaar, Canadian Institute for Cybersecurity (CIC), SOREL-20M, BODMAS, VirusSign etc.
 - **Multi-scanning:** VirusTotal
 - AV companies publish latest threats (responsible disclosure!)
   - for fame & profit
@@ -504,7 +514,7 @@ layout: two-cols
 
 - Quick response → **isolation!**
 - Stealth rootkit? Put RAM into freezer :)
-- **Sandboxing** — execute piece inside a virtual machine to study its behavior
+- **Sandboxing** — execute the sample inside a virtual machine to study its behavior
   - must make environment undetectable!
   - sometimes: simulate entire network of devices to capture malware before production (honeypots)!
 - **Reverse engineering tools** (+ skillz) [4] [5]
@@ -534,6 +544,7 @@ class: text-center
 # Thank you
 
 **Further reading:**
+
 *Computer Security and the Internet: Tools and Jewels* — Paul C. van Oorschot (Springer, 2021)
 
 [people.scs.carleton.ca/~paulv/toolsjewels.html](https://people.scs.carleton.ca/~paulv/toolsjewels.html)
