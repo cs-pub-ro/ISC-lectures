@@ -423,11 +423,26 @@ class: cols-60-40
 
 # Ransomware
 
-- Usually worms, very destructive
-- Delete / steal / encrypt user's documents
-- Advanced techniques (asymmetric ciphers, timed triggers etc.)
+- Usually worms; delete / steal / encrypt files
+- Advanced: asymmetric ciphers, timed triggers etc.
 - CryptoLocker (2013), WannaCry (2017), Petya
 - Ransomware as a Service (e.g., REvil, Hive)
+
+**Recent (2025–2026):**
+
+- **Clop** — Oracle EBS 0-day; mass extortion
+- **DragonForce** — M&S, UK retail attacks
+- **Akira** — SonicWall VPN; Safe Mode EDR evasion
+- **Qilin** — dominant RaaS; edge-device 0-days
+- **SafePay** — 600+ victims; FBI/CISA alert
+- **INC Ransom** — law firms; PAN-OS MFA bypass
+
+<!--
+2025–2026 examples: Clop (Oracle E-Business Suite 0-day, 2025); DragonForce (M&S / UK
+retail, 2025); Akira (SonicWall VPN 2025, Safe Mode EDR evasion 2026); Qilin (dominant
+2026 RaaS, edge/VPN 0-days); SafePay (600+ victims since 2024, FBI/CISA alert 2026);
+INC Ransom (law firms 2026, PAN-OS MFA bypass).
+-->
 
 ::right::
 
@@ -499,6 +514,45 @@ class: cols-65-45
 - **Linux rootkit detectors:** chkrootkit, rkhunter, LMD
 
 ---
+layout: two-cols
+---
+
+# Attacking the antivirus
+
+*Nightmare-Eclipse, 2026* [6]
+
+- **UnDefend**: a standard user can silence Defender by blocking signature updates, or by killing the engine on a platform update
+- **RedSun**: Cloud Files race → Defender writes to `System32` as **SYSTEM**!
+- **BlueHammer**: Defender update LPE; **CVE-2026-33825**, patched Apr 2026, exploited in the wild
+- **ShieldBreak / ShieldCrash**: a Defender 0-day and its patch bypass (**CVE-2026-69414**) [7]
+
+::right::
+
+<div style="margin-top: 4em; padding: 0 2em;">
+
+**Conclusion**
+
+- AV/EDR runs as SYSTEM: a bug there is direct privilege escalation
+- “Defender is healthy” telemetry can be spoofed
+- Public PoCs lower the bar for attackers
+- Patch the agent, monitor tampering, layer defenses
+
+</div>
+
+<!--
+Nightmare-Eclipse published public PoCs against Windows Defender:
+- UnDefend: no admin needed. Passive mode blocks signature updates; aggressive mode stops
+  MsMpEng.exe on a major platform update. The author also found a way to make the EDR
+  console report a healthy, up-to-date Defender — kept private for now.
+- RedSun: Cloud Files API + OPLOCK/junction race; Defender's remediation write lands in
+  C:\Windows\System32 and executes as SYSTEM. Unpatched as of April 2026.
+- BlueHammer: LPE in the Defender update process; CVE-2026-33825, patched 15 Apr 2026,
+  already exploited in the wild.
+- ShieldBreak/ShieldCrash: Defender 0-day and a patch bypass; CVE-2026-69414.
+Takeaway: the security product is privileged attack surface — "AV says OK" is not a trust boundary.
+-->
+
+---
 
 # Malware datasets & intelligence
 
@@ -539,6 +593,8 @@ are where detection meets deep understanding.
 - [3] [A Malware Retrospective: SubSeven](https://medium.com/phrozen/a-malware-retrospective-subseven-d86fed0c88bf)
 - [4] [Malware Analysis Tools](https://www.stationx.net/malware-analysis-tools/)
 - [5] [Reverse Engineering Reading List](https://github.com/onethawt/reverseengineering-reading-list)
+- [6] [Unpatched Windows zero-days: RedSun, UnDefend and BlueHammer are being attacked](https://www.heise.de/en/news/Unpatched-Windows-zero-days-RedSun-UnDefend-and-BlueHammer-are-being-attacked-11263850.html) — heise&nbsp;online, Apr 2026
+- [7] [CVE-2026-69414 — ShieldBreak](https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-69414) — Microsoft MSRC
 
 ---
 layout: end
