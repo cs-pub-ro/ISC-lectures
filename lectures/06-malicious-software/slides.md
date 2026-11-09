@@ -17,7 +17,7 @@ src: ../_shared/intro.md#1
 ---
 layout: cover
 title: "Lecture 6: Malicious Software"
-subtitle: "Malware internals, detection, analysis, and defense"
+subtitle: "Malware classification, detection, analysis, and defense"
 ---
 
 ::default::
@@ -180,6 +180,7 @@ layout: two-cols
 
 ---
 layout: two-cols
+class: cols-60-40
 ---
 
 # Early popular viruses
@@ -197,7 +198,7 @@ layout: two-cols
 
 ::right::
 
-<div class="img-col">
+<div class="img-col" style="margin-top: 5em;">
 <img src="./images/brain_virus_boot_sector.png" />
 </div>
 
@@ -206,11 +207,11 @@ layout: two-cols
 # Email-spreading worms
 
 - Macro viruses: Concept, **Melissa (1999)**
-- Attachments with macros: 'sexxxy.jpg' / 'naked wife'
+  - Attachments with macros: 'sexxxy.jpg' / 'naked wife'
 - **ILOVEYOU (2000)** — love letter with .vbs attachment
 - **Sobig (2003)**, **MyDoom (2004)**
-- DDoS trigger → SCO Group & Microsoft
-- Creators never caught, [MyDoom still active in
+  - DDoS trigger → SCO Group & Microsoft
+  - Creators never caught, [MyDoom still active in
 2019](https://unit42.paloaltonetworks.com/mydoom-still-active-in-2019/) (:
 - **Storm Worm (2007)** — '230 dead as storm batters Europe', spread via clickbaiting
 - **Koobface (2009–2013)** — infostealer spread via social apps
@@ -391,6 +392,7 @@ class: exec-conceal
 
 ---
 layout: two-cols
+class: cols-60-40
 ---
 
 # Command & control / stealth comm.
@@ -416,6 +418,7 @@ layout: two-cols
 
 ---
 layout: two-cols
+class: cols-60-40
 ---
 
 # Ransomware
@@ -440,6 +443,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-65-45
 ---
 
 # Malware defense?
@@ -452,13 +456,13 @@ layout: two-cols
 - Cloud-based endpoint protection
 - Periodic updates & backups !
 
-::right::
-
 **Network protection:**
 
 - Firewalling (or the extreme: air gapping)
 - Cloud-based threat intelligence
 - Honeypots
+
+::right::
 
 <div class="img-col">
 <img src="./images/antivirus_vendor_logos.png" style="max-height: 300px; max-width: 100%;" />
