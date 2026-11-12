@@ -75,10 +75,11 @@ Header2: value2
   - URL: `http://domain.com/browse.php?list=users&name=john`
   - Request line: `GET /browse.php?list=users&name=john HTTP/1.0`
 - **PUT / POST** — create or edit a resource (only POST is widely used)
-- **DELETE** — delete resources (not used in practice)
+- **DELETE** — delete resources (used in RESTful APIs only)
 - **HEAD** — like GET, but server responds with headers only
 - **OPTIONS** — determine options for a resource
-- **GET, HEAD and OPTIONS should be idempotent**
+- `GET`, `HEAD`, `OPTIONS` should be **safe**; _safe_ + `PUT`/`DELETE` should be
+  **idempotent**!
 
 <!--
 Note that query strings are visible in URLs, logs, and referrer headers — GET leaks data.
@@ -99,9 +100,10 @@ Note that query strings are visible in URLs, logs, and referrer headers — GET 
 ```
 
 ```http
-POST /login.php?user_type=regular HTTP/1.0
+POST /login.php?user_type=regular HTTP/1.1
+Host: example.com
 Content-Type: application/x-www-form-urlencoded
-Content-Length: 30
+Content-Length: 42
 
 username=<username>&pass=<user's password>
 ```
@@ -120,7 +122,7 @@ Even with POST, the user_type parameter stays in the URL; the body carries the f
 **Response header example:**
 
 ```http
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
 Set-Cookie: c1=val1; flags
 Set-Cookie: c2=val2; flags
 ```
@@ -129,6 +131,7 @@ Set-Cookie: c2=val2; flags
 
 ```http
 GET / HTTP/1.1
+Host: example.com
 Cookie: cook1=val1;cook2=val2
 ```
 
@@ -273,7 +276,7 @@ Note how user input flows straight into the response — the seed of injection i
 
 ```php
 $query = "SELECT * FROM employees WHERE name LIKE 'florin%'";
-$result = mysql_query($conn, $query);
+$result = mysqli_query($conn, $query);
 ```
 
 **Modification queries:**
@@ -291,11 +294,13 @@ UPDATE employees SET status='terminated' WHERE id=2;
 
 **Code:**
 
+<!-- Note: hash() is a hypothetical password hashing function -->
+
 ```php
 $query = "SELECT * FROM users WHERE user = '" .
     $_POST["user"] . "' AND password='" .
     hash($_POST["password"]) . "'";
-$result = mysql_query($conn, $query);
+$result = mysqli_query($conn, $query);
 ```
 
 **What if user input is `admin' -- comment here`?**
@@ -323,8 +328,11 @@ WHERE user=''; DROP DATABASE app -- commented'
 ^<- user-injected input ->^
 ```
 
-- SQL servers' standard `query()` functions only execute **one single statement**!
-- There are `multi_query()`-like functions, but they're **seldom used**!
+- many SQL servers standard `...query()` functions only execute **one single statement**!
+- other DBMS/APIs allow **stacked queries** by default (e.g., SQL Server, PostgresSQL etc.)
+- Better mitigations:
+  * _Web Application Firewalls_ (L7 traffic inspection);
+  * RDBMS user ACLs (no _DROP_ privileges!)!
 
 ---
 
@@ -334,7 +342,7 @@ WHERE user=''; DROP DATABASE app -- commented'
 
 ```sql
 SELECT * FROM users WHERE user =
-'asdf' OR 1/(select password from users) --'
+'asdf' OR 1/(select password from users) -- '
 ```
 
 **Boolean statements:**
@@ -347,7 +355,7 @@ SELECT * FROM users WHERE user='' OR user LIKE '%admin%'
 
 ```sql
 SELECT * FROM users WHERE user='' OR
-IF(user LIKE '%adm%'), SLEEP(10), 'false')'
+   IF(user LIKE '%adm%', SLEEP(10), 'false') -- '
 ```
 
 <!--
@@ -541,12 +549,13 @@ XSS = injection, but on the client side and inside trusted origins.
 - **Asynchronous JavaScript and XML**
 - **XMLHttpRequest** — API for issuing background HTTP requests
 - Used to build modern, responsive applications
-- **XHR re-sends cookies for the requested domain!**
+- Attacker-controlled XHR/fetch calls can preserve target credentials!
 
 ```js
 var xhr = new XMLHttpRequest();
 xhr.open('get', 'ajax.php');
 xhr.onreadystatechange = function() { /*...*/ };
+xhr.withCredentials = true;
 xhr.send(null);
 ```
 
@@ -571,7 +580,7 @@ xhr.send(null);
 - The target server sends special response headers:
 
 ```
-Access-Control-Allow-Origin: https://*example.com
+Access-Control-Allow-Origin: https://www.example.com
 ```
 
 - If the requester's domain matches this **ACL**, the browser accepts it
