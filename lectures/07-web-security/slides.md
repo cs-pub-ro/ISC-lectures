@@ -16,7 +16,7 @@ src: ../_shared/intro.md#1
 ---
 layout: cover
 title: "Lecture 7: Web Security"
-subtitle: "HTTP security, injections, and the browser as an attack surface"
+subtitle: "HTTP, sessions, injection, and the browser as an attack surface"
 ---
 
 ::default::
@@ -26,26 +26,10 @@ subtitle: "HTTP security, injections, and the browser as an attack surface"
 -->
 
 ---
-
-# Contents
-
-<v-clicks>
-
-1. HTTP Security
-2. Cookies, Sessions
-3. HTTPS
-4. Server-side Security
-5. Injection
-6. Session Hijacking
-7. Client-side / Browser Security
-
-</v-clicks>
-
----
 layout: section
 ---
 
-# HTTP Security
+# HTTP, Cookies & Sessions
 
 ---
 layout: two-cols
@@ -127,12 +111,6 @@ Even with POST, the user_type parameter stays in the URL; the body carries the f
 -->
 
 ---
-layout: section
----
-
-# Cookies, Sessions
-
----
 
 # Cookies
 
@@ -193,64 +171,26 @@ Moving secrets server-side means the client only holds an opaque token.
 -->
 
 ---
-layout: section
----
-
-# HTTPS
-
----
 
 # HTTPS [3]
 
-- Based on **Secure Sockets Layer / Transport Layer Security**
-- Creates a **private channel** between the client and the server
-- The **server authenticates itself** using **certificates and PKI**
-- **Diffie–Hellman** for forward secrecy
-- **Cipher negotiation:** RC4, DES, AES-CBC, AES-GCM, etc.
-- **Target of numerous attacks**
+**HTTP over TLS** — confidentiality, integrity, and **server authentication** (X.509 / PKI).
 
----
+- **TLS 1.3:** AEAD ciphers (AES-GCM, ChaCha20-Poly1305), ephemeral DH → **forward secrecy**
+- **Broken legacy:** SSLv3, RC4, 3DES, CBC-mode — disable them
+- **Web-visible effects:** `Secure` cookies, HSTS, no mixed content
 
-# TLS / HTTPS Attacks [4]
+**HTTPS does not fix:** application bugs (XSS, SQLi), phishing, malicious or compromised certificates.
 
-**Compression attacks** (CRIME, BREACH — 2013) — Compression Length Oracle
-
-**Crypto weaknesses:**
-
-- RC4 — broken · 3DES — Sweet32 · RSA — ROBOT
-- **ROBOT:** Return Of Bleichenbacher's Oracle Threat (2018)
-- **Lucky13:** timing padding oracle in CBC-mode
-
-**Man-in-the-middle:** malicious certificates, SSL stripping
-
-**Downgrade attacks:** FREAK, Logjam, POODLE (2014)
-
-**Implementation bugs:**
-
-- **Heartbleed** (CVE-2014-0160)
-- Cloudflare parser bug (2017)
-
-<!--
-Every one of these was a deployed crypto system failing in practice — protocols rot.
--->
-
----
-
-# TLS Testing Services
-
-**Servers:**
-
-[immuniweb.com/ssl](https://www.immuniweb.com/ssl/)
-
-**For both clients / servers:**
-
-[ssllabs.com/ssltest](https://www.ssllabs.com/ssltest/)
+**Certificates & PKI** → **Lecture 9**  
+**TLS** details & attacks → **Lecture 10** [3] [4]  
+Test a deployment: [ssllabs.com/ssltest](https://www.ssllabs.com/ssltest/)
 
 ---
 layout: section
 ---
 
-# Server-side Security
+# Server-side Security & Injection
 
 ---
 layout: two-cols
@@ -346,12 +286,6 @@ UPDATE employees SET status='terminated' WHERE id=2;
 ```
 
 ---
-layout: section
----
-
-# Injection
-
----
 
 # SQL Injection (1)
 
@@ -425,35 +359,24 @@ Boolean/time-based: exfiltrate data bit by bit without touching the normal code 
 # Code Injection (File Upload)
 
 - A site allows image submissions with **minimal verification**
-- The hacker uploads `image.gif.php` with malicious code
-- Find out the path to the image and request it:
+- Upload a script disguised as an image: `image.gif.php`
+- Request it — the server executes our code (if badly configured):
 
-```
+```http
 GET /uploads/image_9876.gif.php
 ```
-
-- Server executes our script (if badly configured)!
-- **Remote Code Execution** :(
-
----
-
-# Code Injection (2)
 
 **Path traversal in the upload filename:**
 
 ```http
-POST /upload.php HTTP/1.0
-Content-Type: multipart/form-data; boundary=X
-
 Content-Disposition: form-data;
   name="../../index.php"
 
 <?php die('PWNED') ?>
 ```
 
-- The uploader writes the file using the **client-supplied name**
 - `../` escapes the uploads directory → overwrites `index.php`
-- The next request to `/` executes our code: **remote code execution**
+- Both variants end in **Remote Code Execution**
 
 <!--
 Bad validation + a writable web root = full site takeover.
