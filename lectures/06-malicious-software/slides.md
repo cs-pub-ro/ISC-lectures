@@ -392,7 +392,7 @@ class: exec-conceal
 
 ---
 layout: two-cols
-class: cols-60-40
+class: cols-65-35
 ---
 
 # Command & control / stealth comm.
@@ -412,7 +412,7 @@ class: cols-60-40
 
 ::right::
 
-<div class="img-col">
+<div class="img-col" style="margin-top: 6em;">
 <img src="./images/botnet_c2_hierarchy.png" />
 </div>
 
