@@ -48,6 +48,8 @@ layout: section
 # HTTP Security
 
 ---
+layout: two-cols
+---
 
 # HTTP Protocol
 
@@ -57,12 +59,13 @@ layout: section
 
 ```http
 GET /index.html HTTP/1.0
-
 Header1: value1
 Header2: value2
 
 <optional body>
 ```
+
+::right::
 
 **Server → Client:**
 
@@ -75,13 +78,18 @@ Header2: value2
 <body>...</body></html>
 ```
 
+<style>
+:deep(.col-left) { padding-right: 0.8em; }
+:deep(.col-right) { padding-left: 0.8em; }
+</style>
+
 ---
 
 # HTTP Methods
 
-- **GET** — fetch a resource, may have query strings, e.g.:
-  - `http://domain.com/browse.php?list=users&name=john` → request line:
-    `GET /browse.php?list=users&name=john HTTP/1.0`
+- **GET** — fetch a resource, may have query strings:
+  - URL: `http://domain.com/browse.php?list=users&name=john`
+  - Request line: `GET /browse.php?list=users&name=john HTTP/1.0`
 - **PUT / POST** — create or edit a resource (only POST is widely used)
 - **DELETE** — delete resources (not used in practice)
 - **HEAD** — like GET, but server responds with headers only
@@ -246,6 +254,7 @@ layout: section
 
 ---
 layout: two-cols
+class: cols-55-45
 ---
 
 # Server-side Processing
@@ -253,31 +262,42 @@ layout: two-cols
 - Server generates **dynamic content**
 - Scripting interfaces: **CGI** (legacy) / **FastCGI** / integrated modules [5]
 
-**Sample directory layout — `/var/www`:**
+**Sample layout — `/var/www`:**
 
 ```text
 /var/www
 |-- index.html
 |-- login.php
 |-- css/style.css
-|-- images/
-|   |-- logo.png
-|   |-- map.png
-```
-
-**Example requests:**
-
-```
-> GET /index.html HTTP/1.0
-> GET /images/logo.png HTTP/1.0
-> POST /login.php HTTP/1.0
+|-- images/logo.png
 ```
 
 ::right::
 
-<div class="img-col">
-<img src="./images/server_side_processing_flow.jpg" />
-</div>
+```mermaid {theme: 'isc-cartoon', scale: 0.55}
+%%{init: { 'sequence': {'mirrorActors':false} } }%%
+sequenceDiagram
+  participant C as Client
+  participant W as Web server
+  participant A as App process
+  C->>W: GET /login.php
+  W->>A: request + env (CGI)
+  A-->>W: generated HTML
+  W-->>C: HTTP/1.0 200 OK
+```
+
+**Example requests:**
+
+```http
+GET /index.html HTTP/1.0
+GET /images/logo.png HTTP/1.0
+POST /login.php HTTP/1.0
+```
+
+<style>
+:deep(.col-left) { padding-right: 0.8em; }
+:deep(.col-right) { padding-left: 0.8em; }
+</style>
 
 ---
 
@@ -416,27 +436,28 @@ GET /uploads/image_9876.gif.php
 - **Remote Code Execution** :(
 
 ---
-layout: two-cols
----
 
 # Code Injection (2)
 
-**Multipart file upload with path traversal bug:**
+**Path traversal in the upload filename:**
 
+```http
+POST /upload.php HTTP/1.0
+Content-Type: multipart/form-data; boundary=X
+
+Content-Disposition: form-data;
+  name="../../index.php"
+
+<?php die('PWNED') ?>
 ```
-Content-Disposition: form-data; name="../../index.php"
 
-<?php die('PWNED')
-```
+- The uploader writes the file using the **client-supplied name**
+- `../` escapes the uploads directory → overwrites `index.php`
+- The next request to `/` executes our code: **remote code execution**
 
-- Uploader overwrites `index.php` via a `../` in the filename
-- A real-world listing (from the notes) shows such uploads alongside normal site files
-
-::right::
-
-<div class="img-col">
-<img src="./images/code_injection_dir_listing.jpg" />
-</div>
+<!--
+Bad validation + a writable web root = full site takeover.
+-->
 
 ---
 
@@ -493,13 +514,12 @@ layout: two-cols
 # Pwned Websites
 
 - [**Haveibeenpwned.com**](https://haveibeenpwned.com) — account breach checker
-- **Yahoo!** (2012 — SQL injection, 2013, 2014 — forged cookies)
-  - **3 billion accounts exposed!**
-- **LinkedIn** — hacked 2012, exposed 2016, 2021 Dark Web DB sale
+- **Yahoo!** (2012 SQLi; 2013–14 forged cookies) — **3 billion accounts**
+- **LinkedIn** — hacked 2012, leaked 2016, sold on the Dark Web 2021
 - **Adobe** (2013, 2019): broken encryption :|
 - **Dropbox** (2012): SHA1 and salted passwords ;)
 
-**The 2013 Adobe breach:** 153M emails, encrypted passwords and hints leaked. Adobe misused block-mode 3DES — passwords with the **same hint hashed to the same value** (e.g. "OBVIOUS" → identical hash for all users).
+**2013 Adobe breach:** 153M accounts leaked. Block-mode 3DES was misused: the same password hint always produced the **same ciphertext** (e.g. every "OBVIOUS" → identical hash).
 
 <!--
 Identical hints produced identical ciphertexts — the "greatest crossword puzzle in the world."
@@ -674,61 +694,49 @@ layout: two-cols
 
 # Browser Vulnerabilities
 
-- Browsers are a **complex piece of software**
-- May have vulnerabilities that allow attackers to **escape sandboxing**
+- Browsers are **complex software**; bugs can let attackers **escape the sandbox**
 - **Attack vectors:**
   - Malicious websites
-  - Code injection on trusted websites (e.g. **XSS**)
-  - Browser plugins: **Flash, Java, ActiveX**, etc.
-
-**2015:** Adobe Flash had **96 vulnerabilities** [21]!
-
-**2016:** [22]
-
-- **Flash** most featured in **exploit kits**
-- Internet Explorer second place
-
-**Exploit kits:** Angler, RIG, GrandSoft, etc.
+  - Code injection on trusted sites (e.g. **XSS**)
+  - Legacy plugins: **Flash, Java, ActiveX**
+- **2015:** Adobe Flash alone had **96 vulnerabilities** [21]
+- **2016:** Flash topped the **exploit kits**; IE second [22]
+- **Exploit kits:** Angler, RIG, GrandSoft, etc.
 
 ::right::
 
 <div class="img-col">
-<img src="./images/adobe_flash_logo.jpg" class="img-sm" />
-<img src="./images/activex_logo.jpg" class="img-sm" />
-<img src="./images/java_logo.jpg" class="img-sm" />
+<img src="./images/adobe_flash_logo.jpg" style="max-height: 120px" />
+<img src="./images/activex_logo.jpg" style="max-height: 120px" />
+<img src="./images/java_logo.jpg" style="max-height: 120px" />
 </div>
 
 ---
 layout: two-cols
+class: cols-50-50
 ---
 
-# Browser Vulnerabilities (3)
+# Browser Vulnerabilities (2)
 
-**Pwn2Own** — security competition for hacking browsers
+**Pwn2Own** — the annual browser exploitation contest.
 
-**2016 results [23]:**
+- **2016** [23]: 16 bugs across six targets
+- **2018** [27]: 11 bugs; the Chrome exploit failed
+- **2021:** Safari, Zoom Messenger, Chrome & Edge
 
-- 4 bugs in Internet Explorer 11
-- 3 bugs in Mozilla Firefox
-- 3 bugs in Adobe Reader
-- 3 bugs in Adobe Flash
-- 2 bugs in Apple Safari
-- 1 bug in Google Chrome
-
-**2018 [27]:**
-
-- 5 Apple Safari bugs
-- 4 Microsoft Edge bugs
-- 1 bug in Mozilla Firefox
-- 1 bug in Google Chrome (unsuccessful exploitation)
-
-**2021:** Apple Safari exploit, Zoom Messenger, Chrome & MS Edge
+**Trend:** browsers are getting harder; plugins and messengers are the weak spots.
 
 ::right::
 
-<div class="img-col">
-<img src="./images/cve_references_flash_ie_chart.jpg" />
-</div>
+| Target | 2016 | 2018 |
+|--------|:----:|:----:|
+| Safari | 2 | 5 |
+| Internet Explorer / Edge | 4 | 4 |
+| Firefox | 3 | 1 |
+| Chrome | 1 | 1 (failed) |
+| Adobe Reader | 3 | — |
+| Adobe Flash | 3 | — |
+| **Total** | **16** | **11** |
 
 ---
 
@@ -750,9 +758,7 @@ If you want a secure browser:
 
 # OWASP [25]
 
-**The Open Worldwide Application Security Project**
-
-**OWASP Top 10 for 2021** (preview [26]):
+**OWASP Top 10 — 2021** [26]:
 
 <v-clicks>
 
