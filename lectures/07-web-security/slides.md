@@ -155,6 +155,28 @@ Cookie: cook1=val1;cook2=val2
 
 ---
 
+# Cookie Flags
+
+Set by the server in `Set-Cookie`; the browser enforces them.
+
+| Flag | Effect |
+|---|---|
+| `Secure` | sent **only over HTTPS** |
+| `HttpOnly` | **hidden from JavaScript** — blocks XSS cookie theft |
+| `SameSite=Lax` / `Strict` | not sent on cross-site requests — **CSRF defense** |
+| `Domain` / `Path` | visibility / scope; name conventions: `__Host-` prefix forces `Secure` + `Path=/` + no `Domain` |
+| `Max-Age` / `Expires` | lifetime — keep sessions short |
+
+<!--
+Flags are enforced by the browser, not by the server. Check them on login and on every security-relevant cookie.
+-->
+
+<style>
+table { font-size: 0.88em; }
+</style>
+
+---
+
 # Server Sessions
 
 - Also known as **server-side cookies**
@@ -171,6 +193,47 @@ Cookie: cook1=val1;cook2=val2
 
 <!--
 Moving secrets server-side means the client only holds an opaque token.
+-->
+
+---
+
+# Modern Tokens: JWT
+
+**JWT** = self-contained, signed claims: `header.payload.signature`
+
+```text
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.4pcPyMD...
+```
+
+- **Stateless** — the server verifies the signature; no session lookup
+- Payload is **base64url, not encrypted** — never put secrets in it
+- **Revocation is hard** → short expiry + refresh tokens
+- Pitfalls: `alg: none`, weak HMAC secrets, key confusion
+
+**Storage:** `HttpOnly` cookie or memory — **never `localStorage`** (XSS).
+
+**Details, OAuth & OIDC** → **Lecture 3**.
+
+---
+
+# Session Hijacking
+
+The attacker **steals or reuses a valid session ID** — no password needed:
+
+- **XSS** reads `document.cookie`
+- **Sniffing** on plain HTTP / open Wi-Fi
+- **Session fixation** — attacker plants an ID before login
+- Weak or predictable IDs; IDs leaked in URLs, logs, `Referer`
+
+**Defenses:**
+
+- **HTTPS**!
+- **`HttpOnly`** to block JavaScript access
+- SID **rotation** + using a **CSPRNG**
+- **expiry** + re-authenticate for sensitive actions
+
+<!--
+Fixation: the attacker doesn't need to steal the post-login cookie — they force the victim to use an ID the attacker already knows.
 -->
 
 ---
