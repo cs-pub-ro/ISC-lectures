@@ -307,6 +307,25 @@ POST /login.php HTTP/1.0
 
 ---
 
+# Popular Web Servers
+
+| Server | Model | Typical dynamic backend |
+|---|---|---|
+| **Apache httpd** | process/thread per connection, `.htaccess` | `mod_php`, CGI / FastCGI |
+| **Nginx** | event-driven, reverse proxy + static files | PHP-FPM, upstream app |
+| **IIS** | Windows, integrated pipeline | ASP.NET |
+| **Caddy** | Go, automatic HTTPS | reverse proxy / FastCGI |
+| **LiteSpeed** | Apache-compatible, caching | LSAPI / PHP |
+| **Tomcat, Node.js, Flask** | app servers, usually behind Nginx/Caddy | Java / JavaScript / Python |
+
+Every layer is an attack surface: version disclosure, default pages, misconfiguration, outdated modules.
+
+<style>
+table { font-size: 0.85em; }
+</style>
+
+---
+
 # Server-side Processing — Example (PHP)
 
 ```php
@@ -458,7 +477,7 @@ Bad validation + a writable web root = full site takeover.
 # Preventing Injection
 
 - **Do not trust tutorials / ChatGPT** [7]
-- **Always sanitize user input!**
+- **Always validate / sanitize / parametrize user input!**
 - Try not to use `exec()` / `eval()`
 - For SQL, use **prepared statements**:
 
@@ -481,13 +500,11 @@ $stmt->execute();
 
 - Improper access verification
   - Example: `/delete_user.php?id=5368`
-- Direct object reference: `/admin/list_users.php`
+- Forced browsing: `/admin/list_users.php`
+- Insecure Direct object reference: `/user_profile.php?id=123`
 
 **Vulnerable frameworks / plugins** (e.g. WordPress)
 
-<!--
-delete_user.php?id=5368: anyone who guesses/knows an ID can act on it.
--->
 
 ---
 
